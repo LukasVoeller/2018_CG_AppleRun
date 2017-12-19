@@ -15,23 +15,21 @@
 #else
 #define GLFW_INCLUDE_GLCOREARB
 #define GLFW_INCLUDE_GLEXT
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 #endif
-#include "lineplanemodel.h"
-#include "triangleplanemodel.h"
-#include "trianglespheremodel.h"
-#include "lineboxmodel.h"
-#include "triangleboxmodel.h"
-#include "model.h"
-#include "ShaderLightmapper.h"
-
+#include "LinePlaneModel.h"
+#include "TrianglePlaneModel.h"
+#include "TriangleSphereModel.h"
+#include "LineBoxModel.h"
+#include "TriangleBoxModel.h"
+#include "Model.h"
+#include "ShaderLightMapper.h"
 
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
 #else
 #define ASSET_DIRECTORY "../assets/"
 #endif
-
 
 Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), pModel(NULL), ShadowGenerator(2048, 2048)
 {
@@ -50,15 +48,16 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), pModel(NU
     
     pBarrier = new Model(ASSET_DIRECTORY "bunny.dae", false);
     pBarrier->shader(new PhongShader(), false);
-    Matrix m = m.translation(0, 0, -5);
+    Matrix m;
+    m = m.translation(0, 0, -5);
     pBarrier->transform(m);
     Models.push_back(pBarrier);
-
 }
+
 void Application::start()
 {
-    glEnable (GL_DEPTH_TEST); // enable depth-testing
-    glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"
+    glEnable (GL_DEPTH_TEST);   // enable depth-testing
+    glDepthFunc (GL_LESS);      // depth-testing interprets a smaller value as "closer"
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glEnable(GL_BLEND);
@@ -75,11 +74,9 @@ void Application::update(float dtime)
     //pTank->steer(forwardBackward, leftRight);
     pTank->steer3d(forwardBackward, leftRight, getJump());
 
-    
     bool collision = collisionDetection(pTank, pBarrier);
     std::cout << "Kollision is " << collision << std::endl;
     
-
     if(collision)
         pTank->steer(-2*forwardBackward, -2*leftRight);
     
@@ -90,9 +87,6 @@ void Application::update(float dtime)
     
     pTank->update(deltaTime);
     Cam.update();
-
-
-    
 }
 
 void Application::draw()
@@ -114,6 +108,7 @@ void Application::draw()
     GLenum Error = glGetError();
     assert(Error==0);
 }
+
 void Application::end()
 {
     for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it )
@@ -131,13 +126,11 @@ void Application::createScene()
 	pModel->shadowCaster(false);
 	Models.push_back(pModel);
 
-
 	pModel = new Model(ASSET_DIRECTORY "scene.dae", false);
 	pModel->shader(new PhongShader(), true);
 	m.translation(10, 0, -10);
 	pModel->transform(m);
 	Models.push_back(pModel);
-	
 
 	// directional lights
 	DirectionalLight* dl = new DirectionalLight();
@@ -188,7 +181,6 @@ void Application::createScene()
 	pl->attenuation(a);
 	ShaderLightMapper::instance().addLight(pl);
 	
-	
 	// spot lights
 	SpotLight* sl = new SpotLight();
 	sl->position(Vector(-1.5, 3, 10));
@@ -237,7 +229,6 @@ void Application::createScene()
 	sl->innerRadius(innerradius);
 	sl->outerRadius(outerradius);
 	ShaderLightMapper::instance().addLight(sl);
-	
 }
 
 void Application::createNormalTestScene()
@@ -249,12 +240,9 @@ void Application::createNormalTestScene()
 	// add to render list
 	Models.push_back(pModel);
 
-
 	pModel = new Model(ASSET_DIRECTORY "cube.obj", false);
 	pModel->shader(new PhongShader(), true);
 	Models.push_back(pModel);
-
-
 }
 
 void Application::createShadowTestScene()
@@ -378,8 +366,8 @@ float Application::getJump() {
     return 0.0f;
 }
 
-bool Application::isJumping() {
-
+bool Application::isJumping()
+{
     if (glfwGetKey(pWindow, GLFW_KEY_SPACE ) == GLFW_PRESS){
         isJumpingOld = true;
         return true;

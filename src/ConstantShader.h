@@ -16,15 +16,15 @@
 #else
 #define GLFW_INCLUDE_GLCOREARB
 #define GLFW_INCLUDE_GLEXT
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 #endif
 #include <iostream>
 #include <assert.h>
 #include "color.h"
 #include "vector.h"
-#include "matrix.h"
-#include "camera.h"
-#include "baseshader.h"
+#include "Matrix.h"
+#include "Camera.h"
+#include "BaseShader.h"
 
 
 class ConstantShader : public BaseShader

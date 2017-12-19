@@ -13,9 +13,9 @@
 ShadowMapShader::ShadowMapShader()
 {
 	bool loaded = load(ASSET_DIRECTORY"vsdepth.glsl", ASSET_DIRECTORY"fsdepth.glsl");
-	if (!loaded)
+    if (!loaded)
 		throw std::exception();
-
+    
 	EyePosLoc = getParameterID("EyePos");
 	//assert(EyePosLoc != -1);
 	ModelMatLoc = getParameterID("ModelMat");
@@ -34,7 +34,6 @@ void ShadowMapShader::activate(const BaseCamera& Cam) const
 
 	Vector EyePos = Cam.position();
 	setParameter(EyePosLoc, EyePos);
-
 }
 
 ShadowMapGenerator::ShadowMapGenerator(unsigned int ShadowMapWidth, unsigned int ShadowMapHeight)
@@ -93,7 +92,6 @@ Matrix ShadowMapGenerator::calcProjection(BaseLight* pLight, const AABB& BBox, c
 	}
 
 	return Proj;
-
 }
 
 Matrix ShadowMapGenerator::calcView(BaseLight* pLight, const AABB& BBox) const
@@ -184,7 +182,6 @@ void ShadowMapGenerator::generate(std::list<BaseModel*>& Models)
 		ShadowCams[ShadowMapCount++].setProjectionMatrix(Proj);
 	}
 
-	
 	glClearColor(1.0f, 0.0, 0.0f, 1);
 	glCullFace(GL_FRONT);
 
@@ -229,7 +226,4 @@ void ShadowMapGenerator::generate(std::list<BaseModel*>& Models)
 	glClearColor(0, 0, 0, 1);
 	glCullFace(GL_BACK);
 	glViewport(PrevViewport[0], PrevViewport[1], PrevViewport[2], PrevViewport[3]);
-
-
-
 }

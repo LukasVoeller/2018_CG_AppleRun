@@ -12,10 +12,10 @@
 #include <stdio.h>
 
 #include <stdio.h>
-#include "basemodel.h"
-#include "constantshader.h"
-#include "vertexbuffer.h"
-#include "indexbuffer.h"
+#include "BaseModel.h"
+#include "ConstantShader.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 class TrianglePlaneModel : public BaseModel
 {

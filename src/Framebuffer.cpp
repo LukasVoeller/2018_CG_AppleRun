@@ -8,7 +8,7 @@
 
 #include "Framebuffer.h"
 #include <assert.h>
-#include "texture.h"
+#include "Texture.h"
 #include "rgbimage.h"
 
 

@@ -4,6 +4,7 @@ out vec4 Position;
 
 uniform mat4 ModelMat;
 uniform mat4 ModelViewProjMat;
+
 void main()
 {
     Position = ModelViewProjMat * VertexPos;

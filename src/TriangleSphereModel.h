@@ -10,9 +10,9 @@
 #define TriangleSphereModel_hpp
 
 #include <stdio.h>
-#include "basemodel.h"
-#include "vertexbuffer.h"
-#include "indexbuffer.h"
+#include "BaseModel.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 class TriangleSphereModel : public BaseModel
 {

@@ -11,14 +11,14 @@
 
 #include <stdio.h>
 #include <list>
-#include "camera.h"
-#include "phongshader.h"
-#include "constantshader.h"
-#include "vertexbuffer.h"
-#include "indexbuffer.h"
-#include "basemodel.h"
+#include "Camera.h"
+#include "PhongShader.h"
+#include "ConstantShader.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "BaseModel.h"
 #include "ShadowMapGenerator.h"
-#include "tank.h"
+#include "Tank.h"
 
 class Application
 {

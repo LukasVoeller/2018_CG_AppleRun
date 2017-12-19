@@ -1,7 +1,7 @@
 #ifndef SHADOWMAPGENERATOR_H
 #define SHADOWMAPGENERATOR_H
 
-#include "framebuffer.h"
+#include "Framebuffer.h"
 #include "ShaderLightMapper.h"
 #include "BaseModel.h"
 #include "Texture.h"

@@ -22,7 +22,6 @@
 		7A29D9151DABA6460028612B /* TrianglePlaneModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A29D9041DABA6460028612B /* TrianglePlaneModel.cpp */; };
 		7A29D9161DABA6460028612B /* TriangleSphereModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A29D9061DABA6460028612B /* TriangleSphereModel.cpp */; };
 		7A29D9171DABA6460028612B /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A29D9081DABA6460028612B /* VertexBuffer.cpp */; };
-		7A29D91B1DABA8000028612B /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A29D91A1DABA8000028612B /* libglfw3.a */; };
 		7A29D91D1DABA8080028612B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A29D91C1DABA8080028612B /* OpenGL.framework */; };
 		7A29D91F1DABA8120028612B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A29D91E1DABA8120028612B /* Cocoa.framework */; };
 		7A29D9211DABA81B0028612B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A29D9201DABA81B0028612B /* IOKit.framework */; };
@@ -39,6 +38,7 @@
 		7ABD81871DA3C8EA0008D349 /* color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABD81811DA3C8EA0008D349 /* color.cpp */; };
 		7ABD81881DA3C8EA0008D349 /* rgbimage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABD81831DA3C8EA0008D349 /* rgbimage.cpp */; };
 		7ABD81891DA3C8EA0008D349 /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ABD81851DA3C8EA0008D349 /* vector.cpp */; };
+		807ED9B71FE923F5009CC5BA /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 807ED9B61FE923F5009CC5BA /* libglfw.3.3.dylib */; };
 		809CCE711F330805005F01CF /* Tank.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809CCE6F1F330805005F01CF /* Tank.cpp */; };
 /* End PBXBuildFile section */
 
@@ -85,7 +85,6 @@
 		7A29D9071DABA6460028612B /* TriangleSphereModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TriangleSphereModel.h; path = ../../src/TriangleSphereModel.h; sourceTree = "<group>"; };
 		7A29D9081DABA6460028612B /* VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexBuffer.cpp; path = ../../src/VertexBuffer.cpp; sourceTree = "<group>"; };
 		7A29D9091DABA6460028612B /* VertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBuffer.h; path = ../../src/VertexBuffer.h; sourceTree = "<group>"; };
-		7A29D91A1DABA8000028612B /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = thirdparty/glfw/libglfw3.a; sourceTree = "<group>"; };
 		7A29D91C1DABA8080028612B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7A29D91E1DABA8120028612B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7A29D9201DABA81B0028612B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -112,6 +111,8 @@
 		7ABD81841DA3C8EA0008D349 /* rgbimage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rgbimage.h; path = ../../src/rgbimage.h; sourceTree = "<group>"; };
 		7ABD81851DA3C8EA0008D349 /* vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vector.cpp; path = ../../src/vector.cpp; sourceTree = "<group>"; };
 		7ABD81861DA3C8EA0008D349 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vector.h; path = ../../src/vector.h; sourceTree = "<group>"; };
+		807ED9B01FE92351009CC5BA /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
+		807ED9B61FE923F5009CC5BA /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		809CCE6F1F330805005F01CF /* Tank.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tank.cpp; path = ../../src/Tank.cpp; sourceTree = "<group>"; };
 		809CCE701F330805005F01CF /* Tank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tank.h; path = ../../src/Tank.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,11 +124,11 @@
 			files = (
 				7A3786AB1DD1E6080066A2AB /* libassimp.a in Frameworks */,
 				7A29D9251DABA8860028612B /* libfreeimage.a in Frameworks */,
-				7A29D9271DABA9040028612B /* CoreVideo.framework in Frameworks */,
 				7A29D9211DABA81B0028612B /* IOKit.framework in Frameworks */,
+				807ED9B71FE923F5009CC5BA /* libglfw.3.3.dylib in Frameworks */,
 				7A29D91F1DABA8120028612B /* Cocoa.framework in Frameworks */,
 				7A29D91D1DABA8080028612B /* OpenGL.framework in Frameworks */,
-				7A29D91B1DABA8000028612B /* libglfw3.a in Frameworks */,
+				7A29D9271DABA9040028612B /* CoreVideo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,14 +226,15 @@
 			isa = PBXGroup;
 			children = (
 				7A3786AA1DD1E6080066A2AB /* libassimp.a */,
-				7A29D9261DABA9040028612B /* CoreVideo.framework */,
 				7A29D9241DABA8860028612B /* libfreeimage.a */,
+				807ED9B01FE92351009CC5BA /* libglfw.3.3.dylib */,
 				7A29D9201DABA81B0028612B /* IOKit.framework */,
 				7A29D91E1DABA8120028612B /* Cocoa.framework */,
 				7A29D91C1DABA8080028612B /* OpenGL.framework */,
-				7A29D91A1DABA8000028612B /* libglfw3.a */,
+				7A29D9261DABA9040028612B /* CoreVideo.framework */,
 				7ABD816E1DA3C6050008D349 /* CGXcode */,
 				7ABD816D1DA3C6050008D349 /* Products */,
+				8097DD1C1FE7F21F00D2084E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -255,6 +257,14 @@
 			path = CGXcode;
 			sourceTree = "<group>";
 		};
+		8097DD1C1FE7F21F00D2084E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				807ED9B61FE923F5009CC5BA /* libglfw.3.3.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -265,6 +275,7 @@
 				7ABD81681DA3C6050008D349 /* Sources */,
 				7ABD81691DA3C6050008D349 /* Frameworks */,
 				7ABD816A1DA3C6050008D349 /* CopyFiles */,
+				807ED9B81FE92487009CC5BA /* Resources */,
 			);
 			buildRules = (
 			);
@@ -281,7 +292,7 @@
 		7ABD81641DA3C6050008D349 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Philipp Lensing";
 				TargetAttributes = {
 					7ABD816B1DA3C6050008D349 = {
@@ -305,6 +316,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		807ED9B81FE92487009CC5BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7ABD81681DA3C6050008D349 /* Sources */ = {
@@ -352,13 +373,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -380,6 +409,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -396,13 +426,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -418,6 +456,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
@@ -437,8 +476,12 @@
 					"$(PROJECT_DIR)/thirdparty/glfw",
 					"$(PROJECT_DIR)/thirdparty/assimp/lib",
 					"$(PROJECT_DIR)/thirdparty/freeimage",
+					/usr/local/Cellar/glew/2.1.0/lib,
+					/usr/local/Cellar/glfw/3.2.1/lib,
+					"$(PROJECT_DIR)/thirdparty",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -455,6 +498,9 @@
 					"$(PROJECT_DIR)/thirdparty/glfw",
 					"$(PROJECT_DIR)/thirdparty/assimp/lib",
 					"$(PROJECT_DIR)/thirdparty/freeimage",
+					/usr/local/Cellar/glew/2.1.0/lib,
+					/usr/local/Cellar/glfw/3.2.1/lib,
+					"$(PROJECT_DIR)/thirdparty",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

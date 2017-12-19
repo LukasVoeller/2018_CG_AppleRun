@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "vector.h"
-#include "matrix.h"
+#include "Matrix.h"
 
 class AABB
 {

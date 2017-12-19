@@ -10,9 +10,9 @@
 #define BaseModel_hpp
 
 #include <stdio.h>
-#include "camera.h"
-#include "matrix.h"
-#include "baseshader.h"
+#include "Camera.h"
+#include "Matrix.h"
+#include "BaseShader.h"
 #include "Aabb.h"
 
 class BaseModel

@@ -10,14 +10,14 @@
 #define Model_hpp
 
 #include <stdio.h>
-#include "basemodel.h"
+#include "BaseModel.h"
 #include <assimp/cimport.h>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include "vertexbuffer.h"
-#include "indexbuffer.h"
-#include "texture.h"
-#include "aabb.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "Texture.h"
+#include "Aabb.h"
 #include <string>
 
 class Model : public BaseModel

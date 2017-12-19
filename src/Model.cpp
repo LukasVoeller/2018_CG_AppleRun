@@ -7,7 +7,7 @@
 //
 
 #include "Model.h"
-#include "phongshader.h"
+#include "PhongShader.h"
 #include <list>
 #include <float.h>
 #include <algorithm>    // std::max

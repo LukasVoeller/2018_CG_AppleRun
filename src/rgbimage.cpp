@@ -9,7 +9,6 @@ RGBImage::RGBImage( unsigned int Width, unsigned int Height)
     
     m_Image = new Color[m_Height*m_Width];
     //initialize?
-    
 }
 
 RGBImage::~RGBImage()
@@ -38,9 +37,9 @@ unsigned int RGBImage::width() const
 {
     return this->m_Width;
 }
+
 unsigned int RGBImage::height() const
 {
-    
     return this->m_Height;
 }
 
@@ -94,7 +93,6 @@ bool RGBImage::saveToDisk( const char* Filename)
     bmpinfoheader[ 9] = (unsigned char)(h>> 8);
     bmpinfoheader[10] = (unsigned char)(h>>16);
     bmpinfoheader[11] = (unsigned char)(h>>24);
-    
     
     file = fopen(Filename, "wb");    // "write", "binary file"
     if (file == NULL)
