@@ -97,14 +97,10 @@ void Texture::ReleaseShared( const Texture* pTex )
     }
 }
 
-
-
 Texture::Texture() : m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
 {
     
 }
-
-
 
 Texture::Texture(unsigned int width, unsigned int height, unsigned char* data): m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
 {
@@ -219,7 +215,6 @@ bool Texture::load( const char* Filename)
         return false;
     }
 
-    
     RGBQUAD c;
     for( unsigned int i=0; i<Height; ++i)
         for( unsigned int j=0; j<Width; ++j)
@@ -339,10 +334,9 @@ bool Texture::create(const RGBImage& img)
     return success;
 }
 
-
 RGBImage* Texture::createImage( unsigned char* Data, unsigned int width, unsigned int height )
 {
-    // create CPU accessible image
+    // Create CPU accessible image
     RGBImage* pImage = new RGBImage(width, height);
     assert(pImage);
     for( unsigned int i=0; i<height; i++)

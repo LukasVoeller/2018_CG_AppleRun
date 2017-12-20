@@ -28,6 +28,10 @@ public:
     void update(float dtime);
     virtual void draw(const BaseCamera& Cam);
     Vector getLatestPosition();
+    void printLatestPosition();
+    bool getIsInAir();
+    void setIsInAir(bool newIsInAir);
+    float getJumpPower();
 protected:
 private:
     Model* chassis;
@@ -36,8 +40,11 @@ private:
     float forwardBackward = 0;
     float jump = 0;
     float cannonAngle = 0;
-    Vector target;
     float time = 0;
+    float jumpPower = 15;
+    bool isInAir = false;
+    Vector target;
+    Vector position;
 };
 
 #endif /* Tank_hpp */

@@ -6,7 +6,6 @@
 //  Copyright © 2016 Philipp Lensing. All rights reserved.
 //
 
-#include "Application.h"
 #ifdef WIN32
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
@@ -17,6 +16,8 @@
 #define GLFW_INCLUDE_GLEXT
 #include <GLFW/glfw3.h>
 #endif
+
+#include "Application.h"
 #include "LinePlaneModel.h"
 #include "TrianglePlaneModel.h"
 #include "TriangleSphereModel.h"
@@ -41,6 +42,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), pModel(NU
     PhongShader* pPhongShader;
     
     pPhongShader = new PhongShader();
+    
     pTank = new Tank();
     pTank->shader(pPhongShader, true);
     pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
@@ -67,18 +69,26 @@ void Application::start()
 void Application::update(float dtime)
 {
     double deltaTime = calcDeltaTime();
-
-    // Exercise 2
     float forwardBackward = getForwardBackward();
     float leftRight = getLeftRight();
-    //pTank->steer(forwardBackward, leftRight);
-    pTank->steer3d(forwardBackward, leftRight, getJump());
+    
+    //Springen
+    getJump();
+    pTank->steer3d(forwardBackward, leftRight, this->downForce);
+    if(pTank->getLatestPosition().Y < this->terrainHeight)
+    {
+        pTank->setIsInAir(false);
+        this->downForce = 0.0f;
+    } else
+        this->downForce += gravity * 0.1f;
+
+    pTank->printLatestPosition();
 
     bool collision = collisionDetection(pTank, pBarrier);
-    std::cout << "Kollision is " << collision << std::endl;
+    //std::cout << "Kollision is " << collision << std::endl;
     
     if(collision)
-        pTank->steer(-2*forwardBackward, -2*leftRight);
+        pTank->steer(-1*forwardBackward, -1*leftRight);
     
     double xpos, ypos;
     glfwGetCursorPos(pWindow, &xpos, &ypos);
@@ -89,22 +99,33 @@ void Application::update(float dtime)
     Cam.update();
 }
 
+//Vergangene Zeit seit letztem Aufruf der Methode
+double Application::calcDeltaTime() {
+    double now = glfwGetTime();
+    double deltaTime = (now - this->oldTime);
+    this->oldTime = now;
+    if (this->oldTime == 0) {
+        return 1/60;    // 1/60 = 60 frames per second
+    }
+    return deltaTime;
+}
+
 void Application::draw()
 {
 	ShadowGenerator.generate(Models);
 	
-    // 1. clear screen
+    // clear screen
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	ShaderLightMapper::instance().activate();
-    // 2. setup shaders and draw models
+    
+    // setup shaders and draw models
     for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it )
     {
         (*it)->draw(Cam);
     }
 	ShaderLightMapper::instance().deactivate();
 	
-    // 3. check once per frame for opengl errors
+    // check once per frame for opengl errors
     GLenum Error = glGetError();
     assert(Error==0);
 }
@@ -131,7 +152,13 @@ void Application::createScene()
 	m.translation(10, 0, -10);
 	pModel->transform(m);
 	Models.push_back(pModel);
-
+/*
+    pModel = new Model(ASSET_DIRECTORY "scene.dae", false);
+    pModel->shader(new PhongShader(), true);
+    m.translation(10, 0, -10);
+    pModel->transform(m);
+    Models.push_back(pModel);
+*/
 	// directional lights
 	DirectionalLight* dl = new DirectionalLight();
 	dl->direction(Vector(0.2f, -1, 1));
@@ -237,9 +264,9 @@ void Application::createNormalTestScene()
 	ConstantShader* pConstShader = new ConstantShader();
 	pConstShader->color(Color(0, 0, 0));
 	pModel->shader(pConstShader, true);
-	// add to render list
+    
+	// Add to render list
 	Models.push_back(pModel);
-
 	pModel = new Model(ASSET_DIRECTORY "cube.obj", false);
 	pModel->shader(new PhongShader(), true);
 	Models.push_back(pModel);
@@ -255,7 +282,7 @@ void Application::createShadowTestScene()
 	pModel->shader(new PhongShader(), true);
 	Models.push_back(pModel);
 	
-	// directional lights
+	// Directional lights
 	DirectionalLight* dl = new DirectionalLight();
 	dl->direction(Vector(0, -1, -1));
 	dl->color(Color(0.5, 0.5, 0.5));
@@ -272,67 +299,52 @@ void Application::createShadowTestScene()
 	ShaderLightMapper::instance().addLight(sl);
 }
 
-/* Berechnung eines 3D-Strahls aus 2D-Mauskoordinaten
- * Input: Fenster-Pixelkoordinaten des Mauszeigers
- */
+// Berechnung eines 3D-Strahls aus 2D-Mauskoordinaten
+// Input: Fenster-Pixelkoordinaten des Mauszeigers
 Vector Application::calc3DRay( float x, float y, Vector& Pos)
 {
-    // TODO: Add your code here
-    // Pos:Ray Origin
-    // return:Ray Direction
+    // TODO:    Add your code here
+    // Pos:     Ray Origin
+    // Return:  Ray Direction
     
-    //1. Normalisieren zwischen (-1,1)
+    // 1. Normalisieren zwischen (-1,1)
     int windowWidth, windowHeight;
     glfwGetWindowSize(this->pWindow, &windowWidth, &windowHeight);
     
     float xNormal = 2.0f * x / (float) windowWidth - 1.0f;
     float yNormal = 1.0f - 2.0f * y / (float) windowHeight;
     
-    //2. Richtungsvektor in KAMERA-KOORDINATE erzeugen
-    //   (Projektionsmatrix invers auf normalisierte Koordinaten anwenden)
+    // 2. Richtungsvektor in KAMERA-KOORDINATE erzeugen
+    // (Projektionsmatrix invers auf normalisierte Koordinaten anwenden)
     Vector direction(xNormal, yNormal, 0);
     Matrix projection = Cam.getProjectionMatrix();
     direction = projection.invert() * direction;
     direction.normalize();
     
-    //3. Umrechnung von Kamera- zu Weltkoordinaten (Richtung anpassen)
-    //   Ursprung des Strahls ist Kameraposition (aus Cam.getViewMatrix())
+    // 3. Umrechnung von Kamera- zu Weltkoordinaten (Richtung anpassen)
+    // Ursprung des Strahls ist Kameraposition (aus Cam.getViewMatrix())
     Matrix view = Cam.getViewMatrix();
     view.invert();
     
     Pos = view.translation(); //translation() gibt Vector(m03, m13, m23) zurück
     direction = view.transformVec3x3(direction);
     
-    //4. Schnittpunkt mit der Ebene Y=0 berechnen (Raytracing-Verfahren)
+    // 4. Schnittpunkt mit der Ebene Y=0 berechnen (Raytracing-Verfahren)
     Vector ny(0,1,0), y0(0,0,0);
     float s = (ny.dot(y0) - ny.dot(Pos)) / ny.dot(direction);
     
     return Pos + (direction * s);
 }
 
-/*
- Vergangene Zeit seit letztem Aufruf der Methode
- */
-double Application::calcDeltaTime() {
-    double now = glfwGetTime();
-    double deltaTime = now - oldTime;
-    oldTime = now;
-    if (oldTime == 0) {
-        // 1/60 = 60 frames per second
-        return 1/60;
-    }
-    return deltaTime;
-}
-
 float Application::getLeftRight() {
     float direction = 0.0f;
-    // Strafe right
-    if (glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS){
-        direction -= 1.0f;
+    //Strafe right
+    if ((glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_D ) == GLFW_PRESS)){
+        direction -= 3.0f;
     }
-    // Strafe left
-    if (glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS){
-        direction += 1.0f;
+    //Strafe left
+    if ((glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_A ) == GLFW_PRESS)){
+        direction += 3.0f;
     }
     
     return direction;
@@ -340,20 +352,33 @@ float Application::getLeftRight() {
 
 float Application::getForwardBackward() {
     float direction = 0.0f;
-    // Move forward
-    if (glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS){
-        direction += 1.0f;
+    //Move forward
+    if ((glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_W ) == GLFW_PRESS)){
+        direction += 3.0f;
     }
-    // Move backward
-    if (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS){
-        direction -= 1.0f;
+    //Move backward
+    if ((glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_S ) == GLFW_PRESS)){
+        direction -= 3.0f;
     }
     return direction;
 }
 
+void Application::getJump() {
+    if(!pTank->getIsInAir())
+    {
+        if (glfwGetKey(pWindow, GLFW_KEY_SPACE ) == GLFW_PRESS)
+        {
+            pTank->setIsInAir(true);
+            this->downForce = pTank->getJumpPower();
+        }
+    }
+
+}
+
+/*
 float Application::getJump() {
-    float jumpFactor = 1.0f;
-    // Move forward
+    float jumpFactor = 2.0f;
+
     if(isJumpingOld) {
         isJumpingOld = false;
         return -jumpFactor;
@@ -363,6 +388,7 @@ float Application::getJump() {
         return jumpFactor;
     }
     isJumpingOld = false;
+    
     return 0.0f;
 }
 
@@ -375,7 +401,7 @@ bool Application::isJumping()
     isJumpingOld = false;
     return false;
 }
-
+*/
 bool Application::collisionDetection(Tank* model1, Model* model2)
 {
     Vector vec1 = model1->transform().translation();
@@ -384,32 +410,34 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
     Vector size1 = model1->boundingBox().size();
     Vector size2 = model2->boundingBox().size();
     
-    //ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
+    // Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
     return vec1.X - size1.X/2 < vec2.X + size2.X/2 &&
     vec2.X - size2.X/2 < vec1.X + size1.X/2 &&
     vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
     vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2;
     
-    /*for(ModelList::iterator it = Models.begin(); it != Models.end(); ++it)
-    {
-        if((*it) != model)
-        {
-            const AABB& m2 = (*it)->boundingBox();
+/*
+     for(ModelList::iterator it = Models.begin(); it != Models.end(); ++it)
+     {
+            if((*it) != model)
+            {
+                const AABB& m2 = (*it)->boundingBox();
             
-            collision = m1.Min.X < m2.Max.X &&
-            m2.Min.X < m1.Max.X &&
-            m1.Min.Y < m2.Max.Y &&
-            m2.Min.Y < m1.Max.Y &&
-            m1.Min.Z < m2.Max.Z &&
-            m2.Min.Z < m1.Max.Z;
-            
-            std::cout << " Collision is " << collision << " " <<std::endl;
-            
-        }
-        //Abbruch, wenn Kollision entdeckt wurde
-//        if(collision) {
-//            return true;
-//        }
+                collision = m1.Min.X < m2.Max.X &&
+                m2.Min.X < m1.Max.X &&
+                m1.Min.Y < m2.Max.Y &&
+                m2.Min.Y < m1.Max.Y &&
+                m1.Min.Z < m2.Max.Z &&
+                m2.Min.Z < m1.Max.Z;
+     
+                std::cout << " Collision is " << collision << " " <<std::endl;
+            }
+     
+            //Abbruch, wenn Kollision entdeckt wurde
+            if(collision) {
+                return true;
+            }
     }
-    return collision;*/
+    return collision;
+*/
 }

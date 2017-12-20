@@ -17,15 +17,17 @@
 
 Model::Model() : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
 {
-    
+
 }
+
 Model::Model(const char* ModelFile, bool FitSize) : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
 {
-    // Changed von load(ModelFile) to load(ModelFile, FitSize)
+    // Changed from load(ModelFile) to load(ModelFile, FitSize)
     bool ret = load(ModelFile, FitSize);
     if(!ret)
         throw std::exception();
 }
+
 Model::~Model()
 {
     deleteNodes(&RootNode);
@@ -84,7 +86,7 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
     float factor = 1.0f;
     
     if (FitSize) {
-        // Wenn	FitSize auf	true gesetzt	wurde,	soll	das	Mesh	so	skaliert	werden, dass	es	eine	sinnvolle	Größe	hat	(z.	B.	5x5x5	Einheiten	o.	ähnliches).
+        // Wenn	FitSize auf	true gesetzt wurde,	soll das Mesh so skaliert werden, dass es eine sinnvolle Größe hat (z. B. 5x5x5 Einheiten o. ähnliches).
         Vector size = BoundingBox.size();
         float maxLength = fmax(size.X, fmax(size.Y, size.Z));
         factor = 4/maxLength;
@@ -100,7 +102,7 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
         currentMesh.MaterialIdx = mesh->mMaterialIndex;
         currentMesh.VB.begin();
         
-        //jedes Mesh enthält meherere Vertices
+        //Jedes Mesh enthält meherere Vertices
         for (int j=0; j< mesh->mNumVertices; ++j) {
             aiVector3D normal = mesh->mNormals[j];
             aiVector3D vertex = mesh->mVertices[j];
@@ -137,7 +139,7 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
         currentMesh.VB.end();
         currentMesh.IB.begin();
         
-        // Index Buffer füllen
+        //Index Buffer füllen
         for (int j = 0; j < mesh->mNumFaces; ++j) {
             aiFace currentFace = mesh->mFaces[j];
             

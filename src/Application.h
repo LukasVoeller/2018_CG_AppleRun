@@ -45,9 +45,13 @@ protected:
     double oldTime = 0;
     float getForwardBackward();
     float getLeftRight();
-    float getJump();
-    bool isJumping(); //TODO löschen
+    void getJump();
+    bool isJumping();   //TODO löschen
     bool isJumpingOld = false;
+    float gravity = -15;
+    float downForce = 0.0f;
+    float terrainHeight = 0.6f;
+    
     //Für Schussrohr
     Vector calc3DRay( float x, float y, Vector& Pos);
     

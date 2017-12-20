@@ -8,23 +8,19 @@
 
 #include "Tank.h"
 
-
 Tank::Tank()
 {
-    // TODO: Add your code
+
 }
 
 Tank::~Tank()
 {
-    // TODO: Add your code
     delete this->chassis;
     delete this->cannon;
 }
 
 bool Tank::loadModels(const char* ChassisFile, const char* CannonFile)
 {
-    // TODO: Add your code
-    std::cout << "Load models" << std::endl;
     this->chassis = new Model(ChassisFile, false);
     this->cannon = new Model(CannonFile, false);
     
@@ -34,14 +30,14 @@ bool Tank::loadModels(const char* ChassisFile, const char* CannonFile)
     return true;
 }
 
-/* Steuerung */
+//Steuerung
 void Tank::steer( float ForwardBackward, float LeftRight)
 {
     this->forwardBackward = ForwardBackward;
     this->leftRight = LeftRight;
 }
 
-/* Steuerung mit Sprung*/
+//Steuerung mit Sprung
 void Tank::steer3d( float ForwardBackward, float LeftRight, float Jump)
 {
     this->forwardBackward = ForwardBackward;
@@ -49,37 +45,38 @@ void Tank::steer3d( float ForwardBackward, float LeftRight, float Jump)
     this->jump = Jump;
 }
 
-
-/* Zielen */
+//Zielen
 void Tank::aim(const Vector& Target )
 {
-    
-    /*
-     if (!(this->transform().translation() == Target)) {
-     this->cannonAngle = this->transform().translation().angle(Target);
-     } */
-    
+/*
+    if (!(this->transform().translation() == Target)) {
+        this->cannonAngle = this->transform().translation().angle(Target);
+    }
+*/
     this->target = Target;
 }
 
 void Tank::update(float dtime)
 {
-    
     Matrix TankMat = this->transform();
     
-    // Panzerbewegung berechnen
-    float fwFactor = forwardBackward * dtime;
-    float lrFactor = leftRight * dtime;
-    float jmpFactor = jump; // * dtime;
+    //Panzerbewegung berechnen
+    float fbFactor = this->forwardBackward * dtime;
+    float lrFactor = this->leftRight * dtime;
+    float jpFactor = this->jump * dtime;
 
-    
     Matrix forwardMat, steeringMat;
-    forwardMat.translation(fwFactor, jmpFactor, 0);
+    forwardMat.translation(fbFactor, jpFactor, 0);
     steeringMat.rotationY(lrFactor);
-    
+
     TankMat = TankMat * forwardMat * steeringMat;
     
-    // Kanone berechnen
+    //Aktuelle Position in Vektor speichern
+    this->position.X = TankMat.m[12];
+    this->position.Y = TankMat.m[13];
+    this->position.Z = TankMat.m[14];
+    
+    //Kanone berechnen
     Matrix CannonMat;
     CannonMat.translation(TankMat.translation());
     
@@ -89,13 +86,11 @@ void Tank::update(float dtime)
     //Erlaubten Bereich definieren
     if(TankMat.m03 > -1.2f && TankMat.m03 < 4.0f)
     {
-        // Alles zusammen bauen
+        //Alles zusammen bauen
         this->cannon->transform(CannonMat);
         this->chassis->transform(TankMat);
         this->transform(TankMat);
     }
-    
-    
 }
 
 void Tank::draw(const BaseCamera& Cam)
@@ -105,6 +100,23 @@ void Tank::draw(const BaseCamera& Cam)
 }
 
 Vector Tank::getLatestPosition() {
-    return Vector(0, 0, 0);
+    return this->position;
 }
 
+void Tank::printLatestPosition() {
+    std::cout << "X:" << this->position.X << " ";
+    std::cout << "Y:" << this->position.Y << " ";
+    std::cout << "Z:" << this->position.Z << std::endl;
+}
+
+bool Tank::getIsInAir(){
+    return this->isInAir;
+}
+
+void Tank::setIsInAir(bool newIsInAir){
+    this->isInAir = newIsInAir;
+}
+
+float Tank::getJumpPower(){
+    return this->jumpPower;
+}
