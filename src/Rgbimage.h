@@ -20,12 +20,11 @@ public:
     
     static unsigned char convertColorChannel( float f);
     static RGBImage& SobelFilter(RGBImage& dst, const RGBImage& src, float factor = 1.0f);
+	
 protected:
     Color* m_Image;
     unsigned int m_Height;
     unsigned int m_Width;
-    
-    
 };
 
 #endif /* defined(__SimpleRayTracer__rgbimage__) */

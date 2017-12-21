@@ -48,6 +48,7 @@ public:
     void setParameter( GLint ID, const Matrix& Param) const;
 
 	GLuint openGLProgramID() { return ShaderProgram; }
+	
 protected:
     char* loadFile( const char* File, unsigned int& Filesize );
     GLuint createShaderProgram( const char* VScode, const char* FScode );

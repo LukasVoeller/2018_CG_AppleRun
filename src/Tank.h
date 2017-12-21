@@ -32,7 +32,9 @@ public:
     bool getIsInAir();
     void setIsInAir(bool newIsInAir);
     float getJumpPower();
+	
 protected:
+	
 private:
     Model* chassis;
     Model* cannon;

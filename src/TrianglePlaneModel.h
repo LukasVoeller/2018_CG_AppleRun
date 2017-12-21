@@ -10,8 +10,6 @@
 #define TrianglePlaneModel_hpp
 
 #include <stdio.h>
-
-#include <stdio.h>
 #include "BaseModel.h"
 #include "ConstantShader.h"
 #include "VertexBuffer.h"
@@ -23,6 +21,7 @@ public:
     TrianglePlaneModel( float DimX, float DimZ, int NumSegX, int NumSegZ );
     virtual ~TrianglePlaneModel() {}
     virtual void draw(const BaseCamera& Cam);
+	
 protected:
     VertexBuffer VB;
     IndexBuffer IB;

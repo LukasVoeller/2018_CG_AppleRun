@@ -46,6 +46,7 @@ void ConstantShader::activate(const BaseCamera& Cam) const
     Matrix ModelViewProj = Cam.getProjectionMatrix() * ModelView;
     glUniformMatrix4fv(ModelViewProjLoc, 1, GL_FALSE, ModelViewProj.m);
 }
+
 void ConstantShader::color( const Color& c)
 {
     Col = c;

@@ -23,10 +23,12 @@ Vector Camera::position() const
 {
     return m_Position + m_Panning + m_Zoom + m_Rotation;
 }
+
 Vector Camera::target() const
 {
     return m_Target + m_Panning;
 }
+
 Vector Camera::up() const
 {
     return m_Up;
@@ -39,11 +41,13 @@ void Camera::setPosition( const Vector& Pos)
 
 
 }
+
 void Camera::setTarget( const Vector& Target)
 {
     m_Target = Target;
     m_Panning = Vector(0,0,0);
 }
+
 void Camera::setUp( const Vector& Up)
 {
     m_Up = Up;
@@ -51,7 +55,6 @@ void Camera::setUp( const Vector& Up)
 
 void Camera::mouseInput( int x, int y, int Button, int State)
 {
-
     if(State == GLFW_PRESS)
     {
         if(m_LastMouseX==-1) m_LastMouseX = x;
@@ -68,10 +71,9 @@ void Camera::mouseInput( int x, int y, int Button, int State)
         else if( Button == GLFW_MOUSE_BUTTON_MIDDLE)
         {
             zoom( (float)(m_LastMouseY-y)*0.01f );
-            
         }
     }
-    else
+	else
     {
         m_Position += m_Panning + m_Zoom + m_Rotation;
         m_Target += m_Panning;
@@ -80,14 +82,12 @@ void Camera::mouseInput( int x, int y, int Button, int State)
         m_Rotation = Vector(0,0,0);
         m_LastMouseX = -1;
         m_LastMouseY = -1;
-
     }
 }
 
 void Camera::pan( float dx, float dy)
 {
-    // calculate panning-plane
-    
+    //Calculate panning-plane
     Vector aDir = m_Target-m_Position;
     aDir.normalize();
     Vector aRight = aDir.cross(m_Up);
@@ -126,8 +126,7 @@ void Camera::rotate( float x, float y )
     const float angle = acos(cosangle);
     Vector RotAxis = pn.cross(po);
     RotAxis.normalize();
-    
-    
+	
     //Vector Diff = m_Position-m_Target;
     Vector Diff(0,0,(m_Position-m_Target).length());
     
@@ -173,8 +172,6 @@ const Matrix& Camera::getProjectionMatrix() const
     return m_ProjMatrix;
 }
 
-
-
 Vector Camera::getVSpherePos( float x, float y)
 {
     Vector p( 1.0f*x/(float)WindowWidth*2.0f - 1.0f, 1.0f*y/(float)WindowHeight*2.0f -1.0f, 0);
@@ -190,7 +187,6 @@ Vector Camera::getVSpherePos( float x, float y)
         p.normalize();
     
     return p;
-    
 }
 
 void Camera::updateMouseInput()

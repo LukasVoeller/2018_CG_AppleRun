@@ -63,8 +63,6 @@ public:
     const std::vector<Vector>& texcoord3() const { return Texcoord3; }
 
 private:
-
-    
     enum ATTRIBUTES
     {
         VERTEX  = 1<<0,
@@ -75,6 +73,7 @@ private:
         TEXCOORD2 = 1<<5,
         TEXCOORD3 = 1<<6,
     };
+	
     std::vector<Vector> Vertices;
     std::vector<Vector> Normals;
     std::vector<Color> Colors;
@@ -88,8 +87,6 @@ private:
     GLuint VAO;
     bool BuffersInitialized;
     unsigned int VertexCount;
-    
-    
 };
 
 #endif /* VertexBuffer_hpp */

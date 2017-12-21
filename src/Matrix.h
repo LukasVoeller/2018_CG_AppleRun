@@ -81,5 +81,4 @@ public:
     std::string matrixToString();
 };
 
-
 #endif /* defined(__RealtimeRending__Matrix__) */

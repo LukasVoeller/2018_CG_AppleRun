@@ -19,5 +19,4 @@ public:
     
 };
 
-
 #endif /* defined(__SimpleRayTracer__color__) */

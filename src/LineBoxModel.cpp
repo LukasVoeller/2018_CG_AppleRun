@@ -10,14 +10,14 @@
 
 LineBoxModel::LineBoxModel( float Width, float Height, float Depth )
 {
-    // TODO: Add your code (Exercise 1)
+    //TODO: Add your code (Exercise 1)
     VB.begin();
     
     float BeginX = -Width/2.0f;
     float BeginY = -Height/2.0f;
     float BeginZ = -Depth/2.0f;
     
-    //in Tiefenrichtung
+    //In Tiefenrichtung
     //-Begin = Depth/2 = End
     VB.addVertex(BeginX, BeginY, BeginZ);
     VB.addVertex(BeginX, BeginY, -BeginZ);
@@ -31,7 +31,7 @@ LineBoxModel::LineBoxModel( float Width, float Height, float Depth )
     VB.addVertex(-BeginX, -BeginY, BeginZ);
     VB.addVertex(-BeginX, -BeginY, -BeginZ);
     
-    //in Höhenrichtung
+    //In Höhenrichtung
     VB.addVertex(BeginX, BeginY, BeginZ);
     VB.addVertex(BeginX, -BeginY, BeginZ);
     
@@ -44,7 +44,7 @@ LineBoxModel::LineBoxModel( float Width, float Height, float Depth )
     VB.addVertex(-BeginX, BeginY, -BeginZ);
     VB.addVertex(-BeginX, -BeginY, -BeginZ);
     
-    //in Breitenrichtung
+    //In Breitenrichtung
     VB.addVertex(BeginX, BeginY, BeginZ);
     VB.addVertex(-BeginX, BeginY, BeginZ);
     
@@ -56,7 +56,6 @@ LineBoxModel::LineBoxModel( float Width, float Height, float Depth )
     
     VB.addVertex(BeginX, BeginY, -BeginZ);
     VB.addVertex(-BeginX, BeginY, -BeginZ);
-    
     
     VB.end();
 }
@@ -64,8 +63,6 @@ LineBoxModel::LineBoxModel( float Width, float Height, float Depth )
 void LineBoxModel::draw(const BaseCamera& Cam)
 {
     BaseModel::draw(Cam);
-    
-    // TODO: Add your code (Exercise 1)
     VB.activate();
     
     glDrawArrays(GL_LINES, 0, VB.vertexCount());

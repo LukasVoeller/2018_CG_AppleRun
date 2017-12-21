@@ -67,7 +67,6 @@ protected:
     };
     typedef std::map<std::string, TexEntry> SharedTexMap;
     static SharedTexMap SharedTextures;
-    
 };
 
 #endif /* defined(__RealtimeRending__Texture__) */

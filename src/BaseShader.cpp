@@ -90,7 +90,7 @@ GLuint BaseShader::createShaderProgram( const char* VScode, const char* FScode )
     
     if( WrittenToLog > 0 )
     {
-        // compilation failed
+        //Compilation failed
         std::cout << ShaderLog;
         throw std::exception();
     }
@@ -143,8 +143,8 @@ char* BaseShader::loadFile( const char* File, unsigned int& Filesize )
     fread( pBuf, Filesize, 1, pFile);
     fclose(pFile);
     pBuf[Filesize] = 0;
+	
     return pBuf;
-    
 }
 
 void BaseShader::activate(const BaseCamera& Cam) const
@@ -157,7 +157,6 @@ void BaseShader::activate(const BaseCamera& Cam) const
 	}
     ShaderInPipe = this;
 }
-
 
 void BaseShader::deactivate() const
 {
@@ -174,7 +173,6 @@ void BaseShader::setBlock(GLuint ID, GLuint UniformBufferID) const
 	glBindBufferBase(GL_UNIFORM_BUFFER, ID, UniformBufferID);
 }
 
-
 GLint BaseShader::getParameterID(const char* ParamenterName) const
 {
     return glGetUniformLocation(ShaderProgram, ParamenterName);
@@ -184,14 +182,17 @@ void BaseShader::setParameter( GLint ID, float Param) const
 {
     glUniform1f(ID, Param);
 }
+
 void BaseShader::setParameter( GLint ID, int Param) const
 {
     glUniform1i(ID, Param);
 }
+
 void BaseShader::setParameter( GLint ID, const Vector& Param) const
 {
     glUniform3f(ID, Param.X, Param.Y, Param.Z);
 }
+
 void BaseShader::setParameter( GLint ID, const Color& Param) const
 {
     glUniform3f(ID, Param.R, Param.G, Param.B);

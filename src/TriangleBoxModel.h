@@ -10,7 +10,6 @@
 #define TriangleBoxModel_hpp
 
 #include <stdio.h>
-
 #include <stdio.h>
 #include "BaseModel.h"
 #include "VertexBuffer.h"
@@ -22,10 +21,10 @@ public:
     TriangleBoxModel(float Width=1, float Height=1, float Depth=1 );
     virtual ~TriangleBoxModel() {}
     virtual void draw(const BaseCamera& Cam);
+	
 protected:
     VertexBuffer VB;
     IndexBuffer IB;
 };
-
 
 #endif /* TriangleBoxModel_hpp */

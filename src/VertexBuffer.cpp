@@ -46,8 +46,6 @@ void VertexBuffer::begin()
     WithinBeginBlock = true;
 }
 
-
-
 void VertexBuffer::addNormal( float x, float y, float z)
 {
     if(!WithinBeginBlock) { std::cout << "call addNormal only between begin and end method!\n"; return; }
@@ -82,12 +80,14 @@ void VertexBuffer::addTexcoord1( float s, float t, float u )
     ActiveAttributes |= TEXCOORD1;
     Texcoord1.push_back(Vector(s, t, u));
 }
+
 void VertexBuffer::addTexcoord2( float s, float t, float u )
 {
     if(!WithinBeginBlock) { std::cout << "call addTexcoord1 only between begin and end method!\n"; return; }
     ActiveAttributes |= TEXCOORD2;
     Texcoord2.push_back(Vector(s, t, u));
 }
+
 void VertexBuffer::addTexcoord3( float s, float t, float u )
 {
     if(!WithinBeginBlock) { std::cout << "call addTexcoord1 only between begin and end method!\n"; return; }
@@ -147,7 +147,6 @@ void VertexBuffer::end()
         std::cout << "VertexBuffer::end(): vertex count and attribute(s) count do not match! Please ensure that #vertices=#normals, #vertices=#colors, #vertices=#texcoord\n";
         return;
     }
-    
 
     GLuint ElementSize = 4*sizeof(float) +
                         ((ActiveAttributes&NORMAL) ? 4*sizeof(float) : 0) +
@@ -232,30 +231,35 @@ void VertexBuffer::end()
         glVertexAttribPointer(Index++, 4, GL_FLOAT, GL_FALSE, ElementSize, BUFFER_OFFSET(Offset));
         Offset += 4*sizeof(float);
     }
+	
     if(ActiveAttributes&COLOR)
     {
         glEnableVertexAttribArray (Index);
         glVertexAttribPointer(Index++, 4, GL_FLOAT, GL_FALSE, ElementSize, BUFFER_OFFSET(Offset));
         Offset += 4*sizeof(float);
     }
+	
     if(ActiveAttributes&TEXCOORD0)
     {
         glEnableVertexAttribArray (Index);
         glVertexAttribPointer(Index++, 3, GL_FLOAT, GL_FALSE, ElementSize, BUFFER_OFFSET(Offset));
         Offset += 3*sizeof(float);
     }
+	
     if(ActiveAttributes&TEXCOORD1)
     {
         glEnableVertexAttribArray (Index);
         glVertexAttribPointer(Index++, 3, GL_FLOAT, GL_FALSE, ElementSize, BUFFER_OFFSET(Offset));
         Offset += 3*sizeof(float);
     }
+	
     if(ActiveAttributes&TEXCOORD2)
     {
         glEnableVertexAttribArray (Index);
         glVertexAttribPointer(Index++, 3, GL_FLOAT, GL_FALSE, ElementSize, BUFFER_OFFSET(Offset));
         Offset += 3*sizeof(float);
     }
+	
     if(ActiveAttributes&TEXCOORD3)
     {
         glEnableVertexAttribArray (Index);
@@ -279,7 +283,6 @@ void VertexBuffer::activate()
     
     //glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBindVertexArray(VAO);
-    
 }
 
 void VertexBuffer::deactivate()

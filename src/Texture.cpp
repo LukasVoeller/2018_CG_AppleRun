@@ -336,7 +336,7 @@ bool Texture::create(const RGBImage& img)
 
 RGBImage* Texture::createImage( unsigned char* Data, unsigned int width, unsigned int height )
 {
-    // Create CPU accessible image
+    //Create CPU accessible image
     RGBImage* pImage = new RGBImage(width, height);
     assert(pImage);
     for( unsigned int i=0; i<height; i++)
@@ -366,7 +366,6 @@ void Texture::deactivate() const
     if(CurrentTextureUnit>0)
         glActiveTexture(GL_TEXTURE0 + CurrentTextureUnit-1);
     CurrentTextureUnit=0;
-    
 }
 
 const RGBImage* Texture::getRGBImage() const

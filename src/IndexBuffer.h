@@ -39,7 +39,6 @@ public:
     const std::vector<unsigned int>& indices() const { return Indices; }
     
 private:
-
     std::vector<unsigned int> Indices;
 
     GLuint IBO;
@@ -48,7 +47,6 @@ private:
     
     GLenum IndexFormat;
     unsigned int IndexCount;
-    
 };
 
 #endif /* IndexBuffer_hpp */

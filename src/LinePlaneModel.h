@@ -19,6 +19,7 @@ public:
     LinePlaneModel( float DimX, float DimZ, int NumSegX, int NumSegZ );
     virtual ~LinePlaneModel() {}
     virtual void draw(const BaseCamera& Cam);
+	
 protected:
     VertexBuffer VB;
 };
