@@ -37,12 +37,13 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), pModel(NU
 	createScene();
 	//createNormalTestScene();
 	//createShadowTestScene();
+	
     BaseModel* pModel;
     ConstantShader* pConstShader;
     PhongShader* pPhongShader;
-    
     pPhongShader = new PhongShader();
-    
+	
+	//------------------------------ MODELS ------------------------------
     pTank = new Tank();
     pTank->shader(pPhongShader, true);
     pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
@@ -53,13 +54,13 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), pModel(NU
     Matrix m;
     m = m.translation(0, 0, -5);
     pBarrier->transform(m);
-    Models.push_back(pBarrier);
+	Models.push_back(pBarrier);
 }
 
 void Application::start()
 {
-    glEnable (GL_DEPTH_TEST);   // enable depth-testing
-    glDepthFunc (GL_LESS);      // depth-testing interprets a smaller value as "closer"
+    glEnable (GL_DEPTH_TEST);   //Enable depth-testing
+    glDepthFunc (GL_LESS);      //Depth-testing interprets a smaller value as "closer"
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glEnable(GL_BLEND);
@@ -72,7 +73,7 @@ void Application::update(float dtime)
     float forwardBackward = getForwardBackward();
     float leftRight = getLeftRight();
     
-    //Springen
+    //Jump
     getJump();
     pTank->steer3d(forwardBackward, leftRight, this->downForce);
     if(pTank->getLatestPosition().Y < this->terrainHeight)
@@ -82,21 +83,22 @@ void Application::update(float dtime)
     } else
         this->downForce += gravity * 0.1f;
 
-    pTank->printLatestPosition();
-
+	//Collision
     bool collision = collisionDetection(pTank, pBarrier);
-    //std::cout << "Kollision is " << collision << std::endl;
-    
     if(collision)
         pTank->steer(-1*forwardBackward, -1*leftRight);
-    
+	
+	//Aiming
     double xpos, ypos;
     glfwGetCursorPos(pWindow, &xpos, &ypos);
     Vector pos = calc3DRay(xpos, ypos, pos);
     pTank->aim(pos);
-    
+	
     pTank->update(deltaTime);
     Cam.update();
+	
+	//std::cout << "Kollision is " << collision << std::endl;
+	//pTank->printLatestPosition();
 }
 
 //Vergangene Zeit seit letztem Aufruf der Methode
@@ -105,7 +107,7 @@ double Application::calcDeltaTime() {
     double deltaTime = (now - this->oldTime);
     this->oldTime = now;
     if (this->oldTime == 0) {
-        return 1/60;    // 1/60 = 60 frames per second
+        return 1/60;	//1/60 = 60 frames per second
     }
     return deltaTime;
 }
@@ -114,18 +116,18 @@ void Application::draw()
 {
 	ShadowGenerator.generate(Models);
 	
-    // clear screen
+    //Clear screen
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	ShaderLightMapper::instance().activate();
     
-    // setup shaders and draw models
+    //Setup shaders and draw models
     for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it )
     {
         (*it)->draw(Cam);
     }
 	ShaderLightMapper::instance().deactivate();
 	
-    // check once per frame for opengl errors
+    //Check once per frame for OpenGL errors
     GLenum Error = glGetError();
     assert(Error==0);
 }
@@ -140,8 +142,9 @@ void Application::end()
 
 void Application::createScene()
 {
-	Matrix m,n;
-
+	Matrix m;
+	
+	//------------------------------ SCENE ------------------------------
 	pModel = new Model(ASSET_DIRECTORY "skybox.obj", false);
 	pModel->shader(new PhongShader(), true);
 	pModel->shadowCaster(false);
@@ -152,26 +155,21 @@ void Application::createScene()
 	m.translation(10, 0, -10);
 	pModel->transform(m);
 	Models.push_back(pModel);
-/*
-    pModel = new Model(ASSET_DIRECTORY "scene.dae", false);
-    pModel->shader(new PhongShader(), true);
-    m.translation(10, 0, -10);
-    pModel->transform(m);
-    Models.push_back(pModel);
-*/
-	// directional lights
+
+	//------------------------------ LIGHTS ------------------------------
+	Color c = Color(1.0f, 0.7f, 1.0f);
+	Vector a = Vector(1, 0, 0.1f);
+	float innerradius = 45;
+	float outerradius = 60;
+	
+	//Directional lights
 	DirectionalLight* dl = new DirectionalLight();
 	dl->direction(Vector(0.2f, -1, 1));
 	dl->color(Color(0.25, 0.25, 0.5));
 	dl->castShadows(true);
 	ShaderLightMapper::instance().addLight(dl);
 	
-	Color c = Color(1.0f, 0.7f, 1.0f);
-	Vector a = Vector(1, 0, 0.1f);
-	float innerradius = 45;
-	float outerradius = 60;
-	
-	// point lights
+	//Point lights
 	PointLight* pl = new PointLight();
 	pl->position(Vector(-1.5, 3, 10));
 	pl->color(c);
@@ -208,7 +206,7 @@ void Application::createScene()
 	pl->attenuation(a);
 	ShaderLightMapper::instance().addLight(pl);
 	
-	// spot lights
+	//Spot lights
 	SpotLight* sl = new SpotLight();
 	sl->position(Vector(-1.5, 3, 10));
 	sl->color(c);
@@ -265,7 +263,7 @@ void Application::createNormalTestScene()
 	pConstShader->color(Color(0, 0, 0));
 	pModel->shader(pConstShader, true);
     
-	// Add to render list
+	//Add to render list
 	Models.push_back(pModel);
 	pModel = new Model(ASSET_DIRECTORY "cube.obj", false);
 	pModel->shader(new PhongShader(), true);
@@ -282,7 +280,7 @@ void Application::createShadowTestScene()
 	pModel->shader(new PhongShader(), true);
 	Models.push_back(pModel);
 	
-	// Directional lights
+	//Directional lights
 	DirectionalLight* dl = new DirectionalLight();
 	dl->direction(Vector(0, -1, -1));
 	dl->color(Color(0.5, 0.5, 0.5));
@@ -299,37 +297,34 @@ void Application::createShadowTestScene()
 	ShaderLightMapper::instance().addLight(sl);
 }
 
-// Berechnung eines 3D-Strahls aus 2D-Mauskoordinaten
-// Input: Fenster-Pixelkoordinaten des Mauszeigers
+//Berechnung eines 3D-Strahls aus 2D-Mauskoordinaten
+//Input: 	Fenster-Pixelkoordinaten des Mauszeigers, Ray Origin
+//Output:	Ray Direction
 Vector Application::calc3DRay( float x, float y, Vector& Pos)
 {
-    // TODO:    Add your code here
-    // Pos:     Ray Origin
-    // Return:  Ray Direction
-    
-    // 1. Normalisieren zwischen (-1,1)
+    //1. Normalisieren zwischen (-1,1)
     int windowWidth, windowHeight;
     glfwGetWindowSize(this->pWindow, &windowWidth, &windowHeight);
     
     float xNormal = 2.0f * x / (float) windowWidth - 1.0f;
     float yNormal = 1.0f - 2.0f * y / (float) windowHeight;
     
-    // 2. Richtungsvektor in KAMERA-KOORDINATE erzeugen
-    // (Projektionsmatrix invers auf normalisierte Koordinaten anwenden)
+    //2. Richtungsvektor in KAMERA-KOORDINATE erzeugen
+    //(Projektionsmatrix invers auf normalisierte Koordinaten anwenden)
     Vector direction(xNormal, yNormal, 0);
     Matrix projection = Cam.getProjectionMatrix();
     direction = projection.invert() * direction;
     direction.normalize();
     
-    // 3. Umrechnung von Kamera- zu Weltkoordinaten (Richtung anpassen)
-    // Ursprung des Strahls ist Kameraposition (aus Cam.getViewMatrix())
+    //3. Umrechnung von Kamera- zu Weltkoordinaten (Richtung anpassen)
+    //Ursprung des Strahls ist Kameraposition (aus Cam.getViewMatrix())
     Matrix view = Cam.getViewMatrix();
     view.invert();
     
     Pos = view.translation(); //translation() gibt Vector(m03, m13, m23) zurück
     direction = view.transformVec3x3(direction);
     
-    // 4. Schnittpunkt mit der Ebene Y=0 berechnen (Raytracing-Verfahren)
+    //4. Schnittpunkt mit der Ebene Y=0 berechnen (Raytracing-Verfahren)
     Vector ny(0,1,0), y0(0,0,0);
     float s = (ny.dot(y0) - ny.dot(Pos)) / ny.dot(direction);
     
@@ -346,7 +341,6 @@ float Application::getLeftRight() {
     if ((glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_A ) == GLFW_PRESS)){
         direction += 3.0f;
     }
-    
     return direction;
 }
 
@@ -372,36 +366,8 @@ void Application::getJump() {
             this->downForce = pTank->getJumpPower();
         }
     }
-
 }
 
-/*
-float Application::getJump() {
-    float jumpFactor = 2.0f;
-
-    if(isJumpingOld) {
-        isJumpingOld = false;
-        return -jumpFactor;
-    }
-    if (glfwGetKey(pWindow, GLFW_KEY_SPACE ) == GLFW_PRESS){
-        isJumpingOld = true;
-        return jumpFactor;
-    }
-    isJumpingOld = false;
-    
-    return 0.0f;
-}
-
-bool Application::isJumping()
-{
-    if (glfwGetKey(pWindow, GLFW_KEY_SPACE ) == GLFW_PRESS){
-        isJumpingOld = true;
-        return true;
-    }
-    isJumpingOld = false;
-    return false;
-}
-*/
 bool Application::collisionDetection(Tank* model1, Model* model2)
 {
     Vector vec1 = model1->transform().translation();
@@ -410,11 +376,11 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
     Vector size1 = model1->boundingBox().size();
     Vector size2 = model2->boundingBox().size();
     
-    // Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
-    return vec1.X - size1.X/2 < vec2.X + size2.X/2 &&
+    //Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
+    return (vec1.X - size1.X/2 < vec2.X + size2.X/2 &&
     vec2.X - size2.X/2 < vec1.X + size1.X/2 &&
     vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
-    vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2;
+    vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
     
 /*
      for(ModelList::iterator it = Models.begin(); it != Models.end(); ++it)

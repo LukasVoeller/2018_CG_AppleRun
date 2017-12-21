@@ -7,8 +7,8 @@
 //
 
 #include "Texture.h"
-#include "rgbimage.h"
-#include "color.h"
+#include "Rgbimage.h"
+#include "Color.h"
 #include <assert.h>
 #include <stdint.h>
 #include <exception>

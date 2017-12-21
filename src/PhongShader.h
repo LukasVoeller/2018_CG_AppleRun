@@ -20,8 +20,8 @@
 #endif
 #include <iostream>
 #include <assert.h>
-#include "color.h"
-#include "vector.h"
+#include "Color.h"
+#include "Vector.h"
 #include "Matrix.h"
 #include "Camera.h"
 #include "BaseShader.h"

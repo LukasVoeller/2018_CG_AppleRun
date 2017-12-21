@@ -10,7 +10,7 @@
 #define Aabb_hpp
 
 #include <stdio.h>
-#include "vector.h"
+#include "Vector.h"
 #include "Matrix.h"
 
 class AABB

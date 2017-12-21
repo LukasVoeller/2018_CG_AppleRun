@@ -10,7 +10,7 @@
 #define __RealtimeRending__Matrix__
 
 #include <iostream>
-#include "vector.h"
+#include "Vector.h"
 #include <string>
 
 class Matrix

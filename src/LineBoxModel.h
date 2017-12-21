@@ -24,4 +24,4 @@ protected:
     
 };
 
-#endif /* LineCubeModel_hpp */
+#endif /* LineBoxModel_hpp */

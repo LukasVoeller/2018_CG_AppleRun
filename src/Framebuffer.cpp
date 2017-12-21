@@ -9,7 +9,7 @@
 #include "Framebuffer.h"
 #include <assert.h>
 #include "Texture.h"
-#include "rgbimage.h"
+#include "Rgbimage.h"
 
 
 Framebuffer::Framebuffer() : m_FramebufferID(0), m_DepthTargetID(0), m_pTexture(NULL), m_Width(0), m_Height(0)

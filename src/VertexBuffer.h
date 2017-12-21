@@ -19,8 +19,8 @@
 #include <iostream>
 #include <vector>
 #include <stdio.h>
-#include "vector.h"
-#include "color.h"
+#include "Vector.h"
+#include "Color.h"
 
 class VertexBuffer
 {

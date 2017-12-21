@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../../assets">
-   </FileRef>
-   <FileRef
-      location = "self:">
+      location = "self:/Users/lukas/Desktop/CG_2017_Abschlussarbeit/CGXcode/CGXcode.xcodeproj">
    </FileRef>
 </Workspace>

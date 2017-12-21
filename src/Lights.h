@@ -1,8 +1,8 @@
 #ifndef LIGHTS_H
 #define LIGHTS_H
 
-#include "vector.h"
-#include "color.h"
+#include "Vector.h"
+#include "Color.h"
 
 class BaseLight
 {
