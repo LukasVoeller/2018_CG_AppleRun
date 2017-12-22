@@ -69,10 +69,10 @@ public:
 	
 protected:
     void updateMouseInput();
-    
+	void rotate( float x, float y );
     void pan( float dx, float dy);
     void zoom( float dz);
-    void rotate( float x, float y );
+	
     Vector getVSpherePos( float x, float y);
     Vector rotateAxisAngle( Vector v, Vector n, float a);
     

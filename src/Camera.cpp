@@ -38,8 +38,6 @@ void Camera::setPosition( const Vector& Pos)
 {
     m_Position = Pos;
     m_Panning = m_Rotation = m_Zoom = Vector(0,0,0);
-
-
 }
 
 void Camera::setTarget( const Vector& Target)
@@ -62,15 +60,15 @@ void Camera::mouseInput( int x, int y, int Button, int State)
         
         if( Button == GLFW_MOUSE_BUTTON_LEFT )
         {
-            rotate((float)x, (float)y );
+            rotate((float)x, (float)y);
         }
         else if( Button == GLFW_MOUSE_BUTTON_RIGHT)
         {
-            pan( (float)(m_LastMouseX-x)*0.01f, (float)(m_LastMouseY-y)*0.01f );
+            pan((float)(m_LastMouseX-x)*0.01f, (float)(m_LastMouseY-y)*0.01f);
         }
         else if( Button == GLFW_MOUSE_BUTTON_MIDDLE)
         {
-            zoom( (float)(m_LastMouseY-y)*0.01f );
+            zoom((float)(m_LastMouseY-y)*0.01f);
         }
     }
 	else
@@ -207,7 +205,7 @@ void Camera::update()
 {
     updateMouseInput();
     
-    Vector Pos = position(); //m_Position + m_Panning + m_Zoom + m_Rotation;
-    Vector Target = target(); //m_Target + m_Panning;
+    Vector Pos = position(); 	//m_Position + m_Panning + m_Zoom + m_Rotation;
+    Vector Target = target(); 	//m_Target + m_Panning;
     m_ViewMatrix.lookAt(Target, m_Up, Pos);
 }

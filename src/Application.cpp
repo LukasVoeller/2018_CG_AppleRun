@@ -41,18 +41,21 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), pModel(NU
     ConstantShader* pConstShader;
     PhongShader* pPhongShader;
     pPhongShader = new PhongShader();
+	Matrix m,s;
 	
 	//------------------------------ MODELS ------------------------------
-    pTank = new Tank();
-    pTank->shader(pPhongShader, true);
-    pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
-    Models.push_back( pTank );
+	pTank = new Tank();
+	pTank->shader(pPhongShader, true);
+	pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
+	//m = m.translation(0, 0, 0);
+	//pTank->transform(m);
+	Models.push_back( pTank );
     
-    pBarrier = new Model(ASSET_DIRECTORY "bunny.dae", false);
+    pBarrier = new Model(ASSET_DIRECTORY "buddha.dae", false);
     pBarrier->shader(new PhongShader(), false);
-    Matrix m;
-    m = m.translation(0, 0, -5);
-    pBarrier->transform(m);
+	m = m.translation(5, 0, 15);
+	s = s.scale(5);
+    pBarrier->transform(m*s);
 	Models.push_back(pBarrier);
 }
 
@@ -85,7 +88,7 @@ void Application::update(float dtime)
 	//Collision
     bool collision = collisionDetection(pTank, pBarrier);
 	if(collision){
-        pTank->steer(-1*forwardBackward, -1*leftRight);
+        pTank->steer(-1 * forwardBackward, -1 * leftRight);
 	}
 	
 	//Aiming
@@ -93,7 +96,7 @@ void Application::update(float dtime)
     glfwGetCursorPos(pWindow, &xpos, &ypos);
     Vector pos = calc3DRay(xpos, ypos, pos);
     pTank->aim(pos);
-	
+
     pTank->update(deltaTime);
     Cam.update();
 	
@@ -150,13 +153,14 @@ void Application::createScene()
 	pModel->shadowCaster(false);
 	Models.push_back(pModel);
 
-	pModel = new Model(ASSET_DIRECTORY "scene.dae", false);
+	pModel = new Model(ASSET_DIRECTORY "base.dae", false);
 	pModel->shader(new PhongShader(), true);
-	m.translation(10, 0, -10);
+	m.translation(30, 0, 0);
 	pModel->transform(m);
 	Models.push_back(pModel);
 
 	//------------------------------ LIGHTS ------------------------------
+	/*
 	Color c = Color(1.0f, 0.7f, 1.0f);
 	Vector a = Vector(1, 0, 0.1f);
 	float innerradius = 45;
@@ -254,6 +258,7 @@ void Application::createScene()
 	sl->innerRadius(innerradius);
 	sl->outerRadius(outerradius);
 	ShaderLightMapper::instance().addLight(sl);
+	 */
 }
 
 void Application::createNormalTestScene()
