@@ -50,13 +50,30 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), pModel(NU
 	//m = m.translation(0, 0, 0);
 	//pTank->transform(m);
 	Models.push_back( pTank );
-    
-    pBarrier = new Model(ASSET_DIRECTORY "buddha.dae", false);
-    pBarrier->shader(new PhongShader(), false);
-	m = m.translation(5, 0, 15);
-	s = s.scale(5);
-    pBarrier->transform(m*s);
-	Models.push_back(pBarrier);
+	
+	//Initial Hindernisse erzeugen
+	for(int i=0; i<5; ++i)
+	{
+		pBarrier1 = new Model(ASSET_DIRECTORY "buddha.dae", false);
+		pBarrier1->shader(new PhongShader(), false);
+		m = m.translation(5*i, 0, 15);
+		s = s.scale(4);
+		pBarrier1->transform(m*s);
+		pBarriers.push_back(pBarrier1);
+		Models.push_back(pBarrier1);
+	}
+	
+	// Münzen o.ä. erzeugen
+	for(int i=0; i<5; ++i)
+	{
+		coin = new Model(ASSET_DIRECTORY "buddha.dae", false);
+		coin->shader(new PhongShader(), false);
+		m = m.translation(5*i+2, 0, 5);
+		s = s.scale(2);
+		coin->transform(m*s);
+		pCoins.push_back(coin);
+		Models.push_back(coin);
+	}
 }
 
 void Application::start()
@@ -86,11 +103,19 @@ void Application::update(float dtime)
 	}
 	
 	//Collision
-    bool collision = collisionDetection(pTank, pBarrier);
-	if(collision){
-        pTank->steer(-1 * forwardBackward, -1 * leftRight);
+	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it)
+	{
+		if(collisionDetection(pTank, (Model*)(*it))) {
+			pTank->steer(-1 * forwardBackward, -1 * leftRight);
+		}
 	}
-	
+
+//  old - only for testing
+//	bool collision = collisionDetection(pTank, pBarrier2);
+//	if(collision){
+//		pTank->steer(-4 * forwardBackward, -4 * leftRight);
+//	}
+
 	//Aiming
     double xpos, ypos;
     glfwGetCursorPos(pWindow, &xpos, &ypos);

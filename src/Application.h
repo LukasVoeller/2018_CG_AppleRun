@@ -54,7 +54,15 @@ protected:
     void getJump();
 	
 	//Testmodel
-    Model* pBarrier;
+    Model* pBarrier1;
+	Model* pBarrier2; /* only for testing */
+	
+	//Liste von Hindernissen
+	ModelList pBarriers;
+	
+	//Münzen o.ä.
+	Model* coin;
+	ModelList pCoins;
 };
 
 #endif /* Application_hpp */
