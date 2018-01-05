@@ -27,7 +27,7 @@ ShadowMapShader::ShadowMapShader()
 void ShadowMapShader::activate(const BaseCamera& Cam) const
 {
 	BaseShader::activate(Cam);
-	// always update matrices
+	//Always update matrices
 	Matrix ModelViewProj = Cam.getProjectionMatrix() * Cam.getViewMatrix() * modelTransform();
 	setParameter(ModelMatLoc, modelTransform());
 	setParameter(ModelViewProjMatLoc, ModelViewProj);
@@ -70,16 +70,13 @@ Matrix ShadowMapGenerator::calcProjection(BaseLight* pLight, const AABB& BBox, c
 	}
 	else if (pLight->type() == BaseLight::DIRECTIONAL)
 	{
-
 		Vector v[8];
 		BBox.corners(v);
-
 		float MaxU=-1e6, MaxV=-1e6;
 
 		for (int i = 0; i < 8; ++i)
 		{
 			Vector p = v[i] - InvView.translation();
-
 			float u = fabs(p.dot(InvView.right()));
 			float v = fabs(p.dot(InvView.up()));
 
@@ -97,7 +94,6 @@ Matrix ShadowMapGenerator::calcProjection(BaseLight* pLight, const AABB& BBox, c
 Matrix ShadowMapGenerator::calcView(BaseLight* pLight, const AABB& BBox) const
 {
 	assert(pLight->type() != BaseLight::POINT);
-
 	Matrix view;
 
 	if (pLight->type() == BaseLight::SPOT)
@@ -119,17 +115,14 @@ Matrix ShadowMapGenerator::calcView(BaseLight* pLight, const AABB& BBox) const
 	return view;
 }
 
-
 AABB ShadowMapGenerator::calcSceneBoundingBox(std::list<BaseModel*>& Models) const
 {
 	if(Models.size()<=0)
 		return AABB(Vector(-5, -5, -5), Vector(5, 5, 5));
 	
 	AABB OverallBox;
-
 	BaseModel* FirstModel = *Models.begin();
 	OverallBox = FirstModel->boundingBox().transform(FirstModel->transform());
-
 	bool ShadowCasterFound = false;
 
 	for (BaseModel* pModel : Models)
@@ -168,8 +161,8 @@ void ShadowMapGenerator::generate(std::list<BaseModel*>& Models)
 		return;
 
 	AABB SceneBoundingBox = calcSceneBoundingBox(Models);
-
 	int ShadowMapCount = 0;
+	
 	for (BaseLight* pLight : ShaderLightMapper::instance().lights())
 	{
 		if (!pLight->castShadows())
@@ -184,12 +177,11 @@ void ShadowMapGenerator::generate(std::list<BaseModel*>& Models)
 
 	glClearColor(1.0f, 0.0, 0.0f, 1);
 	glCullFace(GL_FRONT);
-
 	GLint PrevViewport[4];
 	glGetIntegerv(GL_VIEWPORT, PrevViewport);
 	glViewport(0, 0, ShadowMaps[0].width(), ShadowMaps[0].height());
-	
 	int i = 0;
+	
 	for (BaseLight* pLight : ShaderLightMapper::instance().lights())
 	{
 		if (!pLight->castShadows())

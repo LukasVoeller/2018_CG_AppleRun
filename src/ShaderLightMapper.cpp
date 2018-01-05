@@ -21,12 +21,12 @@ ShaderLightMapper& ShaderLightMapper::instance()
 {
 	if (!pMapper)
 		pMapper = new ShaderLightMapper();
+	
 	return *pMapper;
 }
 
 ShaderLightMapper::ShaderLightMapper()
 {
-
 	BaseShader Shader;
 	bool loaded = Shader.load(ASSET_DIRECTORY"vslightdummy.glsl", ASSET_DIRECTORY"fslightdummy.glsl");
 	assert(loaded);
@@ -37,17 +37,16 @@ ShaderLightMapper::ShaderLightMapper()
 	GLint BlockSize = 0;
 	glGetActiveUniformBlockiv(Shader.openGLProgramID(), BlockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &BlockSize);
 
-    // If the following assertion fails:
-    // You have to adjust the shaderLightBlock structure.
-    // The ShaderLightBlock structure does not match the structure size of the compiled shader block.
-    // Please check BlockSize to obtain the actual size of the shader structure and update
-    // the ShaderLightBlock structure of this class. The size of ShaderLightBlock should fit to BlockSize!
+    //If the following assertion fails:
+    //You have to adjust the shaderLightBlock structure.
+    //The ShaderLightBlock structure does not match the structure size of the compiled shader block.
+    //Please check BlockSize to obtain the actual size of the shader structure and update
+    //the ShaderLightBlock structure of this class. The size of ShaderLightBlock should fit to BlockSize!
 	assert(sizeof(ShaderLightBlock) == BlockSize);
 
 	glGenBuffers(1, &UBO);
 	glBindBuffer(GL_UNIFORM_BUFFER, UBO);
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(ShaderLightBlock), NULL, GL_DYNAMIC_DRAW);
-	
 }
 
 ShaderLightMapper::~ShaderLightMapper()
@@ -58,10 +57,10 @@ ShaderLightMapper::~ShaderLightMapper()
 void ShaderLightMapper::addLight(BaseLight* Light)
 {
 	assert(Light);
-
+	
 	if (lights().size() >= MaxLightCount)
 		return;
-
+	
 	Lights.push_back(Light);
 }
 

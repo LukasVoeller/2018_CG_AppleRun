@@ -23,10 +23,12 @@ Vector Camera::position() const
 {
     return m_Position + m_Panning + m_Zoom + m_Rotation;
 }
+
 Vector Camera::target() const
 {
     return m_Target + m_Panning;
 }
+
 Vector Camera::up() const
 {
     return m_Up;
@@ -36,14 +38,14 @@ void Camera::setPosition( const Vector& Pos)
 {
     m_Position = Pos;
     m_Panning = m_Rotation = m_Zoom = Vector(0,0,0);
-
-
 }
+
 void Camera::setTarget( const Vector& Target)
 {
     m_Target = Target;
     m_Panning = Vector(0,0,0);
 }
+
 void Camera::setUp( const Vector& Up)
 {
     m_Up = Up;
@@ -51,7 +53,6 @@ void Camera::setUp( const Vector& Up)
 
 void Camera::mouseInput( int x, int y, int Button, int State)
 {
-
     if(State == GLFW_PRESS)
     {
         if(m_LastMouseX==-1) m_LastMouseX = x;
@@ -59,19 +60,18 @@ void Camera::mouseInput( int x, int y, int Button, int State)
         
         if( Button == GLFW_MOUSE_BUTTON_LEFT )
         {
-            rotate((float)x, (float)y );
+            rotate((float)x, (float)y);
         }
         else if( Button == GLFW_MOUSE_BUTTON_RIGHT)
         {
-            pan( (float)(m_LastMouseX-x)*0.01f, (float)(m_LastMouseY-y)*0.01f );
+            pan((float)(m_LastMouseX-x)*0.01f, (float)(m_LastMouseY-y)*0.01f);
         }
         else if( Button == GLFW_MOUSE_BUTTON_MIDDLE)
         {
-            zoom( (float)(m_LastMouseY-y)*0.01f );
-            
+            zoom((float)(m_LastMouseY-y)*0.01f);
         }
     }
-    else
+	else
     {
         m_Position += m_Panning + m_Zoom + m_Rotation;
         m_Target += m_Panning;
@@ -80,14 +80,12 @@ void Camera::mouseInput( int x, int y, int Button, int State)
         m_Rotation = Vector(0,0,0);
         m_LastMouseX = -1;
         m_LastMouseY = -1;
-
     }
 }
 
 void Camera::pan( float dx, float dy)
 {
-    // calculate panning-plane
-    
+    //Calculate panning-plane
     Vector aDir = m_Target-m_Position;
     aDir.normalize();
     Vector aRight = aDir.cross(m_Up);
@@ -126,8 +124,7 @@ void Camera::rotate( float x, float y )
     const float angle = acos(cosangle);
     Vector RotAxis = pn.cross(po);
     RotAxis.normalize();
-    
-    
+	
     //Vector Diff = m_Position-m_Target;
     Vector Diff(0,0,(m_Position-m_Target).length());
     
@@ -173,8 +170,6 @@ const Matrix& Camera::getProjectionMatrix() const
     return m_ProjMatrix;
 }
 
-
-
 Vector Camera::getVSpherePos( float x, float y)
 {
     Vector p( 1.0f*x/(float)WindowWidth*2.0f - 1.0f, 1.0f*y/(float)WindowHeight*2.0f -1.0f, 0);
@@ -190,7 +185,6 @@ Vector Camera::getVSpherePos( float x, float y)
         p.normalize();
     
     return p;
-    
 }
 
 void Camera::updateMouseInput()
@@ -211,7 +205,7 @@ void Camera::update()
 {
     updateMouseInput();
     
-    Vector Pos = position(); //m_Position + m_Panning + m_Zoom + m_Rotation;
-    Vector Target = target(); //m_Target + m_Panning;
+    Vector Pos = position(); 	//m_Position + m_Panning + m_Zoom + m_Rotation;
+    Vector Target = target(); 	//m_Target + m_Panning;
     m_ViewMatrix.lookAt(Target, m_Up, Pos);
 }

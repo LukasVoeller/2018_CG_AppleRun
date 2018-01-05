@@ -29,36 +29,31 @@ public:
     void update(float dtime);
     void draw();
     void end();
+	
 protected:
+	Camera Cam;
+	ModelList Models;
+	GLFWwindow* pWindow;
+	BaseModel* pModel;
+	ShadowMapGenerator ShadowGenerator;
 	void createScene();
 	void createNormalTestScene();
 	void createShadowTestScene();
-    Camera Cam;
-    ModelList Models;
-    GLFWwindow* pWindow;
-	BaseModel* pModel;
-	ShadowMapGenerator ShadowGenerator;
-    
-    //Panzer mit Bewegung
+	Vector calc3DRay( float x, float y, Vector& Pos);
+	bool collisionDetection(Tank* model, Model* model2);
+	double calcDeltaTime();
+	double oldTime = 0;
+	float gravity = -15;
+	float downForce = 0.0f;
+	float terrainHeight = 0.6f;
+	
+    //Panzer
     Tank* pTank;
-    double calcDeltaTime();
-    double oldTime = 0;
     float getForwardBackward();
     float getLeftRight();
     void getJump();
-    bool isJumping();   //TODO löschen
-    bool isJumpingOld = false;
-    float gravity = -15;
-    float downForce = 0.0f;
-    float terrainHeight = 0.6f;
-    
-    //Für Schussrohr
-    Vector calc3DRay( float x, float y, Vector& Pos);
-    
-    //Kollisionserkennung
-    bool collisionDetection(Tank* model, Model* model2);
-    
-    //Testobjekt für Kollision
+	
+	//Testmodel
     Model* pBarrier;
 };
 

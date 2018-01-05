@@ -51,7 +51,7 @@
       useCustomWorkingDirectory = "YES"
       customWorkingDirectory = "/Users/lukas/Desktop/CG_2017_Abschlussarbeit/assets"
       ignoresPersistentStateOnLaunch = "NO"
-      debugDocumentVersioning = "YES"
+      debugDocumentVersioning = "NO"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable

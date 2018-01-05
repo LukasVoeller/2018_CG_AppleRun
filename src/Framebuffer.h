@@ -38,6 +38,7 @@ public:
     
     unsigned int width() const { return m_Width; }
     unsigned int height() const { return m_Height; }
+	
 protected:
     GLuint m_FramebufferID;
     GLuint m_DepthTargetID;

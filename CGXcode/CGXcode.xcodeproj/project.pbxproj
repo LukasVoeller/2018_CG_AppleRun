@@ -34,9 +34,12 @@
 		80D316D51FEBE2E50079DD72 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A21FEBE2E50079DD72 /* Application.cpp */; };
 		80D316D71FEBE2E50079DD72 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A41FEBE2E50079DD72 /* Color.cpp */; };
 		80D316F31FEBE8820079DD72 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D316F21FEBE8820079DD72 /* OpenGL.framework */; };
-		80DA501F1FEC05CE00786377 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 80DA501E1FEC05CE00786377 /* libglfw.3.3.dylib */; };
-		80DA50211FEC05FF00786377 /* libfreeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80DA50201FEC05FF00786377 /* libfreeimage.a */; };
-		80DA50281FEC075A00786377 /* libassimp.4.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 80DA50271FEC075A00786377 /* libassimp.4.1.0.dylib */; };
+		80D316F51FEBE8930079DD72 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D316F41FEBE8930079DD72 /* libglfw.3.3.dylib */; };
+		80D316F91FEBE8AF0079DD72 /* libassimp.4.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D316F81FEBE8AF0079DD72 /* libassimp.4.1.0.dylib */; };
+		80D316FB1FEBEBBC0079DD72 /* libfreeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D316FA1FEBEBBC0079DD72 /* libfreeimage.a */; };
+		80E003951FED3E6000601BEA /* EgoCam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80E003941FED3E6000601BEA /* EgoCam.cpp */; };
+		80E0039A1FED412D00601BEA /* DebugRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80E003991FED412D00601BEA /* DebugRender.cpp */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -105,9 +108,14 @@
 		80D316A51FEBE2E50079DD72 /* Lights.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Lights.h; path = ../src/Lights.h; sourceTree = "<group>"; };
 		80D316F01FEBE7A10079DD72 /* CGXcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CGXcode; sourceTree = BUILT_PRODUCTS_DIR; };
 		80D316F21FEBE8820079DD72 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		80DA501E1FEC05CE00786377 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
-		80DA50201FEC05FF00786377 /* libfreeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreeimage.a; path = thirdparty/freeimage/libfreeimage.a; sourceTree = "<group>"; };
-		80DA50271FEC075A00786377 /* libassimp.4.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.1.0.dylib; path = thirdparty/assimp/libassimp.4.1.0.dylib; sourceTree = "<group>"; };
+		80D316F41FEBE8930079DD72 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
+		80D316F81FEBE8AF0079DD72 /* libassimp.4.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.1.0.dylib; path = thirdparty/assimp/libassimp.4.1.0.dylib; sourceTree = "<group>"; };
+		80D316FA1FEBEBBC0079DD72 /* libfreeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreeimage.a; path = thirdparty/freeimage/libfreeimage.a; sourceTree = "<group>"; };
+		80E003941FED3E6000601BEA /* EgoCam.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EgoCam.cpp; path = ../src/EgoCam.cpp; sourceTree = "<group>"; };
+		80E003971FED3E8300601BEA /* EgoCam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EgoCam.h; path = ../src/EgoCam.h; sourceTree = "<group>"; };
+		80E003981FED411B00601BEA /* DebugRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DebugRender.h; path = ../src/DebugRender.h; sourceTree = "<group>"; };
+		80E003991FED412D00601BEA /* DebugRender.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DebugRender.cpp; path = ../src/DebugRender.cpp; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +264,10 @@
 				80D3167E1FEBE2E00079DD72 /* Aabb.cpp */,
 				80D316A51FEBE2E50079DD72 /* Lights.h */,
 				80D3169E1FEBE2E40079DD72 /* Lights.cpp */,
+				80E003971FED3E8300601BEA /* EgoCam.h */,
+				80E003941FED3E6000601BEA /* EgoCam.cpp */,
+				80E003981FED411B00601BEA /* DebugRender.h */,
+				80E003991FED412D00601BEA /* DebugRender.cpp */,
 			);
 			name = Graphic;
 			sourceTree = "<group>";
@@ -334,6 +346,7 @@
 				80D316B11FEBE2E50079DD72 /* Aabb.cpp in Sources */,
 				80D316B21FEBE2E50079DD72 /* Camera.cpp in Sources */,
 				80D316B31FEBE2E50079DD72 /* Framebuffer.cpp in Sources */,
+				80E003951FED3E6000601BEA /* EgoCam.cpp in Sources */,
 				80D316B41FEBE2E50079DD72 /* ShadowMapGenerator.cpp in Sources */,
 				80D316B51FEBE2E50079DD72 /* Vector.cpp in Sources */,
 				80D316B61FEBE2E50079DD72 /* ConstantShader.cpp in Sources */,
@@ -353,6 +366,7 @@
 				80D316D31FEBE2E50079DD72 /* Tank.cpp in Sources */,
 				80D316D51FEBE2E50079DD72 /* Application.cpp in Sources */,
 				80D316D71FEBE2E50079DD72 /* Color.cpp in Sources */,
+				80E0039A1FED412D00601BEA /* DebugRender.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

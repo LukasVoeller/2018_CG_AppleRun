@@ -33,7 +33,6 @@ const char *VertexShaderCode =
 "    gl_Position = ModelViewProjMat * VertexPos;"
 "}";
 
-
 const char *FragmentShaderCode =
 "#version 400\n"
 "uniform vec3 EyePos;"
@@ -83,8 +82,8 @@ PhongShader::PhongShader(bool LoadStaticShaderCode) :
 	if (!loaded)
 		throw std::exception();
     assignLocations();
-	
 }
+
 void PhongShader::assignLocations()
 {
     DiffuseColorLoc = glGetUniformLocation(ShaderProgram, "DiffuseColor");
@@ -109,11 +108,12 @@ void PhongShader::assignLocations()
 		ShadowMapMat[i].identity();
 	}
 }
+
 void PhongShader::activate(const BaseCamera& Cam) const
 {
     BaseShader::activate(Cam);
    
-    // update uniforms if necessary
+    //Update uniforms if necessary
     if(UpdateState&DIFF_COLOR_CHANGED)
         glUniform3f(DiffuseColorLoc, DiffuseColor.R, DiffuseColor.G, DiffuseColor.B);
     if(UpdateState&AMB_COLOR_CHANGED)
@@ -136,7 +136,7 @@ void PhongShader::activate(const BaseCamera& Cam) const
     if(UpdateState&LIGHT_POS_CHANGED)
         glUniform3f(LightPosLoc, LightPos.X, LightPos.Y, LightPos.Z);
 
-    // always update matrices
+    //Always update matrices
     Matrix ModelViewProj = Cam.getProjectionMatrix() * Cam.getViewMatrix() * modelTransform();
     glUniformMatrix4fv(ModelMatLoc, 1, GL_FALSE, modelTransform().m);
     glUniformMatrix4fv(ModelViewProjLoc, 1, GL_FALSE, ModelViewProj.m);
@@ -156,6 +156,7 @@ void PhongShader::activate(const BaseCamera& Cam) const
     
     UpdateState = 0x0;
 }
+
 void PhongShader::shadowMap(unsigned int slot, const Texture* pTex, const Matrix& Mtx)
 {
 	if (slot >= MaxLightCount)
@@ -164,31 +165,37 @@ void PhongShader::shadowMap(unsigned int slot, const Texture* pTex, const Matrix
 	ShadowMapTexture[slot] = pTex;
 	ShadowMapMat[slot] = Mtx;
 }
+
 void PhongShader::diffuseColor( const Color& c)
 {
     DiffuseColor = c;
     UpdateState |= DIFF_COLOR_CHANGED;
 }
+
 void PhongShader::ambientColor( const Color& c)
 {
     AmbientColor = c;
     UpdateState |= AMB_COLOR_CHANGED;
 }
+
 void PhongShader::specularColor( const Color& c)
 {
     SpecularColor = c;
     UpdateState |= SPEC_COLOR_CHANGED;
 }
+
 void PhongShader::specularExp( float exp)
 {
     SpecularExp = exp;
     UpdateState |= SPEC_EXP_CHANGED;
 }
+
 void PhongShader::lightPos( const Vector& pos)
 {
     LightPos = pos;
     UpdateState |= LIGHT_POS_CHANGED;
 }
+
 void PhongShader::lightColor(const Color& c)
 {
     LightColor = c;

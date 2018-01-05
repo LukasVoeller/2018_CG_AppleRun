@@ -14,10 +14,12 @@ AABB::AABB()
 {
     
 }
+
 AABB::AABB(const Vector& min, const Vector& max) : Min(min), Max(max)
 {
     
 }
+
 AABB::AABB(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) : Min(minX, minY, minZ), Max(maxX, maxY, maxZ)
 {
     
@@ -94,7 +96,6 @@ void AABB::fromPoints(const Vector* Points, unsigned int PointCount)
 		if (Max.Y < Points[i].Y) Max.Y = Points[i].Y;
 		if (Max.Z < Points[i].Z) Max.Z = Points[i].Z;
 	}
-
 }
 
 Vector AABB::center() const

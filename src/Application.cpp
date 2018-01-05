@@ -16,6 +16,11 @@
 #define GLFW_INCLUDE_GLEXT
 #include <GLFW/glfw3.h>
 #endif
+#ifdef WIN32
+#define ASSET_DIRECTORY "../../assets/"
+#else
+#define ASSET_DIRECTORY "../assets/"
+#endif
 
 #include "Application.h"
 #include "LinePlaneModel.h"
@@ -25,12 +30,6 @@
 #include "TriangleBoxModel.h"
 #include "Model.h"
 #include "ShaderLightMapper.h"
-
-#ifdef WIN32
-#define ASSET_DIRECTORY "../../assets/"
-#else
-#define ASSET_DIRECTORY "../assets/"
-#endif
 
 Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), pModel(NULL), ShadowGenerator(2048, 2048)
 {
@@ -42,18 +41,21 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), pModel(NU
     ConstantShader* pConstShader;
     PhongShader* pPhongShader;
     pPhongShader = new PhongShader();
+	Matrix m,s;
 	
 	//------------------------------ MODELS ------------------------------
-    pTank = new Tank();
-    pTank->shader(pPhongShader, true);
-    pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
-    Models.push_back( pTank );
+	pTank = new Tank();
+	pTank->shader(pPhongShader, true);
+	pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
+	//m = m.translation(0, 0, 0);
+	//pTank->transform(m);
+	Models.push_back( pTank );
     
-    pBarrier = new Model(ASSET_DIRECTORY "bunny.dae", false);
+    pBarrier = new Model(ASSET_DIRECTORY "buddha.dae", false);
     pBarrier->shader(new PhongShader(), false);
-    Matrix m;
-    m = m.translation(0, 0, -5);
-    pBarrier->transform(m);
+	m = m.translation(5, 0, 15);
+	s = s.scale(5);
+    pBarrier->transform(m*s);
 	Models.push_back(pBarrier);
 }
 
@@ -76,24 +78,25 @@ void Application::update(float dtime)
     //Jump
     getJump();
     pTank->steer3d(forwardBackward, leftRight, this->downForce);
-    if(pTank->getLatestPosition().Y < this->terrainHeight)
-    {
+    if(pTank->getLatestPosition().Y < this->terrainHeight){
         pTank->setIsInAir(false);
         this->downForce = 0.0f;
-    } else
+	} else {
         this->downForce += gravity * 0.1f;
-
+	}
+	
 	//Collision
     bool collision = collisionDetection(pTank, pBarrier);
-    if(collision)
-        pTank->steer(-1*forwardBackward, -1*leftRight);
+	if(collision){
+        pTank->steer(-1 * forwardBackward, -1 * leftRight);
+	}
 	
 	//Aiming
     double xpos, ypos;
     glfwGetCursorPos(pWindow, &xpos, &ypos);
     Vector pos = calc3DRay(xpos, ypos, pos);
     pTank->aim(pos);
-	
+
     pTank->update(deltaTime);
     Cam.update();
 	
@@ -102,11 +105,12 @@ void Application::update(float dtime)
 }
 
 //Vergangene Zeit seit letztem Aufruf der Methode
-double Application::calcDeltaTime() {
+double Application::calcDeltaTime()
+{
     double now = glfwGetTime();
     double deltaTime = (now - this->oldTime);
     this->oldTime = now;
-    if (this->oldTime == 0) {
+    if (this->oldTime == 0){
         return 1/60;	//1/60 = 60 frames per second
     }
     return deltaTime;
@@ -121,8 +125,7 @@ void Application::draw()
 	ShaderLightMapper::instance().activate();
     
     //Setup shaders and draw models
-    for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it )
-    {
+    for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it ){
         (*it)->draw(Cam);
     }
 	ShaderLightMapper::instance().deactivate();
@@ -134,9 +137,9 @@ void Application::draw()
 
 void Application::end()
 {
-    for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it )
+	for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it ){
         delete *it;
-    
+	}
     Models.clear();
 }
 
@@ -150,13 +153,14 @@ void Application::createScene()
 	pModel->shadowCaster(false);
 	Models.push_back(pModel);
 
-	pModel = new Model(ASSET_DIRECTORY "scene.dae", false);
+	pModel = new Model(ASSET_DIRECTORY "base.dae", false);
 	pModel->shader(new PhongShader(), true);
-	m.translation(10, 0, -10);
+	m.translation(30, 0, 0);
 	pModel->transform(m);
 	Models.push_back(pModel);
 
 	//------------------------------ LIGHTS ------------------------------
+	/*
 	Color c = Color(1.0f, 0.7f, 1.0f);
 	Vector a = Vector(1, 0, 0.1f);
 	float innerradius = 45;
@@ -254,6 +258,7 @@ void Application::createScene()
 	sl->innerRadius(innerradius);
 	sl->outerRadius(outerradius);
 	ShaderLightMapper::instance().addLight(sl);
+	 */
 }
 
 void Application::createNormalTestScene()
@@ -331,37 +336,38 @@ Vector Application::calc3DRay( float x, float y, Vector& Pos)
     return Pos + (direction * s);
 }
 
-float Application::getLeftRight() {
+float Application::getLeftRight()
+{
     float direction = 0.0f;
     //Strafe right
-    if ((glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_D ) == GLFW_PRESS)){
+	if ((glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_D ) == GLFW_PRESS)){
         direction -= 3.0f;
-    }
+	}
     //Strafe left
-    if ((glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_A ) == GLFW_PRESS)){
+	if ((glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_A ) == GLFW_PRESS)){
         direction += 3.0f;
-    }
+	}
     return direction;
 }
 
-float Application::getForwardBackward() {
+float Application::getForwardBackward()
+{
     float direction = 0.0f;
     //Move forward
-    if ((glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_W ) == GLFW_PRESS)){
+	if ((glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_W ) == GLFW_PRESS)){
         direction += 3.0f;
-    }
+	}
     //Move backward
-    if ((glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_S ) == GLFW_PRESS)){
+	if ((glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_S ) == GLFW_PRESS)){
         direction -= 3.0f;
-    }
+	}
     return direction;
 }
 
-void Application::getJump() {
-    if(!pTank->getIsInAir())
-    {
-        if (glfwGetKey(pWindow, GLFW_KEY_SPACE ) == GLFW_PRESS)
-        {
+void Application::getJump()
+{
+    if(!pTank->getIsInAir()){
+        if (glfwGetKey(pWindow, GLFW_KEY_SPACE ) == GLFW_PRESS){
             pTank->setIsInAir(true);
             this->downForce = pTank->getJumpPower();
         }

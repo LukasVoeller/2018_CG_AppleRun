@@ -31,7 +31,7 @@ public:
     virtual void draw(const BaseCamera& Cam);
     const AABB& boundingBox() const { return BoundingBox; }
     
-protected: // protected types
+protected:
     struct Mesh
     {
         Mesh()  {}
@@ -39,6 +39,7 @@ protected: // protected types
         IndexBuffer IB;
         int MaterialIdx;
     };
+	
     struct Material
     {
         Material() : DiffTex(NULL), NormalMap(NULL), DiffColor(1,1,1),SpecColor(0.3f,0.3f,0.3f), AmbColor(0,0,0), SpecExp(10) {}
@@ -49,6 +50,7 @@ protected: // protected types
         const Texture* DiffTex;
         const Texture* NormalMap;
     };
+	
     struct Node
     {
         Node() : Parent(NULL), Children(NULL), ChildCount(0), MeshCount(0), Meshes(NULL) {}
@@ -62,7 +64,7 @@ protected: // protected types
         std::string Name;
     };
     
-protected: // protected methods
+protected:
     void loadMeshes(const aiScene* pScene, bool FitSize);
     void loadMaterials(const aiScene* pScene);
     void calcBoundingBox( const aiScene* pScene, AABB& Box);
@@ -73,17 +75,16 @@ protected: // protected methods
     void applyMaterial( unsigned int index);
     void deleteNodes(Node* pNode);
     
-protected: // protected member variables
+protected:
     Mesh* pMeshes;
     unsigned int MeshCount;
     Material* pMaterials;
     unsigned int MaterialCount;
     AABB BoundingBox;
     
-    std::string Filepath; // stores pathname and filename
-    std::string Path; // stores path without filename
+    std::string Filepath;
+	std::string Path;
     Node RootNode;
-    
 };
 
 #endif /* Model_hpp */

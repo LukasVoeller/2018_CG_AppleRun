@@ -29,10 +29,9 @@ public:
 	void corners(Vector c[8]) const;
 	void fromPoints(const Vector* Points, unsigned int PointCount);
     static const AABB& unitBox();
+	
 protected:
     static AABB UnitBox;
 };
-
-
 
 #endif /* Aabb_hpp */

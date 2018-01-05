@@ -11,11 +11,11 @@
 #include "Texture.h"
 #include "Rgbimage.h"
 
-
 Framebuffer::Framebuffer() : m_FramebufferID(0), m_DepthTargetID(0), m_pTexture(NULL), m_Width(0), m_Height(0)
 {
     
 }
+
 Framebuffer::~Framebuffer()
 {
 
@@ -33,7 +33,7 @@ bool Framebuffer::create(bool CreateDepthTarget, unsigned int Width, unsigned in
     if( !CreateDepthTarget)
         return true;
      
-    // create and setup depth-renderbufer
+    //Create and setup depth-renderbufer
     glGenRenderbuffers(1, &m_DepthTargetID);
     glBindRenderbuffer( GL_RENDERBUFFER, m_DepthTargetID );
     glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, Width, Height );
@@ -42,15 +42,13 @@ bool Framebuffer::create(bool CreateDepthTarget, unsigned int Width, unsigned in
     GLenum Error = glGetError();
     assert(Error == GL_NO_ERROR);
     
-    // add depth-renderbuffer to framebuffer
+    //Add depth-renderbuffer to framebuffer
     glBindFramebuffer( GL_FRAMEBUFFER, m_FramebufferID);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_DepthTargetID);
     glBindFramebuffer( GL_FRAMEBUFFER, 0);
     
-    
     return true;
 }
-
 
 bool Framebuffer::attachColorTarget( const Texture& Tex)
 {
@@ -75,9 +73,8 @@ void Framebuffer::activate()
     glBindFramebuffer(GL_FRAMEBUFFER, m_FramebufferID);
     GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     assert(Status==GL_FRAMEBUFFER_COMPLETE);
-
-    
 }
+
 void Framebuffer::deactivate()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);

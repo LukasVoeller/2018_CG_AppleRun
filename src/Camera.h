@@ -41,10 +41,10 @@ public:
 	void setViewMatrix(const Matrix& m) { View = m;  }
 	void setProjectionMatrix(const Matrix& m) { Proj = m; }
 	virtual ~SimpleCamera() {};
+	
 protected:
 	Matrix View;
 	Matrix Proj;
-
 };
 
 class Camera : public BaseCamera
@@ -66,12 +66,13 @@ public:
     virtual void update();
     virtual const Matrix& getViewMatrix() const;
     virtual const Matrix& getProjectionMatrix() const;
+	
 protected:
     void updateMouseInput();
-    
+	void rotate( float x, float y );
     void pan( float dx, float dy);
     void zoom( float dz);
-    void rotate( float x, float y );
+	
     Vector getVSpherePos( float x, float y);
     Vector rotateAxisAngle( Vector v, Vector n, float a);
     
@@ -92,6 +93,5 @@ protected:
 private:
  
 };
-
 
 #endif /* defined(__RealtimeRending__Camera__) */

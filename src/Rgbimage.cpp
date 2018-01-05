@@ -57,38 +57,38 @@ unsigned char RGBImage::convertColorChannel( float v)
     return (unsigned char) (v*255);
 }
 
-/* save as 24bit-rgb-bmp (windows bitmap)
- * bmp is composed of a bitmapfileheader (14 byte), a bitmapinfoheader (40 byte) and imagedata (24 bit * size = 3 byte * size)
- * order: blue, green, red */
+//save as 24bit-rgb-bmp (windows bitmap)
+//bmp is composed of a bitmapfileheader (14 byte), a bitmapinfoheader (40 byte) and imagedata (24 bit * size = 3 byte * size)
+//order: blue, green, red */
 bool RGBImage::saveToDisk( const char* Filename)
 {
-    // TODO: fopen, fwrite, fclose
+    //TODO: fopen, fwrite, fclose
     FILE * file;
     unsigned int w = width();
     unsigned int h = height();
     int filesize = 14 + 40 + 3 * w * h; //in byte
     
-    // structure s.a https://de.wikipedia.org/wiki/Windows_Bitmap
+    //Structure s.a https://de.wikipedia.org/wiki/Windows_Bitmap
     unsigned char bmpfileheader[14] = {'B','M', 0,0,0,0, 0,0, 0,0, 54,0,0,0};
     unsigned char bmpinfoheader[40] = {40,0,0,0, 0,0,0,0, 0,0,0,0, 1,0,24,0};
     
-    // fill end of each line, so (width+padding)%4
+    //Fill end of each line, so (width+padding)%4
     unsigned char bmppad[3] = {0,0,0};
     
-    //filesize
+    //Filesize
     bmpfileheader[ 2] = (unsigned char)(filesize);
     bmpfileheader[ 3] = (unsigned char)(filesize>> 8);
     bmpfileheader[ 4] = (unsigned char)(filesize>>16);
     bmpfileheader[ 5] = (unsigned char)(filesize>>24);
     
-    //width in pixel
+    //Width in pixel
     bmpinfoheader[ 4] = (unsigned char)(w);
     bmpinfoheader[ 5] = (unsigned char)(w>> 8);
     bmpinfoheader[ 6] = (unsigned char)(w>>16);
     bmpinfoheader[ 7] = (unsigned char)(w>>24);
     
-    //amount(height) in pixel
-    //positiv = "bottom-up"-bitmap - negativ = "top-down"-bitmap
+    //Amount(height) in pixel
+    //Positiv = "bottom-up"-bitmap - negativ = "top-down"-bitmap
     bmpinfoheader[ 8] = (unsigned char)(h);
     bmpinfoheader[ 9] = (unsigned char)(h>> 8);
     bmpinfoheader[10] = (unsigned char)(h>>16);
@@ -103,8 +103,8 @@ bool RGBImage::saveToDisk( const char* Filename)
     fwrite(bmpfileheader, 1, 14, file);
     fwrite(bmpinfoheader, 1, 40, file);
     
-    //bilddata (size = w*h*3 + padding) for
-    // length of each row: a multible of 4 bytes
+    //Bilddata (size = w*h*3 + padding) for
+    //Length of each row: a multible of 4 bytes
     for(int i=h-1; i>=0; i--) //bottom-up
     {
         for (int j=0; j<w; j++)
@@ -119,8 +119,8 @@ bool RGBImage::saveToDisk( const char* Filename)
     {
         return false;
     }
+	
     return true;
-    
 }
 
 RGBImage& RGBImage::SobelFilter(RGBImage& dst, const RGBImage& src, float factor) {

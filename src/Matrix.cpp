@@ -32,6 +32,7 @@ Matrix::operator float*()
 {
     return m;
 }
+
 Matrix::operator const float* const()
 {
     return m;
@@ -43,6 +44,7 @@ Matrix Matrix::operator*(const Matrix& M) const
     Out.multiply(M);
     return Out;
 }
+
 Matrix& Matrix::operator*=(const Matrix& M)
 {
     multiply(M);
@@ -74,6 +76,7 @@ Vector Matrix::transformVec4x4( const Vector& v) const
     return Vector( X/W, Y/W, Z/W);
     
 }
+
 Vector Matrix::transformVec3x3( const Vector& v) const
 {
     float X = m00*v.X + m01*v.Y + m02*v.Z;
@@ -81,7 +84,6 @@ Vector Matrix::transformVec3x3( const Vector& v) const
     float Z = m20*v.X + m21*v.Y + m22*v.Z;
     return Vector( X, Y, Z);
 }
-
 
 bool Matrix::operator!=(const Matrix& M)
 {
@@ -171,6 +173,7 @@ Matrix& Matrix::multiply(const Matrix& M )
     *this = Tmp;
     return *this;
 }
+
 Matrix& Matrix::translation(float X, float Y, float Z )
 {
     m00= 1;	m01= 0;	m02= 0;	m03= X;
@@ -179,10 +182,12 @@ Matrix& Matrix::translation(float X, float Y, float Z )
     m30= 0;	m31= 0;	m32= 0;	m33= 1;
     return *this;
 }
+
 Matrix& Matrix::translation(const Vector& XYZ )
 {
     return translation(XYZ.X, XYZ.Y, XYZ.Z);
 }
+
 Matrix& Matrix::rotationX(float Angle )
 {
     m00= 1;	m01= 0;	m02= 0;	m03= 0;
@@ -196,6 +201,7 @@ Matrix& Matrix::rotationX(float Angle )
     
     return *this;
 }
+
 Matrix& Matrix::rotationY(float Angle )
 {
             m01= 0;         m03= 0;
@@ -209,6 +215,7 @@ Matrix& Matrix::rotationY(float Angle )
     
     return *this;
 }
+
 Matrix& Matrix::rotationZ(float Angle )
 {
                     m02= 0;	m03= 0;
@@ -222,6 +229,7 @@ Matrix& Matrix::rotationZ(float Angle )
     
     return *this;
 }
+
 Matrix& Matrix::rotationYawPitchRoll( float Yaw, float Pitch, float Roll )
 {
     float cosx = cos(Pitch);
@@ -252,11 +260,13 @@ Matrix& Matrix::rotationYawPitchRoll( float Yaw, float Pitch, float Roll )
     
     return *this;
 }
+
 Matrix& Matrix::rotationYawPitchRoll(const Vector& Angles )
 {
     rotationYawPitchRoll(Angles.X, Angles.Y, Angles.Z);
     return *this;
 }
+
 Matrix& Matrix::rotationAxis(const Vector& Axis, float Angle)
 {
     const float Si = sin(Angle);
@@ -287,6 +297,7 @@ Matrix& Matrix::rotationAxis(const Vector& Axis, float Angle)
     
     return *this;
 }
+
 Matrix& Matrix::scale(float ScaleX, float ScaleY, float ScaleZ )
 {
     m00= ScaleX;	m01= 0;			m02= 0;			m03= 0;
@@ -296,16 +307,19 @@ Matrix& Matrix::scale(float ScaleX, float ScaleY, float ScaleZ )
     
     return *this;
 }
+
 Matrix& Matrix::scale(const Vector& Scalings )
 {
     scale( Scalings.X, Scalings.Y, Scalings.Z);
     return *this;
 }
+
 Matrix& Matrix::scale(float Scaling )
 {
     scale(Scaling, Scaling, Scaling);
     return *this;
 }
+
 Matrix& Matrix::identity()
 {
     m00= 1;	m01= 0;	m02= 0;	m03= 0;
@@ -314,6 +328,7 @@ Matrix& Matrix::identity()
     m30= 0;	m31= 0;	m32= 0;	m33= 1;
     return *this;
 }
+
 Matrix& Matrix::transpose()
 {
     Matrix Tmp(
@@ -324,6 +339,7 @@ Matrix& Matrix::transpose()
     *this = Tmp;
     return *this;
 }
+
 Matrix& Matrix::invert()
 {
     const float num5 = m00;
@@ -383,6 +399,7 @@ Matrix& Matrix::invert()
     m33 = (((num5 * num27) - (num4 * num25)) + (num3 * num24)) * num;
     return *this;
 }
+
 Matrix& Matrix::lookAt(const Vector& Target, const Vector& Up, const Vector& Position )
 {
     Vector f = Target-Position;
@@ -398,6 +415,7 @@ Matrix& Matrix::lookAt(const Vector& Target, const Vector& Up, const Vector& Pos
     m30 = 0;     m31 = 0;     m32 = 0;     m33 = 1;
     return *this;
 }
+
 Matrix& Matrix::perspective(float Fovy, float AspectRatio, float NearPlane, float FarPlane )
 {
     assert(NearPlane<FarPlane);
@@ -417,6 +435,7 @@ Matrix& Matrix::perspective(float Fovy, float AspectRatio, float NearPlane, floa
     m23 = 2.0f*FarPlane*NearPlane/NearMinusFar;
     return *this;
 }
+
 Matrix& Matrix::orthographic(float Width, float Height, float Near, float Far )
 {
     float FMN = 1.0f/(Far-Near);
@@ -426,6 +445,7 @@ Matrix& Matrix::orthographic(float Width, float Height, float Near, float Far )
     m30 = 0.0f;         m31 = 0.0f;         m32 = 0.0f;      m33 = 1.0f;
     return *this;
 }
+
 float Matrix::determinat()
 {
     return	m00 * (m11 * m22 - m12 * m21) -
@@ -443,8 +463,3 @@ std::string Matrix::matrixToString()
     return "Test";
     //return "Matrix\n" + m00 + " " + m01 + " " + m02 + " " + m03 + "\n" + m10 + " " + m11 + " " + m12 + " " + m13 + "\n" + m20 + " " + m21 + " " + m22 + " " + m23 + "\n" + m30 + " " + m31 + " " + m32 + " " + m33 + "\n";
 }
-
-
-
-
-

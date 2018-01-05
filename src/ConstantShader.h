@@ -26,7 +26,6 @@
 #include "Camera.h"
 #include "BaseShader.h"
 
-
 class ConstantShader : public BaseShader
 {
 public:
@@ -34,12 +33,12 @@ public:
     void color( const Color& c);
     const Color& color() const { return Col; }
     virtual void activate(const BaseCamera& Cam) const;
+	
 private:
     Color Col;
     GLuint ShaderProgram;
     GLint ColorLoc;
     GLint ModelViewProjLoc;
-    
 };
 
 #endif /* ConstantShader_hpp */

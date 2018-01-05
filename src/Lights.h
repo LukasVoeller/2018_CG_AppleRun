@@ -40,6 +40,7 @@ protected:
 
 class PointLight : public BaseLight
 {
+	
 public:
 	PointLight(const Vector& p = Vector(10, 10, 10), const Color& c = ::Color(1, 1, 1)) : BaseLight(p,c) {}
 	virtual ~PointLight() {}
@@ -49,6 +50,7 @@ public:
 
 class DirectionalLight : public BaseLight
 {
+	
 public:
 	DirectionalLight(const Vector& d = Vector(-1, -1, -1), const Color& c = ::Color(1, 1, 1)) : BaseLight(Vector(10,10,10), c), Direction(d) {}
 	virtual ~DirectionalLight() {}
@@ -64,6 +66,7 @@ protected:
 
 class SpotLight : public BaseLight
 {
+	
 public:
 	SpotLight(const Vector& p = Vector(10, 10, 10), const Vector& d = Vector(-1, -1, -1), float InnerRadius = 30.0, float OuterRadius = 40.0f, const Color& c = ::Color(1, 1, 1)) : BaseLight(p, c), Direction(d), InnerRadius(InnerRadius), OuterRadius(OuterRadius) {}
 	virtual ~SpotLight() {}
@@ -84,7 +87,5 @@ protected:
 	float OuterRadius;
 	Vector Direction;
 };
-
-
 
 #endif

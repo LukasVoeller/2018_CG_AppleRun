@@ -8,7 +8,6 @@
 
 #include "TrianglePlaneModel.h"
 
-
 TrianglePlaneModel::TrianglePlaneModel( float DimX, float DimZ, int NumSegX, int NumSegZ )
 {
     ++NumSegX; ++NumSegZ;
@@ -17,7 +16,7 @@ TrianglePlaneModel::TrianglePlaneModel( float DimX, float DimZ, int NumSegX, int
     float stepx = DimX/(float)(NumSegX-1);
     float stepz = DimZ/(float)(NumSegZ-1);
 
-    // 1. setup vertex buffer
+    //1. setup vertex buffer
     VB.begin();
     for( int i=0; i<NumSegZ; i++)
         for( int j=0; j<NumSegX; j++)
@@ -40,18 +39,18 @@ TrianglePlaneModel::TrianglePlaneModel( float DimX, float DimZ, int NumSegX, int
         }
     VB.end();
     
-    // 2. setup index buffer
+    //2. setup index buffer
     IB.begin();
     for( int i=0; i<NumSegZ-1; i++)
         for( int j=0; j<NumSegX-1; j++)
         {
-            // first triangle
+            //First triangle
             unsigned int idx = i*NumSegX +j;
             IB.addIndex(idx + NumSegX);
             IB.addIndex(idx+1);
             IB.addIndex(idx);
             
-            // second triangle
+            //Second triangle
             IB.addIndex( (idx+1) + NumSegX );
             IB.addIndex( idx+1 );
             IB.addIndex( idx + NumSegX );
@@ -70,5 +69,4 @@ void TrianglePlaneModel::draw( const BaseCamera& Cam )
     
     IB.deactivate();
     VB.deactivate();
-    
 }

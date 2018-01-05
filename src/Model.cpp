@@ -22,7 +22,7 @@ Model::Model() : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
 
 Model::Model(const char* ModelFile, bool FitSize) : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
 {
-    // Changed from load(ModelFile) to load(ModelFile, FitSize)
+    //Changed from load(ModelFile) to load(ModelFile, FitSize)
     bool ret = load(ModelFile, FitSize);
     if(!ret)
         throw std::exception();
@@ -72,7 +72,7 @@ bool Model::load(const char* ModelFile, bool FitSize)
 
 void Model::loadMeshes(const aiScene* pScene, bool FitSize)
 {
-    // TODO: Lädt die	Meshes	(Polygonale	Modelle)	aus	aiScene::mMeshes in Model::pMeshes (und	MeshCount).	Hierfür	müssen	passende	Vertex- und Indexbuffer	erzeugt	werden	(Position,	Normale	&	UV-Texturkoordinaten soweit	vorhanden).
+    //TODO: Lädt die	Meshes	(Polygonale	Modelle)	aus	aiScene::mMeshes in Model::pMeshes (und	MeshCount).	Hierfür	müssen	passende Vertex- und Indexbuffer	erzeugt	werden	(Position,	Normale	&	UV-Texturkoordinaten soweit	vorhanden).
     
     this->MeshCount = pScene->mNumMeshes;
     this->pMeshes = new Mesh[pScene->mNumMeshes];
@@ -86,7 +86,7 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
     float factor = 1.0f;
     
     if (FitSize) {
-        // Wenn	FitSize auf	true gesetzt wurde,	soll das Mesh so skaliert werden, dass es eine sinnvolle Größe hat (z. B. 5x5x5 Einheiten o. ähnliches).
+        //Wenn	FitSize auf	true gesetzt wurde,	soll das Mesh so skaliert werden, dass es eine sinnvolle Größe hat (z. B. 5x5x5 Einheiten o. ähnliches).
         Vector size = BoundingBox.size();
         float maxLength = fmax(size.X, fmax(size.Y, size.Z));
         factor = 4/maxLength;
@@ -152,11 +152,10 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
     }
 }
 
-/* Lädt	die	Materialeinstellungen	von	Assimp	in	Model::pMaterials (und MaterialCount).
- * Hierfür	müssen	die	passenden	Material-Keys	von	Assimp abgefragt	werden	(aiGetMaterialColor &	aiGetMaterialString für Texturnamen).
- * Zum	Laden	von	Texturen	können	Sie	auf	die	Member-Variable	Path zugreifen, die	den	Pfad	zur	Modell-Datei	enthält.	Texturen	können	Sie	mit
- * Hilfe	der	Funktion	Texture::loadShared(...)	laden.
- */
+//Lädt die	Materialeinstellungen von Assimp in	Model::pMaterials (und MaterialCount).
+//Hierfür müssen die passenden Material-Keys von Assimp abgefragt werden (aiGetMaterialColor & aiGetMaterialString für Texturnamen).
+//Zum Laden von	Texturen können	Sie auf	die	Member-Variable	Path zugreifen, die	den	Pfad zur Modell-Datei enthält. Texturen können Sie mit
+//Hilfe	der	Funktion Texture::loadShared(...) laden.
 void Model::loadMaterials(const aiScene* pScene)
 {
     if(pScene->HasMaterials()) {
@@ -181,7 +180,7 @@ void Model::loadMaterials(const aiScene* pScene)
             currentMat->Get(AI_MATKEY_COLOR_SPECULAR, spec);
             currentMat->Get(AI_MATKEY_SHININESS, specExp);
             
-            //geladene Daten in pMaterials speichern
+            //Geladene Daten in pMaterials speichern
             Material& mat = pMaterials[i];
             
             mat.DiffColor = Color(dif.r, dif.g, dif.b);
@@ -191,57 +190,49 @@ void Model::loadMaterials(const aiScene* pScene)
             
             //Texturen laden
             //std::string texturePath = this->Path;
-            
             aiString texturePath;
             aiReturn textureFound = currentMat->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath);
-            
             unsigned int numTextures= currentMat->GetTextureCount(aiTextureType_DIFFUSE);
-            
-
+			
             if(numTextures > 0 && textureFound == AI_SUCCESS) {
-                
                 aiString fullPath;
-                // Pfad der Normal Map
-                // Texturpfad kopieren
+                //Pfad der Normal Map
+                //Texturpfad kopieren
                 std::string normalMapPath = texturePath.C_Str();
-                // Index des letzten Punktes finden
+                //Index des letzten Punktes finden
                 std::size_t dotIndex = normalMapPath.find_last_of(".");
-                // _n vor dem letzten Einfuegen
+                //_n vor dem letzten Einfuegen
                 normalMapPath.insert(dotIndex, "_n");
                 
-                // Diffuse-Textur
-                // Pfad erstellen
+                //Diffuse-Textur
+                //Pfad erstellen
                 fullPath.Set(this->Path);
                 fullPath.Append(texturePath.C_Str());
-                // Laden der Diffuse-Textur
+                //Laden der Diffuse-Textur
                 pMaterials[i].DiffTex = pMaterials[i].DiffTex->LoadShared(fullPath.C_Str());
                 
-                // Normal-Map
-                // Pfad erstellen
+                //Normal-Map
+                //Pfad erstellen
                 fullPath.Set(this->Path);
                 fullPath.Append(normalMapPath.c_str());
-                // Laden der Normal-Map
-                // Pruefen, ob Datei existiert
+                //Laden der Normal-Map
+                //Pruefen, ob Datei existiert
                 std::ifstream file(fullPath.C_Str());
                 if (file.good()) {
                     // Falls Datei existiert, versuchen, diese zu laden
                     std::cout << "Loading NormalMap: " << normalMapPath << std::endl;
                     pMaterials[i].NormalMap = pMaterials[i].NormalMap->LoadShared(fullPath.C_Str());
                 }
-                // fstream schliessen
+                //fstream schliessen
                 file.close();
-
             }
         }
     }
 }
 
-/**
- *  (Kleinste) achsenausgerichtete Box berechnen, die das Modell komplett umschließt
- */
+//(Kleinste) achsenausgerichtete Box berechnen, die das Modell komplett umschließt
 void Model::calcBoundingBox(const aiScene* pScene, AABB& Box)
 {
-    // TODO: Add your code (Exercise 3)
     for (int i = 0; i < pScene->mNumMeshes; ++i) {
         aiMesh* mesh = pScene->mMeshes[i];
         
@@ -357,6 +348,3 @@ Matrix Model::convert(const aiMatrix4x4& m)
                   m.c1, m.c2, m.c3, m.c4,
                   m.d1, m.d2, m.d3, m.d4);
 }
-
-
-

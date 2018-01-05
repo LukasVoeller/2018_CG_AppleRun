@@ -12,9 +12,10 @@
 
 void PrintOpenGLVersion();
 
-int main () {
+int main ()
+{
     FreeImage_Initialise();
-    // start GL context and O/S window using the GLFW helper library
+    //Start GL context and O/S window using the GLFW helper library
     if (!glfwInit ()) {
         fprintf (stderr, "ERROR: could not start GLFW3\n");
         return 1;
@@ -29,12 +30,6 @@ int main () {
     
     const int WindowWidth = 800;
     const int WindowHeight = 600;
-    
-    // vorwärts kompatibilität herstellen, first responder error
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
     GLFWwindow* window = glfwCreateWindow (WindowWidth, WindowHeight, "Computergrafik - Hochschule Osnabrück", NULL, NULL);
     if (!window) {
@@ -74,9 +69,8 @@ int main () {
 
 void PrintOpenGLVersion()
 {
-    // get version info
-    const GLubyte* renderer = glGetString (GL_RENDERER);    // get renderer string
-    const GLubyte* version = glGetString (GL_VERSION);      // version as a string
+    const GLubyte* renderer = glGetString (GL_RENDERER);
+    const GLubyte* version = glGetString (GL_VERSION);
     printf ("Renderer: %s\n", renderer);
     printf ("OpenGL version supported %s\n", version);
 }

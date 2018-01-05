@@ -4338,100 +4338,100 @@
   </library_lights>
   <library_images>
     <image id="concrete_1_tga">
-      <init_from>../Downloads/maps/concrete_1.tga</init_from>
+      <init_from>file://base_tex/concrete_1.tga</init_from>
     </image>
     <image id="concrete_2_tga">
-      <init_from>../Downloads/maps/concrete_2.tga</init_from>
+      <init_from>file://base_tex/concrete_2.tga</init_from>
     </image>
     <image id="concrete_3_tga">
-      <init_from>../Downloads/maps/concrete_3.tga</init_from>
+      <init_from>file://base_tex/concrete_3.tga</init_from>
     </image>
     <image id="concrete_4_tga">
-      <init_from>../Downloads/maps/concrete_4.tga</init_from>
+      <init_from>file://base_tex/concrete_4.tga</init_from>
     </image>
     <image id="concrete_building_tga">
-      <init_from>../Downloads/maps/concrete_building.tga</init_from>
+      <init_from>file://base_tex/concrete_building.tga</init_from>
     </image>
     <image id="concrete_building_1_tga">
-      <init_from>../Downloads/maps/concrete_building_1.tga</init_from>
+      <init_from>file://base_tex/concrete_building_1.tga</init_from>
     </image>
     <image id="concrete_building_2_tga">
-      <init_from>../Downloads/maps/concrete_building_2.tga</init_from>
+      <init_from>file://base_tex/concrete_building_2.tga</init_from>
     </image>
     <image id="concrete_building_damage_tga">
-      <init_from>../Downloads/maps/concrete_building_damage.tga</init_from>
+      <init_from>file://base_tex/concrete_building_damage.tga</init_from>
     </image>
     <image id="door_1_tga">
-      <init_from>../Downloads/maps/door_1.tga</init_from>
+      <init_from>file://base_tex/door_1.tga</init_from>
     </image>
     <image id="door_2_tga">
-      <init_from>../Downloads/maps/door_2.tga</init_from>
+      <init_from>file://base_tex/door_2.tga</init_from>
     </image>
     <image id="explosions_1_tga">
-      <init_from>../Downloads/maps/explosions_1.tga</init_from>
+      <init_from>file://base_tex/explosions_1.tga</init_from>
     </image>
     <image id="explosions_2_tga">
-      <init_from>../Downloads/maps/explosions_2.tga</init_from>
+      <init_from>file://base_tex/explosions_2.tga</init_from>
     </image>
     <image id="grass_tga">
-      <init_from>../Downloads/maps/grass.tga</init_from>
+      <init_from>file://base_tex/grass.tga</init_from>
     </image>
     <image id="ground_tga">
-      <init_from>../Downloads/maps/ground.tga</init_from>
+      <init_from>file://base_tex/ground.tga</init_from>
     </image>
     <image id="ground2grass_h_tga">
-      <init_from>../Downloads/maps/ground2grass_h.tga</init_from>
+      <init_from>file://base_tex/ground2grass_h.tga</init_from>
     </image>
     <image id="ground2grass_v_tga">
-      <init_from>../Downloads/maps/ground2grass_v.tga</init_from>
+      <init_from>file://base_tex/ground2grass_v.tga</init_from>
     </image>
     <image id="ground2grass_v2h_tga">
-      <init_from>../Downloads/maps/ground2grass_v2h.tga</init_from>
+      <init_from>file://base_tex/ground2grass_v2h.tga</init_from>
     </image>
     <image id="ground2grass_v2h_2_tga">
-      <init_from>../Downloads/maps/ground2grass_v2h_2.tga</init_from>
+      <init_from>file://base_tex/ground2grass_v2h_2.tga</init_from>
     </image>
     <image id="ground_2_tga">
-      <init_from>../Downloads/maps/ground_2.tga</init_from>
+      <init_from>file://base_tex/ground_2.tga</init_from>
     </image>
     <image id="ground_3_tga">
-      <init_from>../Downloads/maps/ground_3.tga</init_from>
+      <init_from>file://base_tex/ground_3.tga</init_from>
     </image>
     <image id="ground_4_tga">
-      <init_from>../Downloads/maps/ground_4.tga</init_from>
+      <init_from>file://base_tex/ground_4.tga</init_from>
     </image>
     <image id="metal_tga">
-      <init_from>../Downloads/maps/metal.tga</init_from>
+      <init_from>file://base_tex/metal.tga</init_from>
     </image>
     <image id="metal_2_tga">
-      <init_from>../Downloads/maps/metal_2.tga</init_from>
+      <init_from>file://base_tex/metal_2.tga</init_from>
     </image>
     <image id="plate_normal_tga">
-      <init_from>../Downloads/maps/plate_normal.tga</init_from>
+      <init_from>file://base_tex/plate_normal.tga</init_from>
     </image>
     <image id="plate_rusty_tga">
-      <init_from>../Downloads/maps/plate_rusty.tga</init_from>
+      <init_from>file://base_tex/plate_rusty.tga</init_from>
     </image>
     <image id="power_s_tga">
-      <init_from>../Downloads/maps/power_s.tga</init_from>
+      <init_from>file://base_tex/power_s.tga</init_from>
     </image>
     <image id="rocks_tga">
-      <init_from>../Downloads/maps/rocks.tga</init_from>
+      <init_from>file://base_tex/rocks.tga</init_from>
     </image>
     <image id="rocks2grass_tga">
-      <init_from>../Downloads/maps/rocks2grass.tga</init_from>
+      <init_from>file://base_tex/rocks2grass.tga</init_from>
     </image>
     <image id="rocks2ground_tga">
-      <init_from>../Downloads/maps/rocks2ground.tga</init_from>
+      <init_from>file://base_tex/rocks2ground.tga</init_from>
     </image>
     <image id="rocks_2_tga">
-      <init_from>../Downloads/maps/rocks_2.tga</init_from>
+      <init_from>file://base_tex/rocks_2.tga</init_from>
     </image>
     <image id="text_tga">
-      <init_from>../Downloads/maps/text.tga</init_from>
+      <init_from>file://base_tex/text.tga</init_from>
     </image>
     <image id="tunnel_wall_tga">
-      <init_from>../Downloads/maps/tunnel_wall.tga</init_from>
+      <init_from>file://base_tex/tunnel_wall.tga</init_from>
     </image>
   </library_images>
   <library_visual_scenes>

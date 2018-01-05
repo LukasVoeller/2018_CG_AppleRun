@@ -27,9 +27,9 @@ public:
 	void deactivate();
 	static ShaderLightMapper& instance();
 	GLuint uniformBlockID() { return UBO;  }
+	
 protected:
-	struct ShaderLight
-	{
+	struct ShaderLight{
 		int Type; Vector padding5;
 		Color Color; float padding0;
 		Vector Position; float padding1;
@@ -37,15 +37,14 @@ protected:
 		Vector Attenuation; float padding3;
 		Vector SpotRadius;
 		int ShadowIndex;
-
 	};
 
-	struct ShaderLightBlock
-	{
+	struct ShaderLightBlock{
 		int LightCount; Vector padding0;
 		ShaderLight lights[MaxLightCount];
 
 	};
+	
 protected:
 	ShaderLightMapper();
 	ShaderLightMapper(const ShaderLightMapper& m) {}

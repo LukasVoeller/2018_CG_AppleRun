@@ -38,5 +38,4 @@ protected:
 	ShadowMapShader Shader;
 };
 
-
 #endif

@@ -32,7 +32,7 @@ class PhongShader : public BaseShader
 {
 public:
     PhongShader(bool LoadStaticShaderCode=true);
-    // setter
+    //Setter
     void diffuseColor( const Color& c);
     void ambientColor( const Color& c);
     void specularColor( const Color& c);
@@ -42,7 +42,7 @@ public:
     void lightPos( const Vector& pos);
     void lightColor(const Color& c);
 	void shadowMap(unsigned int slot, const Texture* pTex, const Matrix& Mtx);
-    //getter
+    //Getter
     const Color& diffuseColor() const { return DiffuseColor; }
     const Color& ambientColor() const { return AmbientColor; }
     const Color& specularColor() const { return SpecularColor; }
@@ -53,8 +53,10 @@ public:
     const Color& lightColor() const { return LightColor; }
 
     virtual void activate(const BaseCamera& Cam) const;
+	
 protected:
     void assignLocations();
+	
 private:
     Color DiffuseColor;
     Color SpecularColor;
@@ -94,7 +96,6 @@ private:
         DIFF_TEX_CHANGED = 1<<6,
 		NORM_TEX_CHANGED = 1<<7
     };
-    
 };
 
 #endif /* PhongShader_hpp */

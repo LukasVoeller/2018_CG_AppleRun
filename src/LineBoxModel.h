@@ -19,6 +19,7 @@ public:
     LineBoxModel( float Width=1, float Height=1, float Depth=1 );
     virtual ~LineBoxModel() {}
     virtual void draw(const BaseCamera& Cam);
+	
 protected:
     VertexBuffer VB;
     

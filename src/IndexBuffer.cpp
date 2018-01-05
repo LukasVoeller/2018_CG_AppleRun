@@ -61,12 +61,9 @@ void IndexBuffer::end()
     }
     else
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, Indices.size()*sizeof(unsigned int), &Indices[0], GL_STATIC_DRAW);
-    
-
+	
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     WithinBeginAndEnd = false;
-    
-    
 }
 
 void IndexBuffer::activate()

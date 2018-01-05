@@ -1,2 +1,2 @@
 # CG_2017_Abschlussarbeit
-A 3D game created with OpenGL.
+A 3D game created with OpenGL, GLFW and Assimp.

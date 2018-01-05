@@ -43,6 +43,7 @@ TriangleSphereModel::TriangleSphereModel( float Radius, int Stacks, int Slices )
     
     IB.end();
 }
+
 void TriangleSphereModel::draw(const BaseCamera& Cam)
 {
     BaseModel::draw(Cam);
