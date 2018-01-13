@@ -8,24 +8,22 @@
 
 #include "EgoCam.h"
 
-void EgoCam::update()
-{
+void EgoCam::update() {
 	
 }
 
-const Matrix& EgoCam::getViewMatrix() const
-{
+const Matrix& EgoCam::getViewMatrix() const {
 	return View;
 }
 
-const Matrix& EgoCam::getProjectionMatrix() const
-{
+const Matrix& EgoCam::getProjectionMatrix() const {
 	return Proj;
 }
 
-Vector EgoCam::position() const
-{
+Vector EgoCam::position() const {
 	Matrix InvView = View;
 	InvView.invert();
+	
 	return InvView.translation();
 }
+

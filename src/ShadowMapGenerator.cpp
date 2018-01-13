@@ -13,9 +13,9 @@
 ShadowMapShader::ShadowMapShader()
 {
 	bool loaded = load(ASSET_DIRECTORY"vsdepth.glsl", ASSET_DIRECTORY"fsdepth.glsl");
-    if (!loaded)
+	if (!loaded)
 		throw std::exception();
-    
+	
 	EyePosLoc = getParameterID("EyePos");
 	//assert(EyePosLoc != -1);
 	ModelMatLoc = getParameterID("ModelMat");
@@ -31,7 +31,7 @@ void ShadowMapShader::activate(const BaseCamera& Cam) const
 	Matrix ModelViewProj = Cam.getProjectionMatrix() * Cam.getViewMatrix() * modelTransform();
 	setParameter(ModelMatLoc, modelTransform());
 	setParameter(ModelViewProjMatLoc, ModelViewProj);
-
+	
 	Vector EyePos = Cam.position();
 	setParameter(EyePosLoc, EyePos);
 }
@@ -44,7 +44,7 @@ ShadowMapGenerator::ShadowMapGenerator(unsigned int ShadowMapWidth, unsigned int
 		if (!created)
 			throw std::exception();
 	}
-
+	
 	bool created = FrameBuffer.create(true, ShadowMapWidth, ShadowMapHeight);
 	if (!created)
 		throw std::exception();
@@ -52,17 +52,17 @@ ShadowMapGenerator::ShadowMapGenerator(unsigned int ShadowMapWidth, unsigned int
 
 ShadowMapGenerator::~ShadowMapGenerator()
 {
-
+	
 }
 
 Matrix ShadowMapGenerator::calcProjection(BaseLight* pLight, const AABB& BBox, const Matrix& View ) const
 {
 	assert(pLight->type() != BaseLight::POINT);
 	Matrix Proj;
-
+	
 	Matrix InvView = View;
 	InvView.invert();
-
+	
 	if (pLight->type() == BaseLight::SPOT)
 	{
 		SpotLight* sp = dynamic_cast<SpotLight*>(pLight);
@@ -73,13 +73,13 @@ Matrix ShadowMapGenerator::calcProjection(BaseLight* pLight, const AABB& BBox, c
 		Vector v[8];
 		BBox.corners(v);
 		float MaxU=-1e6, MaxV=-1e6;
-
+		
 		for (int i = 0; i < 8; ++i)
 		{
 			Vector p = v[i] - InvView.translation();
 			float u = fabs(p.dot(InvView.right()));
 			float v = fabs(p.dot(InvView.up()));
-
+			
 			if (u > MaxU)
 				MaxU = u;
 			if (v > MaxV)
@@ -87,7 +87,7 @@ Matrix ShadowMapGenerator::calcProjection(BaseLight* pLight, const AABB& BBox, c
 		}
 		Proj.orthographic(MaxU * 2 +0.1f, MaxV * 2 + 0.1f, 0.001f, BBox.size().length() + 5.0f);
 	}
-
+	
 	return Proj;
 }
 
@@ -95,12 +95,12 @@ Matrix ShadowMapGenerator::calcView(BaseLight* pLight, const AABB& BBox) const
 {
 	assert(pLight->type() != BaseLight::POINT);
 	Matrix view;
-
+	
 	if (pLight->type() == BaseLight::SPOT)
 	{
 		SpotLight* sp = dynamic_cast<SpotLight*>(pLight);
 		view.lookAt(sp->position() + sp->direction(), Vector(0, 1, 0), sp->position());
-
+		
 	}
 	else if (pLight->type() == BaseLight::DIRECTIONAL)
 	{
@@ -111,7 +111,7 @@ Matrix ShadowMapGenerator::calcView(BaseLight* pLight, const AABB& BBox) const
 		view.lookAt(Pos + dl->direction(), Vector(0, 1, 0), Pos);
 		dl->position(Pos);
 	}
-
+	
 	return view;
 }
 
@@ -124,7 +124,7 @@ AABB ShadowMapGenerator::calcSceneBoundingBox(std::list<BaseModel*>& Models) con
 	BaseModel* FirstModel = *Models.begin();
 	OverallBox = FirstModel->boundingBox().transform(FirstModel->transform());
 	bool ShadowCasterFound = false;
-
+	
 	for (BaseModel* pModel : Models)
 	{
 		if (pModel->shadowCaster())
@@ -137,10 +137,10 @@ AABB ShadowMapGenerator::calcSceneBoundingBox(std::list<BaseModel*>& Models) con
 			ShadowCasterFound = true;
 		}
 	}
-
+	
 	if(!ShadowCasterFound)
 		return AABB(Vector(-5, -5, -5), Vector(5, 5, 5));
-
+	
 	return OverallBox;
 }
 
@@ -151,7 +151,7 @@ bool ShadowMapGenerator::shadowCasterInScene() const
 		if (pLight->castShadows()) 
 			return true;
 	}
-
+	
 	return false;
 }
 
@@ -159,7 +159,7 @@ void ShadowMapGenerator::generate(std::list<BaseModel*>& Models)
 {
 	if (!shadowCasterInScene())
 		return;
-
+	
 	AABB SceneBoundingBox = calcSceneBoundingBox(Models);
 	int ShadowMapCount = 0;
 	
@@ -167,14 +167,14 @@ void ShadowMapGenerator::generate(std::list<BaseModel*>& Models)
 	{
 		if (!pLight->castShadows())
 			continue;
-
+		
 		Matrix View = calcView(pLight, SceneBoundingBox);
 		Matrix Proj = calcProjection(pLight, SceneBoundingBox, View);
-
+		
 		ShadowCams[ShadowMapCount].setViewMatrix(View);
 		ShadowCams[ShadowMapCount++].setProjectionMatrix(Proj);
 	}
-
+	
 	glClearColor(1.0f, 0.0, 0.0f, 1);
 	glCullFace(GL_FRONT);
 	GLint PrevViewport[4];

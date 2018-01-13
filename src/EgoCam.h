@@ -12,8 +12,7 @@
 #include <stdio.h>
 #include "Camera.h"
 
-class EgoCam : public BaseCamera
-{
+class EgoCam : public BaseCamera {
 public:
 	EgoCam(GLFWwindow* pWin) : Window(pWin) {}
 	virtual void update();
@@ -31,3 +30,4 @@ protected:
 };
 
 #endif /* EgoCam_hpp */
+
