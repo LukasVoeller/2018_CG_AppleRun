@@ -24,9 +24,9 @@ class ShadowMapGenerator
 public:
 	ShadowMapGenerator(unsigned int ShadowMapWidth=1024, unsigned int ShadowMapHeight=1024);
 	~ShadowMapGenerator();
-
+	
 	void generate(std::list<BaseModel*>& Models);
-
+	
 protected:
 	Matrix calcProjection(BaseLight* pLight, const AABB& BBox, const Matrix& View) const;
 	Matrix calcView(BaseLight* pLight, const AABB& BBox) const;

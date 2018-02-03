@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "417"
             endingLineNumber = "417"
-            landmarkName = "Application::collisionDetection(Tank* model1, Model* model2)"
+            landmarkName = "Application::Application(GLFWwindow* pWin)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "113"
             endingLineNumber = "113"
-            landmarkName = "Application::update(float dtime)"
+            landmarkName = "Application::Application(GLFWwindow* pWin)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "418"
             endingLineNumber = "418"
-            landmarkName = "Application::collisionDetection(Tank* model1, Model* model2)"
+            landmarkName = "Application::Application(GLFWwindow* pWin)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

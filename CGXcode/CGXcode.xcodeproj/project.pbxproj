@@ -9,36 +9,36 @@
 /* Begin PBXBuildFile section */
 		8040FAD81FFF76FA004B3A5C /* libassimp.4.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */; };
 		8040FADA1FFF7703004B3A5C /* libfreeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD91FFF7703004B3A5C /* libfreeimage.a */; };
-		8040FADC1FFF770C004B3A5C /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */; };
-		80D316A71FEBE2E50079DD72 /* Rgbimage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316741FEBE2DF0079DD72 /* Rgbimage.cpp */; };
-		80D316AB1FEBE2E50079DD72 /* PhongShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316781FEBE2DF0079DD72 /* PhongShader.cpp */; };
-		80D316AE1FEBE2E50079DD72 /* BaseShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3167B1FEBE2DF0079DD72 /* BaseShader.cpp */; };
-		80D316AF1FEBE2E50079DD72 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3167C1FEBE2DF0079DD72 /* Matrix.cpp */; };
-		80D316B11FEBE2E50079DD72 /* Aabb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3167E1FEBE2E00079DD72 /* Aabb.cpp */; };
-		80D316B21FEBE2E50079DD72 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3167F1FEBE2E00079DD72 /* Camera.cpp */; };
-		80D316B31FEBE2E50079DD72 /* Framebuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316801FEBE2E00079DD72 /* Framebuffer.cpp */; };
-		80D316B41FEBE2E50079DD72 /* ShadowMapGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316811FEBE2E00079DD72 /* ShadowMapGenerator.cpp */; };
-		80D316B51FEBE2E50079DD72 /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316821FEBE2E00079DD72 /* Vector.cpp */; };
-		80D316B61FEBE2E50079DD72 /* ConstantShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316831FEBE2E00079DD72 /* ConstantShader.cpp */; };
-		80D316B71FEBE2E50079DD72 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316841FEBE2E00079DD72 /* Texture.cpp */; };
-		80D316BA1FEBE2E50079DD72 /* LinePlaneModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316871FEBE2E10079DD72 /* LinePlaneModel.cpp */; };
-		80D316BE1FEBE2E50079DD72 /* TrianglePlaneModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168B1FEBE2E10079DD72 /* TrianglePlaneModel.cpp */; };
-		80D316BF1FEBE2E50079DD72 /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168C1FEBE2E10079DD72 /* VertexBuffer.cpp */; };
-		80D316C11FEBE2E50079DD72 /* BaseModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168E1FEBE2E20079DD72 /* BaseModel.cpp */; };
-		80D316C21FEBE2E50079DD72 /* ShaderLightMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168F1FEBE2E20079DD72 /* ShaderLightMapper.cpp */; };
-		80D316C41FEBE2E50079DD72 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316911FEBE2E20079DD72 /* Model.cpp */; };
-		80D316C61FEBE2E50079DD72 /* TriangleBoxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316931FEBE2E20079DD72 /* TriangleBoxModel.cpp */; };
-		80D316C71FEBE2E50079DD72 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316941FEBE2E30079DD72 /* main.cpp */; };
-		80D316CD1FEBE2E50079DD72 /* IndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169A1FEBE2E30079DD72 /* IndexBuffer.cpp */; };
-		80D316CE1FEBE2E50079DD72 /* TriangleSphereModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169B1FEBE2E40079DD72 /* TriangleSphereModel.cpp */; };
-		80D316D01FEBE2E50079DD72 /* LineBoxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169D1FEBE2E40079DD72 /* LineBoxModel.cpp */; };
-		80D316D11FEBE2E50079DD72 /* Lights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169E1FEBE2E40079DD72 /* Lights.cpp */; };
-		80D316D31FEBE2E50079DD72 /* Tank.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A01FEBE2E40079DD72 /* Tank.cpp */; };
-		80D316D51FEBE2E50079DD72 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A21FEBE2E50079DD72 /* Application.cpp */; };
-		80D316D71FEBE2E50079DD72 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A41FEBE2E50079DD72 /* Color.cpp */; };
+		805A7472200A620D0057761B /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168C1FEBE2E10079DD72 /* VertexBuffer.cpp */; };
+		805A7474200A620D0057761B /* Framebuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316801FEBE2E00079DD72 /* Framebuffer.cpp */; };
+		805A7476200A620D0057761B /* IndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169A1FEBE2E30079DD72 /* IndexBuffer.cpp */; };
+		805A7478200A620D0057761B /* Tank.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A01FEBE2E40079DD72 /* Tank.cpp */; };
+		805A747A200A620D0057761B /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3167F1FEBE2E00079DD72 /* Camera.cpp */; };
+		805A747C200A620D0057761B /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316841FEBE2E00079DD72 /* Texture.cpp */; };
+		805A747E200A620D0057761B /* Aabb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3167E1FEBE2E00079DD72 /* Aabb.cpp */; };
+		805A7480200A620D0057761B /* Lights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169E1FEBE2E40079DD72 /* Lights.cpp */; };
+		805A7482200A620D0057761B /* EgoCam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80E003941FED3E6000601BEA /* EgoCam.cpp */; };
+		805A7484200A620D0057761B /* DebugRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80E003991FED412D00601BEA /* DebugRender.cpp */; };
+		805A7486200A620D0057761B /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316821FEBE2E00079DD72 /* Vector.cpp */; };
+		805A7488200A620D0057761B /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3167C1FEBE2DF0079DD72 /* Matrix.cpp */; };
+		805A748A200A620D0057761B /* BaseModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168E1FEBE2E20079DD72 /* BaseModel.cpp */; };
+		805A748C200A620D0057761B /* TriangleBoxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316931FEBE2E20079DD72 /* TriangleBoxModel.cpp */; };
+		805A748E200A620D0057761B /* TrianglePlaneModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168B1FEBE2E10079DD72 /* TrianglePlaneModel.cpp */; };
+		805A7490200A620D0057761B /* TriangleSphereModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169B1FEBE2E40079DD72 /* TriangleSphereModel.cpp */; };
+		805A7492200A620D0057761B /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316911FEBE2E20079DD72 /* Model.cpp */; };
+		805A7494200A620D0057761B /* LineBoxModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169D1FEBE2E40079DD72 /* LineBoxModel.cpp */; };
+		805A7496200A620D0057761B /* LinePlaneModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316871FEBE2E10079DD72 /* LinePlaneModel.cpp */; };
+		805A7498200A620D0057761B /* ConstantShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316831FEBE2E00079DD72 /* ConstantShader.cpp */; };
+		805A749A200A620D0057761B /* BaseShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3167B1FEBE2DF0079DD72 /* BaseShader.cpp */; };
+		805A749C200A620D0057761B /* PhongShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316781FEBE2DF0079DD72 /* PhongShader.cpp */; };
+		805A749E200A620D0057761B /* ShaderLightMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168F1FEBE2E20079DD72 /* ShaderLightMapper.cpp */; };
+		805A74A0200A620D0057761B /* ShadowMapGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316811FEBE2E00079DD72 /* ShadowMapGenerator.cpp */; };
+		805A74A2200A620D0057761B /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A41FEBE2E50079DD72 /* Color.cpp */; };
+		805A74A4200A620D0057761B /* Rgbimage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316741FEBE2DF0079DD72 /* Rgbimage.cpp */; };
+		805A74A5200A620D0057761B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316941FEBE2E30079DD72 /* main.cpp */; };
+		805A74A7200A620D0057761B /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A21FEBE2E50079DD72 /* Application.cpp */; };
+		808232FC2007EE6F00B3A6A0 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */; };
 		80D316F31FEBE8820079DD72 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D316F21FEBE8820079DD72 /* OpenGL.framework */; };
-		80E003951FED3E6000601BEA /* EgoCam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80E003941FED3E6000601BEA /* EgoCam.cpp */; };
-		80E0039A1FED412D00601BEA /* DebugRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80E003991FED412D00601BEA /* DebugRender.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,6 +57,7 @@
 		8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.1.0.dylib; path = thirdparty/assimp/libassimp.4.1.0.dylib; sourceTree = "<group>"; };
 		8040FAD91FFF7703004B3A5C /* libfreeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreeimage.a; path = thirdparty/freeimage/libfreeimage.a; sourceTree = "<group>"; };
 		8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
+		808232F42007E72800B3A6A0 /* libglfw.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.dylib; path = thirdparty/glfw/libglfw.3.dylib; sourceTree = "<group>"; };
 		80D316731FEBE2DF0079DD72 /* BaseShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BaseShader.h; path = ../src/BaseShader.h; sourceTree = "<group>"; };
 		80D316741FEBE2DF0079DD72 /* Rgbimage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Rgbimage.cpp; path = ../src/Rgbimage.cpp; sourceTree = "<group>"; };
 		80D316751FEBE2DF0079DD72 /* BaseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BaseModel.h; path = ../src/BaseModel.h; sourceTree = "<group>"; };
@@ -121,9 +122,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8040FADC1FFF770C004B3A5C /* libglfw.3.3.dylib in Frameworks */,
-				8040FADA1FFF7703004B3A5C /* libfreeimage.a in Frameworks */,
+				808232FC2007EE6F00B3A6A0 /* libglfw.3.3.dylib in Frameworks */,
 				8040FAD81FFF76FA004B3A5C /* libassimp.4.1.0.dylib in Frameworks */,
+				8040FADA1FFF7703004B3A5C /* libfreeimage.a in Frameworks */,
 				80D316F31FEBE8820079DD72 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,6 +162,7 @@
 		80D316D91FEBE42E0079DD72 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				808232F42007E72800B3A6A0 /* libglfw.3.dylib */,
 				8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */,
 				8040FAD91FFF7703004B3A5C /* libfreeimage.a */,
 				8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */,
@@ -337,34 +339,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80D316A71FEBE2E50079DD72 /* Rgbimage.cpp in Sources */,
-				80D316AB1FEBE2E50079DD72 /* PhongShader.cpp in Sources */,
-				80D316AE1FEBE2E50079DD72 /* BaseShader.cpp in Sources */,
-				80D316AF1FEBE2E50079DD72 /* Matrix.cpp in Sources */,
-				80D316B11FEBE2E50079DD72 /* Aabb.cpp in Sources */,
-				80D316B21FEBE2E50079DD72 /* Camera.cpp in Sources */,
-				80D316B31FEBE2E50079DD72 /* Framebuffer.cpp in Sources */,
-				80E003951FED3E6000601BEA /* EgoCam.cpp in Sources */,
-				80D316B41FEBE2E50079DD72 /* ShadowMapGenerator.cpp in Sources */,
-				80D316B51FEBE2E50079DD72 /* Vector.cpp in Sources */,
-				80D316B61FEBE2E50079DD72 /* ConstantShader.cpp in Sources */,
-				80D316B71FEBE2E50079DD72 /* Texture.cpp in Sources */,
-				80D316BA1FEBE2E50079DD72 /* LinePlaneModel.cpp in Sources */,
-				80D316BE1FEBE2E50079DD72 /* TrianglePlaneModel.cpp in Sources */,
-				80D316BF1FEBE2E50079DD72 /* VertexBuffer.cpp in Sources */,
-				80D316C11FEBE2E50079DD72 /* BaseModel.cpp in Sources */,
-				80D316C21FEBE2E50079DD72 /* ShaderLightMapper.cpp in Sources */,
-				80D316C41FEBE2E50079DD72 /* Model.cpp in Sources */,
-				80D316C61FEBE2E50079DD72 /* TriangleBoxModel.cpp in Sources */,
-				80D316C71FEBE2E50079DD72 /* main.cpp in Sources */,
-				80D316CD1FEBE2E50079DD72 /* IndexBuffer.cpp in Sources */,
-				80D316CE1FEBE2E50079DD72 /* TriangleSphereModel.cpp in Sources */,
-				80D316D01FEBE2E50079DD72 /* LineBoxModel.cpp in Sources */,
-				80D316D11FEBE2E50079DD72 /* Lights.cpp in Sources */,
-				80D316D31FEBE2E50079DD72 /* Tank.cpp in Sources */,
-				80D316D51FEBE2E50079DD72 /* Application.cpp in Sources */,
-				80D316D71FEBE2E50079DD72 /* Color.cpp in Sources */,
-				80E0039A1FED412D00601BEA /* DebugRender.cpp in Sources */,
+				805A7472200A620D0057761B /* VertexBuffer.cpp in Sources */,
+				805A7474200A620D0057761B /* Framebuffer.cpp in Sources */,
+				805A7476200A620D0057761B /* IndexBuffer.cpp in Sources */,
+				805A7478200A620D0057761B /* Tank.cpp in Sources */,
+				805A747A200A620D0057761B /* Camera.cpp in Sources */,
+				805A747C200A620D0057761B /* Texture.cpp in Sources */,
+				805A747E200A620D0057761B /* Aabb.cpp in Sources */,
+				805A7480200A620D0057761B /* Lights.cpp in Sources */,
+				805A7482200A620D0057761B /* EgoCam.cpp in Sources */,
+				805A7484200A620D0057761B /* DebugRender.cpp in Sources */,
+				805A7486200A620D0057761B /* Vector.cpp in Sources */,
+				805A7488200A620D0057761B /* Matrix.cpp in Sources */,
+				805A748A200A620D0057761B /* BaseModel.cpp in Sources */,
+				805A748C200A620D0057761B /* TriangleBoxModel.cpp in Sources */,
+				805A748E200A620D0057761B /* TrianglePlaneModel.cpp in Sources */,
+				805A7490200A620D0057761B /* TriangleSphereModel.cpp in Sources */,
+				805A7492200A620D0057761B /* Model.cpp in Sources */,
+				805A7494200A620D0057761B /* LineBoxModel.cpp in Sources */,
+				805A7496200A620D0057761B /* LinePlaneModel.cpp in Sources */,
+				805A7498200A620D0057761B /* ConstantShader.cpp in Sources */,
+				805A749A200A620D0057761B /* BaseShader.cpp in Sources */,
+				805A749C200A620D0057761B /* PhongShader.cpp in Sources */,
+				805A749E200A620D0057761B /* ShaderLightMapper.cpp in Sources */,
+				805A74A0200A620D0057761B /* ShadowMapGenerator.cpp in Sources */,
+				805A74A2200A620D0057761B /* Color.cpp in Sources */,
+				805A74A4200A620D0057761B /* Rgbimage.cpp in Sources */,
+				805A74A5200A620D0057761B /* main.cpp in Sources */,
+				805A74A7200A620D0057761B /* Application.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

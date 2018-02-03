@@ -20,20 +20,25 @@
 #include "ShadowMapGenerator.h"
 #include "Tank.h"
 
-class Application
-{
+#include "EgoCam.h"
+
+class Application{
 public:
-    typedef std::list<BaseModel*> ModelList;
-    Application(GLFWwindow* pWin);
-    void start();
-    void update(float dtime);
-    void draw();
-    void end();
+	typedef std::list<BaseModel*> ModelList;
+	Application(GLFWwindow* pWin);
+	void start();
+	void update(float dtime);
+	void draw();
+	void end();
+	
+	void getInputPitchRollForward(float& pitch, float& roll, float& forward);
 	
 protected:
 	Camera Cam;
+	EgoCam Egocam;
 	ModelList Models;
 	GLFWwindow* pWindow;
+	BaseModel* LineGrid;
 	BaseModel* pModel;
 	ShadowMapGenerator ShadowGenerator;
 	void createScene();
@@ -43,26 +48,29 @@ protected:
 	bool collisionDetection(Tank* model, Model* model2);
 	double calcDeltaTime();
 	double oldTime = 0;
+	float time;
+	
+	// Tank
+	Tank* pTank;
+	float getForwardBackward();
+	float getLeftRight();
+	void getJump();
+	
+	// Testmodels
+	Model* pBarrier1;
+	Model* pBarrier2; /* only for testing */
+	
+	// Obstacle List
+	ModelList pBarriers;
+	
+	// Coins
+	Model* coin;
+	ModelList pCoins;
+	
+	// Game Variables
 	float gravity = -15;
 	float downForce = 0.0f;
 	float terrainHeight = 0.6f;
-	
-    //Panzer
-    Tank* pTank;
-    float getForwardBackward();
-    float getLeftRight();
-    void getJump();
-	
-	//Testmodel
-    Model* pBarrier1;
-	Model* pBarrier2; /* only for testing */
-	
-	//Liste von Hindernissen
-	ModelList pBarriers;
-	
-	//Münzen o.ä.
-	Model* coin;
-	ModelList pCoins;
 };
 
 #endif /* Application_hpp */

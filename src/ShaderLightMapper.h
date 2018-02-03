@@ -1,7 +1,6 @@
 #ifndef LIGHTMANAGER_H
 #define LIGHTMANAGER_H
 
-#include <vector>
 #ifdef WIN32
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
@@ -10,6 +9,8 @@
 #define GLFW_INCLUDE_GLEXT
 #include <GLFW/glfw3.h>
 #endif
+
+#include <vector>
 #include "Lights.h"
 
 #define MaxLightCount 14
@@ -18,11 +19,11 @@ class ShaderLightMapper
 {
 public:
 	typedef std::vector<BaseLight*> LightList;
-
+	
 	void addLight(BaseLight* Light);
 	const LightList& lights() const { return Lights; }
 	void clear();
-
+	
 	void activate();
 	void deactivate();
 	static ShaderLightMapper& instance();
@@ -38,11 +39,11 @@ protected:
 		Vector SpotRadius;
 		int ShadowIndex;
 	};
-
+	
 	struct ShaderLightBlock{
 		int LightCount; Vector padding0;
 		ShaderLight lights[MaxLightCount];
-
+		
 	};
 	
 protected:
