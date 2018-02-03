@@ -49,8 +49,10 @@ dependencies: \
   thirdparty/assimp/include/assimp/anim.h \
   thirdparty/assimp/include/assimp/metadata.h \
   thirdparty/assimp/include/assimp/postprocess.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/EgoCam.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/LinePlaneModel.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/TrianglePlaneModel.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/TriangleSphereModel.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/LineBoxModel.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/TriangleBoxModel.h
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/TriangleBoxModel.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/DebugRender.h

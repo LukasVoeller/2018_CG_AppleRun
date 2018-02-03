@@ -158,10 +158,8 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
 	
 	//Maximale Größe
 	this->BoundingBox = AABB(Vector(FLT_MAX, FLT_MAX, FLT_MAX), Vector(FLT_MIN, FLT_MIN, FLT_MIN));
-	
-	Matrix s = s.scale(scale);
-//	calcBoundingBox(pScene, this->BoundingBox);
-	getBoundingBox(this->BoundingBox, s);
+
+	calcBoundingBox(pScene, this->BoundingBox);
 }
 
 //Lädt die	Materialeinstellungen von Assimp in	Model::pMaterials (und MaterialCount).
