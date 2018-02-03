@@ -1,3 +1,4 @@
+
 //
 //  Application.cpp
 //  ogl4
@@ -54,11 +55,13 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), pModel(NU
 	//Initial Hindernisse erzeugen
 	for(int i=0; i<5; ++i)
 	{
-		pBarrier1 = new Model(ASSET_DIRECTORY "buddha.dae", false);
+		float scaling = 4.0f;
+		pBarrier1 = new Model(ASSET_DIRECTORY "buddha.dae", false, scaling);
 		pBarrier1->shader(new PhongShader(), false);
-		m = m.translation(5*i, 0, 15);
-		s = s.scale(4);
+		m = m.translation(5*i+4, 0, -5);
+		s = s.scale(scaling);
 		pBarrier1->transform(m*s);
+		//pBarrier1->transform(m);
 		pBarriers.push_back(pBarrier1);
 		Models.push_back(pBarrier1);
 	}
@@ -106,15 +109,10 @@ void Application::update(float dtime)
 	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it)
 	{
 		if(collisionDetection(pTank, (Model*)(*it))) {
-			pTank->steer(-1 * forwardBackward, -1 * leftRight);
+			std::cout << "collision!" << std::endl;
+			pTank->steer(-2 * forwardBackward, -2 * leftRight);
 		}
 	}
-
-//  old - only for testing
-//	bool collision = collisionDetection(pTank, pBarrier2);
-//	if(collision){
-//		pTank->steer(-4 * forwardBackward, -4 * leftRight);
-//	}
 
 	//Aiming
     double xpos, ypos;
@@ -401,40 +399,28 @@ void Application::getJump()
 
 bool Application::collisionDetection(Tank* model1, Model* model2)
 {
-    Vector vec1 = model1->transform().translation();
+	
+//	const AABB& box1 = model1->boundingBox();
+//	const AABB& box2 = model2->boundingBox();
+//
+////	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
+////	return (box1.Min.X < box2.Max.X &&
+////			box2.Min.X < box1.Max.X &&
+////			box1.Min.Z < box2.Max.Z &&
+////			box2.Min.Z < box1.Max.Z);
+	
+	Vector vec1 = model1->transform().translation();
     Vector vec2 = model2->transform().translation();
-    
-    Vector size1 = model1->boundingBox().size();
+
+	Vector size1 = model1->boundingBox().size();
     Vector size2 = model2->boundingBox().size();
-    
+
     //Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
     return (vec1.X - size1.X/2 < vec2.X + size2.X/2 &&
-    vec2.X - size2.X/2 < vec1.X + size1.X/2 &&
-    vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
-    vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
-    
-/*
-     for(ModelList::iterator it = Models.begin(); it != Models.end(); ++it)
-     {
-            if((*it) != model)
-            {
-                const AABB& m2 = (*it)->boundingBox();
-            
-                collision = m1.Min.X < m2.Max.X &&
-                m2.Min.X < m1.Max.X &&
-                m1.Min.Y < m2.Max.Y &&
-                m2.Min.Y < m1.Max.Y &&
-                m1.Min.Z < m2.Max.Z &&
-                m2.Min.Z < m1.Max.Z;
-     
-                std::cout << " Collision is " << collision << " " <<std::endl;
-            }
-     
-            //Abbruch, wenn Kollision entdeckt wurde
-            if(collision) {
-                return true;
-            }
-    }
-    return collision;
-*/
+    	vec2.X - size2.X/2 < vec1.X + size1.X/2 &&
+		vec1.Y - size1.Y/2 < vec2.Y + size2.Y/2 &&
+		vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 &&
+    	vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
+    	vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
+
 }

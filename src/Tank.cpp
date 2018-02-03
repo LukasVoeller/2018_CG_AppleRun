@@ -26,6 +26,13 @@ bool Tank::loadModels(const char* ChassisFile, const char* CannonFile)
     
     this->chassis->shader(this->pShader, false);
     this->cannon->shader(this->pShader, false);
+	
+	/* unitBox() ist eine sehr schlechte Lösung für die BoundingBox
+	 * Bessere wäre diese zu berechnen (aus Gehäuse und Kanone)
+	 * Aber: Werte für Gehäuse und Kanone falsch (?), zumindest riesig
+	 * daher erstmal die schlechte Lösung */
+	BoundingBox = AABB::unitBox();
+	//calcBoundingBox(this->BoundingBox);
     
     return true;
 }
@@ -91,6 +98,8 @@ void Tank::update(float dtime)
         this->chassis->transform(TankMat);
         this->transform(TankMat);
     }
+	
+	//Update BoundingBox
 }
 
 void Tank::draw(const BaseCamera& Cam)
@@ -119,4 +128,29 @@ void Tank::setIsInAir(bool newIsInAir){
 
 float Tank::getJumpPower(){
     return this->jumpPower;
+}
+
+//(Kleinste) achsenausgerichtete Box berechnen, die das Modell komplett umschließt
+void Tank::calcBoundingBox(AABB& Box)
+{
+	const AABB& chassisBox = this->chassis->boundingBox();
+	const AABB& cannonBox = this->cannon->boundingBox();
+	
+	Box.Min.X = std::min(chassisBox.Min.X, cannonBox.Min.X);
+	Box.Min.Y = std::min(chassisBox.Min.Y, cannonBox.Min.Y);
+	Box.Min.Z = std::min(chassisBox.Min.Z, cannonBox.Min.Z);
+
+	Box.Max.X = std::max(chassisBox.Max.X, cannonBox.Max.X);
+	Box.Max.Y = std::max(chassisBox.Max.Y, cannonBox.Max.Y);
+	Box.Max.Z = std::max(chassisBox.Max.Z, cannonBox.Max.Z);
+	
+	// Verschiebung der BoundingBox
+	//	Box.Min.X = std::min(this->position.X - chassisBox.size().X/2, this->position.X - cannonBox.size().X/2);
+	//	Box.Min.Y = std::min(this->position.Y - chassisBox.size().Y/2, this->position.Y - cannonBox.size().Y/2);
+	//	Box.Min.Z = std::min(this->position.Z - chassisBox.size().Z/2, this->position.Z - cannonBox.size().Z/2);
+	//
+	//	Box.Min.X = std::max(this->position.X + chassisBox.size().X/2, this->position.X + cannonBox.size().X/2);
+	//	Box.Min.Y = std::max(this->position.Y + chassisBox.size().Y/2, this->position.Y + cannonBox.size().Y/2);
+	//	Box.Min.Z = std::max(this->position.Z + chassisBox.size().Z/2, this->position.Z + cannonBox.size().Z/2);
+
 }

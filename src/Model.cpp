@@ -20,12 +20,21 @@ Model::Model() : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
 
 }
 
-Model::Model(const char* ModelFile, bool FitSize) : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
+//Model::Model(const char* ModelFile, bool FitSize) : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
+//{
+//    //Changed from load(ModelFile) to load(ModelFile, FitSize)
+//    bool ret = load(ModelFile, FitSize);
+//    if(!ret)
+//        throw std::exception();
+//}
+
+Model::Model(const char* ModelFile, bool FitSize, float scale) : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
 {
-    //Changed from load(ModelFile) to load(ModelFile, FitSize)
-    bool ret = load(ModelFile, FitSize);
-    if(!ret)
-        throw std::exception();
+	//Changed from load(ModelFile) to load(ModelFile, FitSize)
+	this->scale = scale;
+	bool ret = load(ModelFile, FitSize);
+	if(!ret)
+		throw std::exception();
 }
 
 Model::~Model()
@@ -72,19 +81,15 @@ bool Model::load(const char* ModelFile, bool FitSize)
 
 void Model::loadMeshes(const aiScene* pScene, bool FitSize)
 {
-    //TODO: Lädt die	Meshes	(Polygonale	Modelle)	aus	aiScene::mMeshes in Model::pMeshes (und	MeshCount).	Hierfür	müssen	passende Vertex- und Indexbuffer	erzeugt	werden	(Position,	Normale	&	UV-Texturkoordinaten soweit	vorhanden).
+	//TODO: Lädt die	Meshes	(Polygonale	Modelle)	aus	aiScene::mMeshes in Model::pMeshes (und	MeshCount).	Hierfür	müssen	passende Vertex- und Indexbuffer erzeugt werden	(Position,	Normale	&	UV-Texturkoordinaten soweit	vorhanden).
     
     this->MeshCount = pScene->mNumMeshes;
     this->pMeshes = new Mesh[pScene->mNumMeshes];
-    
-    //Maximale Größe
-    //this->BoundingBox = AABB(Vector(FLT_MIN, FLT_MIN, FLT_MIN), Vector(FLT_MAX, FLT_MAX, FLT_MAX));
-    this->BoundingBox = AABB(Vector(FLT_MAX, FLT_MAX, FLT_MAX), Vector(FLT_MIN, FLT_MIN, FLT_MIN));
-    
-    calcBoundingBox(pScene, this->BoundingBox);
-    
-    float factor = 1.0f;
-    
+	
+	// Bounding Box
+	float factor = 1.0;
+	factor = factor * scale;
+	
     if (FitSize) {
         //Wenn	FitSize auf	true gesetzt wurde,	soll das Mesh so skaliert werden, dass es eine sinnvolle Größe hat (z. B. 5x5x5 Einheiten o. ähnliches).
         Vector size = BoundingBox.size();
@@ -150,6 +155,13 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
         
         currentMesh.IB.end();
     }
+	
+	//Maximale Größe
+	this->BoundingBox = AABB(Vector(FLT_MAX, FLT_MAX, FLT_MAX), Vector(FLT_MIN, FLT_MIN, FLT_MIN));
+	
+	Matrix s = s.scale(scale);
+//	calcBoundingBox(pScene, this->BoundingBox);
+	getBoundingBox(this->BoundingBox, s);
 }
 
 //Lädt die	Materialeinstellungen von Assimp in	Model::pMaterials (und MaterialCount).
@@ -235,17 +247,17 @@ void Model::calcBoundingBox(const aiScene* pScene, AABB& Box)
 {
     for (int i = 0; i < pScene->mNumMeshes; ++i) {
         aiMesh* mesh = pScene->mMeshes[i];
-        
+		
         for (int j = 0; j < mesh->mNumVertices; ++j) {
             aiVector3D vertex = mesh->mVertices[j];
+			
+			Box.Min.X = std::min(Box.Min.X, vertex.x*scale);
+			Box.Min.Y = std::min(Box.Min.Y, vertex.y*scale);
+			Box.Min.Z = std::min(Box.Min.Z, vertex.z*scale);
             
-            Box.Max.X = std::max(Box.Max.X, vertex.x);
-            Box.Max.Y = std::max(Box.Max.Y, vertex.y);
-            Box.Max.Z = std::max(Box.Max.Z, vertex.z);
-            
-            Box.Min.X = std::min(Box.Min.X, vertex.x);
-            Box.Min.Y = std::min(Box.Min.Y, vertex.y);
-            Box.Min.Z = std::min(Box.Min.Z, vertex.z);
+            Box.Max.X = std::max(Box.Max.X, vertex.x*scale);
+            Box.Max.Y = std::max(Box.Max.Y, vertex.y*scale);
+            Box.Max.Z = std::max(Box.Max.Z, vertex.z*scale);
         }
     }
 }
@@ -260,7 +272,7 @@ void Model::copyNodesRecursive(const aiNode* paiNode, Node* pNode)
 {
     pNode->Name = paiNode->mName.C_Str();
     pNode->Trans = convert(paiNode->mTransformation);
-    
+	
     if(paiNode->mNumMeshes > 0)
     {
         pNode->MeshCount = paiNode->mNumMeshes;
@@ -348,3 +360,4 @@ Matrix Model::convert(const aiMatrix4x4& m)
                   m.c1, m.c2, m.c3, m.c4,
                   m.d1, m.d2, m.d3, m.d4);
 }
+

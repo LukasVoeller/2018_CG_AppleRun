@@ -32,9 +32,9 @@ public:
     bool getIsInAir();
     void setIsInAir(bool newIsInAir);
     float getJumpPower();
-	
+	const AABB& boundingBox() const { return BoundingBox; }
 protected:
-	
+	void calcBoundingBox(AABB& Box);
 private:
     Model* chassis;
     Model* cannon;
@@ -47,6 +47,7 @@ private:
     bool isInAir = false;
     Vector target;
     Vector position;
+	AABB BoundingBox;
 };
 
 #endif /* Tank_hpp */

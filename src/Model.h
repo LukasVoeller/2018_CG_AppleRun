@@ -24,13 +24,14 @@ class Model : public BaseModel
 {
 public:
     Model();
-    Model(const char* ModelFile, bool FitSize=true);
+//    Model(const char* ModelFile, bool FitSize=true);
+	Model(const char* ModelFile, bool FitSize=true, float scale=1.0);
     virtual ~Model();
     
     bool load(const char* ModelFile, bool FitSize=true);
     virtual void draw(const BaseCamera& Cam);
     const AABB& boundingBox() const { return BoundingBox; }
-    
+	
 protected:
     struct Mesh
     {
@@ -68,7 +69,6 @@ protected:
     void loadMeshes(const aiScene* pScene, bool FitSize);
     void loadMaterials(const aiScene* pScene);
     void calcBoundingBox( const aiScene* pScene, AABB& Box);
-    
     void loadNodes(const aiScene* pScene);
     void copyNodesRecursive(const aiNode* paiNode, Node* pNode);
     Matrix convert(const aiMatrix4x4& m);
@@ -85,6 +85,7 @@ protected:
     std::string Filepath;
 	std::string Path;
     Node RootNode;
+	float scale;
 };
 
 #endif /* Model_hpp */
