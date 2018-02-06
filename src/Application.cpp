@@ -17,17 +17,14 @@
 #define GLFW_INCLUDE_GLEXT
 #include <GLFW/glfw3.h>
 #endif
-#ifdef WIN32
-#define ASSET_DIRECTORY "../../assets/"
-#else
-#define ASSET_DIRECTORY "../assets/"
-#endif
 
 #include <unistd.h>
 #include <sys/stat.h>
 #include <time.h>
 
 #include "Application.h"
+#include "Constants.h"
+#include "GUIEvents.h"
 #include "LinePlaneModel.h"
 #include "TrianglePlaneModel.h"
 #include "TriangleSphereModel.h"
@@ -55,6 +52,10 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
     PhongShader* pPhongShader = new PhongShader();
 	Matrix m,s;
 	
+	// CREATE GUI
+	GUIEvents gui = GUIEvents();
+	
+	
 	//------------------------------ MODELS ------------------------------
 	// Tank
 	pTank = new Tank();
@@ -67,13 +68,12 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	//Obstacles
 	for(int i=0; i<5; ++i)
 	{
-		float scaling = 4.0f;
+		float scaling = 2.0f;
 		pBarrier1 = new Model(ASSET_DIRECTORY "buddha.dae", false, scaling);
 		pBarrier1->shader(new PhongShader(), false);
 		m = m.translation(5*i+4, 0, -5);
 		s = s.scale(scaling);
 		pBarrier1->transform(m*s);
-		//pBarrier1->transform(m);
 		pBarriers.push_back(pBarrier1);
 		Models.push_back(pBarrier1);
 	}
@@ -83,7 +83,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 		coin = new Model(ASSET_DIRECTORY "buddha.dae", false);
 		coin->shader(new PhongShader(), false);
 		m = m.translation(5*i+2, 0, 5);
-		s = s.scale(2);
+		s = s.scale(1);
 		coin->transform(m*s);
 		pCoins.push_back(coin);
 		Models.push_back(coin);
@@ -111,7 +111,7 @@ void Application::getInputPitchRollForward(float& pitch, float& roll, float& for
 	forward = 0;
 	
 	bool upPressed = glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS;
-	bool downPressed = glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS;
+	bool downPressed = (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS || (glfwGetKey(pWindow, GLFW_KEY_Z ) == GLFW_PRESS));
 	bool leftPressed = glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS;
 	bool rightPressed = glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS;
 	bool forwardPressed = glfwGetKey(pWindow, GLFW_KEY_W ) == GLFW_PRESS;
@@ -137,6 +137,12 @@ void Application::update(float dtime){
 	Cam.update();
 	time+=dtime;
 	
+	gui.update(pWindow, &Cam);
+//	if (glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+//		std::cout << "ESC " << gui.changeHelpMenu() << std::endl;
+//
+//	}
+	
 	// Tank steering
     double deltaTime = calcDeltaTime();
     float forwardBackward = getForwardBackward();
@@ -152,7 +158,6 @@ void Application::update(float dtime){
         this->downForce += gravity * 0.1f;
 	}
 	
-
 	// Collision
 	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
 		if(collisionDetection(pTank, (Model*)(*it))){
@@ -160,22 +165,13 @@ void Application::update(float dtime){
 			pTank->steer(-1 * forwardBackward, -1 * leftRight);
 		}
 	}
-
-	// Old - Only for testing
-	/*
-	bool collision = collisionDetection(pTank, pBarrier2);
-	if(collision){
-		pTank->steer(-4 * forwardBackward, -4 * leftRight);
-	}
-	 */
-
+	
 	// Aiming
 	/*
-    double xpos, ypos;
-    glfwGetCursorPos(pWindow, &xpos, &ypos);
-    Vector pos = calc3DRay(xpos, ypos, pos);
-    pTank->aim(pos);
-    pTank->update(deltaTime);
+	 double xpos, ypos;
+	 glfwGetCursorPos(pWindow, &xpos, &ypos);
+	 Vector pos = calc3DRay(xpos, ypos, pos);
+	 pTank->aim(pos);
 	 */
 	
 	// Tank steering
@@ -198,6 +194,8 @@ void Application::update(float dtime){
 	Matrix tankViewMatrix = tankMat * matRot180 * matTransView;
 	tankViewMatrix.invert();
 	Egocam.ViewMatrix() = tankViewMatrix;
+	
+	//pTank->update(deltaTime);
 	
 	// Version 2: Third person cam based on lookAt matrix
 	/*
@@ -239,9 +237,7 @@ void Application::update(float dtime){
 	Egocam.ViewMatrix() = viewMat;
 	 */
 	
-	// Debug
-	//std::cout << "Kollision is " << collision << std::endl;
-	//pTank->printLatestPosition();
+	pTank->update(deltaTime);
 }
 
 // Elapsed time since last call of the method
@@ -269,6 +265,9 @@ void Application::draw(){
     for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it ){
         (*it)->draw(Cam);
     }
+	
+	//GUI
+	gui.draw(&Cam);
 	
 	// For EgoCam
 	Debug.render(Cam);
@@ -493,15 +492,15 @@ float Application::getLeftRight(){
     float direction = 0.0f;
 	
     // Strafe right
-	if ((glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_D ) == GLFW_PRESS)){
-        direction -= 3.0f;
+	if (glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS){
+        direction -= 2.0f;
 	}
 	
     // Strafe left
-	if ((glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_A ) == GLFW_PRESS)){
-        direction += 3.0f;
+	if (glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS){
+        direction += 2.0f;
 	}
-	
+	std::cout << "getLeftRight " << direction  << std::endl;
     return direction;
 }
 
@@ -509,15 +508,15 @@ float Application::getForwardBackward(){
     float direction = 0.0f;
 	
     // Move forward
-	if ((glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_W ) == GLFW_PRESS)){
-        direction += 3.0f;
+	if (glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS){
+        direction += 2.0f;
 	}
 	
     // Move backward
-	if ((glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS) || (glfwGetKey(pWindow, GLFW_KEY_S ) == GLFW_PRESS)){
-        direction -= 3.0f;
+	if (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS){
+        direction -= 2.0f;
 	}
-	
+	std::cout << "getForwardBackward" << direction << std::endl;
     return direction;
 }
 
@@ -528,6 +527,7 @@ void Application::getJump(){
             this->downForce = pTank->getJumpPower();
         }
     }
+	std::cout << "getJump" << std::endl;
 }
 
 bool Application::collisionDetection(Tank* model1, Model* model2)

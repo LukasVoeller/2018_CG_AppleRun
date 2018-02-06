@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		80398D6920289B6300010C49 /* GUIEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80398D6820289B6300010C49 /* GUIEvents.cpp */; };
 		8040FAD81FFF76FA004B3A5C /* libassimp.4.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */; };
 		8040FADA1FFF7703004B3A5C /* libfreeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD91FFF7703004B3A5C /* libfreeimage.a */; };
 		805A7472200A620D0057761B /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168C1FEBE2E10079DD72 /* VertexBuffer.cpp */; };
@@ -54,6 +55,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		80398D6720289B0900010C49 /* GUIEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GUIEvents.h; path = ../src/GUIEvents.h; sourceTree = "<group>"; };
+		80398D6820289B6300010C49 /* GUIEvents.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GUIEvents.cpp; path = ../src/GUIEvents.cpp; sourceTree = "<group>"; };
+		80398D6A20289C1D00010C49 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../src/Constants.h; sourceTree = "<group>"; };
 		8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.1.0.dylib; path = thirdparty/assimp/libassimp.4.1.0.dylib; sourceTree = "<group>"; };
 		8040FAD91FFF7703004B3A5C /* libfreeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreeimage.a; path = thirdparty/freeimage/libfreeimage.a; sourceTree = "<group>"; };
 		8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
@@ -109,7 +113,7 @@
 		80D316A31FEBE2E50079DD72 /* IndexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IndexBuffer.h; path = ../src/IndexBuffer.h; sourceTree = "<group>"; };
 		80D316A41FEBE2E50079DD72 /* Color.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Color.cpp; path = ../src/Color.cpp; sourceTree = "<group>"; };
 		80D316A51FEBE2E50079DD72 /* Lights.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Lights.h; path = ../src/Lights.h; sourceTree = "<group>"; };
-		80D316F01FEBE7A10079DD72 /* CGXcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CGXcode; sourceTree = BUILT_PRODUCTS_DIR; };
+		80D316F01FEBE7A10079DD72 /* CGXcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = CGXcode; path = /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/CGXcode/build/Debug/CGXcode; sourceTree = "<absolute>"; };
 		80D316F21FEBE8820079DD72 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		80E003941FED3E6000601BEA /* EgoCam.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EgoCam.cpp; path = ../src/EgoCam.cpp; sourceTree = "<group>"; };
 		80E003971FED3E8300601BEA /* EgoCam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EgoCam.h; path = ../src/EgoCam.h; sourceTree = "<group>"; };
@@ -137,7 +141,6 @@
 			children = (
 				7ABD816E1DA3C6050008D349 /* CGXcode */,
 				80D316D91FEBE42E0079DD72 /* Frameworks */,
-				80D316F01FEBE7A10079DD72 /* CGXcode */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 1;
@@ -155,6 +158,9 @@
 				80D316941FEBE2E30079DD72 /* main.cpp */,
 				80D3167A1FEBE2DF0079DD72 /* Application.h */,
 				80D316A21FEBE2E50079DD72 /* Application.cpp */,
+				80398D6720289B0900010C49 /* GUIEvents.h */,
+				80398D6820289B6300010C49 /* GUIEvents.cpp */,
+				80398D6A20289C1D00010C49 /* Constants.h */,
 			);
 			name = CGXcode;
 			sourceTree = "<group>";
@@ -353,6 +359,7 @@
 				805A7488200A620D0057761B /* Matrix.cpp in Sources */,
 				805A748A200A620D0057761B /* BaseModel.cpp in Sources */,
 				805A748C200A620D0057761B /* TriangleBoxModel.cpp in Sources */,
+				80398D6920289B6300010C49 /* GUIEvents.cpp in Sources */,
 				805A748E200A620D0057761B /* TrianglePlaneModel.cpp in Sources */,
 				805A7490200A620D0057761B /* TriangleSphereModel.cpp in Sources */,
 				805A7492200A620D0057761B /* Model.cpp in Sources */,

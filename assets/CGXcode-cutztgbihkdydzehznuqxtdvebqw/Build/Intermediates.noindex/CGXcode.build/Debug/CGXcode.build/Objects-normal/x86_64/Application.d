@@ -5,6 +5,7 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Camera.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Vector.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Matrix.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Constants.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/PhongShader.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Color.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/BaseShader.h \
@@ -50,6 +51,7 @@ dependencies: \
   thirdparty/assimp/include/assimp/metadata.h \
   thirdparty/assimp/include/assimp/postprocess.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/EgoCam.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/GUIEvents.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/LinePlaneModel.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/TrianglePlaneModel.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/TriangleSphereModel.h \
