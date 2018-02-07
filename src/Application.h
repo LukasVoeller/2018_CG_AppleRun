@@ -20,6 +20,7 @@
 #include "BaseModel.h"
 #include "ShadowMapGenerator.h"
 #include "Tank.h"
+#include "Coin.h"
 
 #include "EgoCam.h"
 #include "GUIEvents.h"
@@ -69,11 +70,19 @@ protected:
 	// Coins
 	Model* coin;
 	ModelList pCoins;
+	unsigned int allCoins;
+	unsigned int collectedCoins;
+	
+	// Coins NEW
+	Coin* coin2;
+	ModelList pCoins2;
 	
 	// Game Variables
 	float gravity = GRAVITY;
 	float downForce = DOWNFORCE;
 	float terrainHeight = TERRAIN_HEIGHT;
+	
+	int actionTimer;
 };
 
 #endif /* Application_hpp */
