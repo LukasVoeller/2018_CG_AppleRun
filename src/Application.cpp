@@ -53,7 +53,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	
     ConstantShader* pConstShader = new ConstantShader();
     PhongShader* pPhongShader = new PhongShader();
-	Matrix m,s;
+	Matrix m,s,r;
 	
 	//------------------------------ MODELS ------------------------------
 	// Tank
@@ -65,8 +65,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	Models.push_back(pTank);
 	
 	//Obstacles
-	for(int i=0; i<5; ++i)
-	{
+	for(int i=0; i<5; ++i){
 		float scaling = 4.0f;
 		pBarrier1 = new Model(ASSET_DIRECTORY "buddha.dae", false, scaling);
 		pBarrier1->shader(new PhongShader(), false);
@@ -80,7 +79,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	
 	// Coins
 	for(int i=0; i<5; ++i){
-		coin = new Model(ASSET_DIRECTORY "buddha.dae", false);
+		coin = new Model(ASSET_DIRECTORY "coin.obj", false);
 		coin->shader(new PhongShader(), false);
 		m = m.translation(5*i+2, 0, 5);
 		s = s.scale(2);
@@ -151,7 +150,6 @@ void Application::update(float dtime){
 	} else {
         this->downForce += gravity * 0.1f;
 	}
-	
 
 	// Collision
 	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
