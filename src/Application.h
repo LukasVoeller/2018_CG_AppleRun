@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <list>
 #include "Camera.h"
+#include "Constants.h"
 #include "PhongShader.h"
 #include "ConstantShader.h"
 #include "VertexBuffer.h"
@@ -21,6 +22,7 @@
 #include "Tank.h"
 
 #include "EgoCam.h"
+#include "GUIEvents.h"
 
 class Application{
 public:
@@ -36,6 +38,7 @@ public:
 protected:
 	Camera Cam;
 	EgoCam Egocam;
+	GUIEvents gui;
 	ModelList Models;
 	GLFWwindow* pWindow;
 	BaseModel* LineGrid;
@@ -68,9 +71,9 @@ protected:
 	ModelList pCoins;
 	
 	// Game Variables
-	float gravity = -15;
-	float downForce = 0.0f;
-	float terrainHeight = 0.6f;
+	float gravity = GRAVITY;
+	float downForce = DOWNFORCE;
+	float terrainHeight = TERRAIN_HEIGHT;
 };
 
 #endif /* Application_hpp */
