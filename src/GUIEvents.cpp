@@ -32,6 +32,10 @@ void GUIEvents::update(GLFWwindow* pWindow, Camera* cam) {
 		this->startIsActive = false;
 	}
 	
+	if (winningMenuIsActive && glfwGetKey(pWindow, GLFW_KEY_ENTER) == GLFW_PRESS) {
+		this->winningMenuIsActive = false;
+	}
+	
 	// Reference value for timer (frames)
 	int actionTimeout = 10;
 	
@@ -67,6 +71,7 @@ void GUIEvents::draw(BaseCamera* cam) {
 	
 	// Spielende
 	if(this->winningMenuIsActive == true) {
+		std::cout << "You won." << std::endl;
 		this->winningmenu->draw(c);
 		return;
 	}
@@ -86,5 +91,9 @@ bool GUIEvents::changeHelpMenu() {
 
 void GUIEvents::wonGame() {
 	this->winningMenuIsActive = true;
+}
+
+void GUIEvents::restartGame() {
+	this->startIsActive = true;
 }
 

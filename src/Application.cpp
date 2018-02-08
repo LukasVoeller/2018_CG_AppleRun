@@ -621,6 +621,7 @@ void Application::createScene(){
 }
 
 void Application::reset(float dtime) {
+	gui.restartGame();
 	collectedCoins = 0;
 	
 	// alle gesammelten Coins wieder positionieren

@@ -17,6 +17,7 @@ public:
 	~GUIEvents();
 	bool changeHelpMenu();
 	void wonGame();
+	void restartGame();
 	
 	void update(GLFWwindow* pWindow, Camera* cam);
 	void draw(BaseCamera* cam);
