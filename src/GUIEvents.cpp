@@ -48,6 +48,11 @@ void GUIEvents::update(GLFWwindow* pWindow, Camera* cam) {
 		actionTimer = actionTimeout;
 		this->helpIsActive = !this->helpIsActive;
 	}
+	if(helpIsActive && glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_PRESS) {
+		//close Game
+		this->closeWindow(pWindow);
+		
+	}
 	
 }
 
@@ -95,5 +100,11 @@ void GUIEvents::wonGame() {
 
 void GUIEvents::restartGame() {
 	this->startIsActive = true;
+}
+
+void GUIEvents::closeWindow(GLFWwindow* pWindow) {
+	std::cout << "Bye bye" << std::endl;
+	// Bricht while-Schleife in der main.cpp ab
+	glfwSetWindowShouldClose(pWindow, 1);
 }
 

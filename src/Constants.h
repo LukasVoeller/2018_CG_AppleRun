@@ -29,6 +29,13 @@
 #define START_POS_X 0.0f
 #define START_POS_Y 0.2f
 #define START_POS_Z 0.0f
+
+#define GAME_TITLE "CG-2018"
+
+//Window
+#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 800
+#define FULLSCREEN false
 //
 //#define PHYSICS_PLAYERSPEED 1.0f
 //#define PHYSICS_PLAYERROTATIONTIME 2.0f

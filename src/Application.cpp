@@ -621,7 +621,7 @@ void Application::createScene(){
 }
 
 void Application::reset(float dtime) {
-	gui.restartGame();
+	gui.restartGame(); //Startbildschirm aufrufen
 	collectedCoins = 0;
 	
 	// alle gesammelten Coins wieder positionieren
@@ -637,7 +637,6 @@ void Application::reset(float dtime) {
 	Matrix m;
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	pTank->transform(m);
-	//verloren/neustarten bildschirm
 }
 
 

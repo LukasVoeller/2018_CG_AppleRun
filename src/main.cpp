@@ -12,6 +12,7 @@
 #include "FreeImage.h"
 
 void PrintOpenGLVersion();
+void getResolution(int* width, int* height);
 
 int main (){
 	FreeImage_Initialise();
@@ -28,10 +29,19 @@ int main (){
 	glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 	
-	const int WindowWidth = 800;
-	const int WindowHeight = 600;
+	int WindowWidth = WINDOW_WIDTH;
+	int WindowHeight = WINDOW_HEIGHT;
 	
-	GLFWwindow* window = glfwCreateWindow (WindowWidth, WindowHeight, "Computergrafik - Hochschule Osnabrück", NULL, NULL);
+	GLFWwindow* window;
+	
+	if (FULLSCREEN) {
+		getResolution(&WindowWidth, &WindowHeight);
+		window = glfwCreateWindow(WindowWidth, WindowHeight, GAME_TITLE, glfwGetPrimaryMonitor(), NULL);
+	}
+	else {
+		window = glfwCreateWindow(WindowWidth, WindowHeight, GAME_TITLE, NULL, NULL);
+	}
+
 	if (!window){
 		fprintf (stderr, "ERROR: can not open window with GLFW3\n");
 		glfwTerminate();
@@ -44,7 +54,7 @@ int main (){
 	glewInit();
 #endif
 	
-	PrintOpenGLVersion();
+	//PrintOpenGLVersion();
 	
 	{
 		double lastTime=0;
@@ -72,4 +82,11 @@ void PrintOpenGLVersion(){
 	const GLubyte* version = glGetString (GL_VERSION);
 	printf ("Renderer: %s\n", renderer);
 	printf ("OpenGL version supported %s\n", version);
+}
+
+void getResolution(int* width, int* height) {
+	const GLFWvidmode* vmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	
+	*width = vmode->width;
+	*height = vmode->height;
 }
