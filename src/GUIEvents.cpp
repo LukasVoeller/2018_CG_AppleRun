@@ -13,12 +13,17 @@
 GUIEvents::GUIEvents(){
 	this->helpIsActive = false;
 	
-	/* HelpMenu - Press ESC */
+	/* HelpMenu - Ein-/Ausblenden mit ESC */
 	this->helpmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.003);
 	this->helpmenu->shader(new PhongShader(), true);
 	
+	/* Ausblenden mit ENTER */
 	this->startmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.003);
 	this->startmenu->shader(new PhongShader(), true);
+	
+	/* Spielende */
+	this->winningmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.003);
+	this->winningmenu->shader(new PhongShader(), true);
 }
 GUIEvents::~GUIEvents(){}
 
@@ -60,6 +65,12 @@ void GUIEvents::draw(BaseCamera* cam) {
 		return;
 	}
 	
+	// Spielende
+	if(this->winningMenuIsActive == true) {
+		this->winningmenu->draw(c);
+		return;
+	}
+	
 	// Helpmenu
 	if (this->helpIsActive == true) {
 		this->helpmenu->draw(c);
@@ -71,5 +82,9 @@ void GUIEvents::draw(BaseCamera* cam) {
 bool GUIEvents::changeHelpMenu() {
 	this->helpIsActive = !this->helpIsActive;
 	return this->helpIsActive;
+}
+
+void GUIEvents::wonGame() {
+	this->winningMenuIsActive = true;
 }
 

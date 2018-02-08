@@ -23,6 +23,12 @@
 
 #define RUNSPEED 4.0f
 #define ROTATIONSPEED 2.0f;
+
+#define ALLCOINS 4;
+
+#define START_POS_X 0.0f
+#define START_POS_Y 0.2f
+#define START_POS_Z 0.0f
 //
 //#define PHYSICS_PLAYERSPEED 1.0f
 //#define PHYSICS_PLAYERROTATIONTIME 2.0f
@@ -41,10 +47,8 @@
 //#define CAMERA_OFFSET_Y 0.1f
 //#define CAMERA_OFFSET_Z 0.0f
 //
-////Start
-//#define PLAYER_START_X 0.1f
-//#define PLAYER_START_Y 1.0f
-//#define PLAYER_START_Z 3.0f
+//Start
+
 
 
 #endif /* Constants_h */

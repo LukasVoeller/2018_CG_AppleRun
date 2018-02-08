@@ -62,9 +62,18 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	pTank = new Tank();
 	pTank->shader(pPhongShader, true);
 	pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
-	//m = m.translation(0, 0, 0);
-	//pTank->transform(m);
+	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
+	pTank->transform(m);
 	Models.push_back(pTank);
+	
+	float baymaxScaling = 0.02;
+	pTest = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
+	pTest->shader(new PhongShader(), false);
+	s = s.scale(baymaxScaling);
+	m = m.translation(-4, 0, -4);
+	pBarrier1->transform(m*s);
+	Models.push_back(pTest);
+
 	
 	//Obstacles
 	for(int i=0; i<5; ++i)
@@ -79,27 +88,28 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 		Models.push_back(pBarrier1);
 	}
 	
-//	// Coins
-//	for(int i=0; i<5; ++i){
-//		coin = new Model(ASSET_DIRECTORY "buddha.dae", false);
-//		coin->shader(new PhongShader(), false);
-//		m = m.translation(5*i+2, 0, 5);
-//		s = s.scale(1);
-//		coin->transform(m*s);
-//		pCoins.push_back(coin);
-//		Models.push_back(coin);
-//	}
-	
 	// Coins
 	for(int i=0; i<5; ++i){
-		float scaling = 2.0f;
-		coin2 = new Coin(ASSET_DIRECTORY "buddha.dae", false, scaling);
-		coin2->shader(new PhongShader(), false);
-		m = m.translation(5*i+2, 0, 5);
+		float scaling = 1.5f;
+		coin = new Coin(ASSET_DIRECTORY "buddha.dae", false, scaling);
+		coin->shader(new PhongShader(), false);
+		m = m.translation(5*i-6, 0, 5);
 		s = s.scale(scaling);
-		coin2->transform(m*s);
-		pCoins2.push_back(coin2);
-		Models.push_back(coin2);
+		coin->transform(m*s);
+		pCoins.push_back(coin);
+		Models.push_back(coin);
+	}
+	
+	// Fallen
+	for(int i=0; i<5; ++i){
+		float scaling = 1.0f;
+		deathblock = new DeathBlock(ASSET_DIRECTORY "bunny.dae", false, scaling);
+		deathblock->shader(new PhongShader(), false);
+		m = m.translation(5*i-6, 0, 3);
+		s = s.scale(scaling);
+		deathblock->transform(m*s);
+		pDeathblocks.push_back(deathblock);
+		Models.push_back(deathblock);
 	}
 	
 	// EgoCam
@@ -107,7 +117,8 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	Egocam.ViewMatrix().identity();
 	
 	/* ------- GAME LOGIC --------- */
-	allCoins = (unsigned int) pCoins.size();
+	allCoins = ALLCOINS;
+	//allCoins = (unsigned int) pCoins.size();
 	collectedCoins = 0;
 }
 
@@ -153,12 +164,7 @@ void Application::getInputPitchRollForward(float& pitch, float& roll, float& for
 void Application::update(float dtime){
 	Cam.update();
 	time+=dtime;
-	
 	gui.update(pWindow, &Cam);
-//	if (glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-//		std::cout << "ESC " << gui.changeHelpMenu() << std::endl;
-//
-//	}
 	
 	// Tank steering
     double deltaTime = calcDeltaTime();
@@ -177,56 +183,55 @@ void Application::update(float dtime){
 	
 	// Collision
 	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
-		if(collisionDetection(pTank, (Model*)(*it))){
-			std::cout << "collision!" << std::endl;
-			pTank->steer(-1 * forwardBackward, -1 * leftRight);
-		}
-	}
-	
-	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
 		else {
-			Model* coin = (Model*)*it;
 			if(collisionDetection(pTank, (Model*)(*it))){
-				std::cout << "found coin - remove Model" << std::endl;
-				collectedCoins++;
-				actionTimer = 10; //Timer neu setzen
+				std::cout << "collision!" << std::endl;
+				actionTimer = 10;
+				pTank->steer3d(-2 * forwardBackward, -2 * leftRight, 0);
 			}
 		}
 	}
 	
-//	for(ModelList::iterator it = mlist.begin(); it != mlist.end(); ++it){
-//		if (actionTimer > 0) {
-//			actionTimer--;
-//			return NULL;
-//		}
-//		Model* m = (Model*)(*it);
-//		if(collisionDetection(pTank, m)){
-//			actionTimer = 10; //Timer neu setzen
-//			std::cout << "Collision" << std::endl;
-//			return m;
-//		}
-//	}
-	
-	int actionTimeout = 10;
-	
-	//collisionDetect(ModelList m);
-	
-	for(ModelList::iterator it = pCoins2.begin(); it != pCoins2.end(); ++it){
+	// Collision
+	for(ModelList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
 		if (actionTimer > 0) {
 			actionTimer--;
-			return;
 		}
+		else {
+			if(collisionDetection(pTank, (Model*)(*it))){
+				std::cout << "death!" << std::endl;
+				actionTimer = 10;
+				reset(deltaTime);
+				//auf start zurücksetzen
+			}
+		}
+	}
+	
+	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
 		Coin* c = (Coin*)(*it);
-		if(collisionDetection(pTank, c)){
-			actionTimer = actionTimeout;
-			collectedCoins++;
-			c->update(deltaTime);
-			
-			std::cout << "found coin" << collectedCoins << std::endl;
+		if (actionTimer > 0) {
+			actionTimer--;
 		}
+		else if(collisionDetection(pTank, c) && actionTimer == 0 && c->collected == false){
+			collectedCoins++;
+			actionTimer = 5; //Timer neu setzen
+			std::cout << "found coin" << collectedCoins << std::endl;
+			c->collected = true;
+			c->setHeight(10.0f);
+			
+		}
+		if(c->collected && c->getHeight() > -15.0f) {
+			float newHeight = c->getHeight() - 0.75f;
+			c->setHeight(newHeight);
+			c->update(deltaTime);
+		}
+	}
+	
+	if(collectedCoins == allCoins) {
+		gui.wonGame();
 	}
 	
 	// Aiming
@@ -613,6 +618,26 @@ void Application::createScene(){
 	 sl->outerRadius(outerradius);
 	 ShaderLightMapper::instance().addLight(sl);
 	 */
+}
+
+void Application::reset(float dtime) {
+	collectedCoins = 0;
+	
+	// alle gesammelten Coins wieder positionieren
+	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		Coin* c = (Coin*)(*it);
+		if(c->collected) {
+			c->collected = false;
+			std::cout << "reset" << std::endl;
+			c->setHeight(1.5f);
+			c->update(dtime);
+		}
+	}
+	//Figur wieder auf den Startpunkt
+	Matrix m;
+	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
+	pTank->transform(m);
+	//verloren/neustarten bildschirm
 }
 
 

@@ -92,7 +92,8 @@ void Tank::update(float dtime)
     CannonMat = tmp * CannonMat.rotationY(0.5 * M_PI);
     
     //Erlaubten Bereich definieren
-    if(TankMat.m03 > -1.2f && TankMat.m03 < 4.0f)
+//    if(TankMat.m03 > -1.2f && TankMat.m03 < 4.0f)
+	if(true)
     {
         //Alles zusammen bauen
         this->cannon->transform(CannonMat);

@@ -21,6 +21,7 @@
 #include "ShadowMapGenerator.h"
 #include "Tank.h"
 #include "Coin.h"
+#include "DeathBlock.h"
 
 #include "EgoCam.h"
 #include "GUIEvents.h"
@@ -68,14 +69,14 @@ protected:
 	ModelList pBarriers;
 	
 	// Coins
-	Model* coin;
+	Coin* coin;
 	ModelList pCoins;
 	unsigned int allCoins;
 	unsigned int collectedCoins;
 	
-	// Coins NEW
-	Coin* coin2;
-	ModelList pCoins2;
+	//DeathBlock
+	DeathBlock* deathblock;
+	ModelList pDeathblocks;
 	
 	// Game Variables
 	float gravity = GRAVITY;
@@ -83,6 +84,11 @@ protected:
 	float terrainHeight = TERRAIN_HEIGHT;
 	
 	int actionTimer;
+	
+	//testmodel
+	Model* pTest;
+	
+	void reset(float dtime);
 };
 
 #endif /* Application_hpp */
