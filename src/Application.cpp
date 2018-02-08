@@ -629,7 +629,6 @@ void Application::reset(float dtime) {
 		if(c->collected) {
 			c->collected = false;
 			std::cout << "reset" << std::endl;
-			c->setHeight(1.5f);
 			c->update(dtime);
 		}
 	}
