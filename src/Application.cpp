@@ -456,17 +456,21 @@ float Application::getLeftRight(){
     return direction;
 }
 
-float Application::getForwardBackward(){
-    float direction = 0.0f;
+float Application::getForwardBackward()
+{
+	float direction = 0.0f;
+	float speed = (glfwGetKey(pWindow, GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS) ? ADDSPEED : 0.0f;
+	
     // Move forward
 	if (glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS){
-        direction += RUNSPEED;
+		speed += RUNSPEED;
+        direction += speed;
 	}
     // Move backward
 	if (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS){
-		direction -= RUNSPEED;
+		speed += RUNSPEED;
+		direction -= speed;
 	}
-//	std::cout << "getForwardBackward" << direction << std::endl;
     return direction;
 }
 
