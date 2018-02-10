@@ -12,6 +12,7 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Texture.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/ShaderLightMapper.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Lights.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/OutlineShader.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/ConstantShader.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/VertexBuffer.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/IndexBuffer.h \

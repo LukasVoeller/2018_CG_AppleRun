@@ -14,6 +14,7 @@
 #include "Camera.h"
 #include "Constants.h"
 #include "PhongShader.h"
+#include "OutlineShader.h"
 #include "ConstantShader.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"

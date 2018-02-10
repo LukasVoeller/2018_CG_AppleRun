@@ -8,12 +8,7 @@
 
 #include "PhongShader.h"
 #include <string>
-
-#ifdef WIN32
-#define ASSET_DIRECTORY "../../assets/"
-#else
-#define ASSET_DIRECTORY "../assets/"
-#endif
+#include "Constants.h"
 
 const char *VertexShaderCode =
 "#version 400\n"

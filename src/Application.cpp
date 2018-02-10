@@ -48,9 +48,12 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	createScene();
 	//createNormalTestScene();
 	//createShadowTestScene();
+	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
     ConstantShader* pConstShader = new ConstantShader();
     PhongShader* pPhongShader = new PhongShader();
+	//OutlineShader* pOutlineShader = new OutlineShader(ASSET_DIRECTORY "vsoutline.glsl", ASSET_DIRECTORY "fsoutline.glsl");
+	OutlineShader* pOutlineShader = new OutlineShader();
 	Matrix m,s;
 	
 	// CREATE GUI
@@ -68,7 +71,8 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	
 	float baymaxScaling = 0.02;
 	pTest = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
-	pTest->shader(new PhongShader(), false);
+//	pTest->shader(pPhongShader, false);
+	pTest->shader(pOutlineShader, false);
 	s = s.scale(baymaxScaling);
 	m = m.translation(-4, 0, -4);
 	pBarrier1->transform(m*s);
