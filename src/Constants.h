@@ -16,13 +16,34 @@
 #define ASSET_DIRECTORY "../assets/"
 #endif
 
+//Shader
+#ifdef WIN32
+#define SHADER_DIRECTORY "../../shader/"
+#else
+#define SHADER_DIRECTORY "../shader/"
+#endif
+
 //Physics
 #define GRAVITY -15.0f
 #define DOWNFORCE 0.0f
 #define TERRAIN_HEIGHT 0.6f
 
-#define RUNSPEED 4.0f
+#define RUNSPEED 4.0f 	//normal speed
+#define	ADDSPEED 2.0 	//additional speed for running
 #define ROTATIONSPEED 2.0f;
+
+#define ALLCOINS 4;
+
+#define START_POS_X 0.0f
+#define START_POS_Y 0.2f
+#define START_POS_Z 0.0f
+
+#define GAME_TITLE "CG-2018"
+
+//Window
+#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 800
+#define FULLSCREEN false
 //
 //#define PHYSICS_PLAYERSPEED 1.0f
 //#define PHYSICS_PLAYERROTATIONTIME 2.0f
@@ -41,10 +62,8 @@
 //#define CAMERA_OFFSET_Y 0.1f
 //#define CAMERA_OFFSET_Z 0.0f
 //
-////Start
-//#define PLAYER_START_X 0.1f
-//#define PLAYER_START_Y 1.0f
-//#define PLAYER_START_Z 3.0f
+//Start
+
 
 
 #endif /* Constants_h */

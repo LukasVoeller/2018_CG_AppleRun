@@ -13,4 +13,5 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/BaseShader.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Aabb.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Texture.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/PhongShader.h
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/PhongShader.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Constants.h

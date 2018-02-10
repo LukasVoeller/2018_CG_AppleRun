@@ -16,18 +16,23 @@ public:
 	GUIEvents();
 	~GUIEvents();
 	bool changeHelpMenu();
-	bool startMenu();
+	void wonGame();
+	void restartGame();
 	
 	void update(GLFWwindow* pWindow, Camera* cam);
 	void draw(BaseCamera* cam);
 protected:
 	Model* helpmenu = NULL;
 	Model* startmenu = NULL;
+	Model* winningmenu = NULL;
 	
 	bool helpIsActive = false;
 	bool startIsActive = true;
+	bool winningMenuIsActive = false;
 	// timer for actions
 	int actionTimer = 0;
+	
+	void closeWindow(GLFWwindow* pWindow);
 };
 
 

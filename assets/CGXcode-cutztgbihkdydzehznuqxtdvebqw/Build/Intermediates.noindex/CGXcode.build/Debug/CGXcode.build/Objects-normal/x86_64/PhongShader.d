@@ -9,4 +9,5 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/BaseShader.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Texture.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/ShaderLightMapper.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Lights.h
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Lights.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Constants.h

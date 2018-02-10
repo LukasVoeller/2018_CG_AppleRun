@@ -3,16 +3,12 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "PhongShader.h"
+#include "Constants.h"
 
-#ifdef WIN32
-#define ASSET_DIRECTORY "../../assets/"
-#else
-#define ASSET_DIRECTORY "../assets/"
-#endif
 
 ShadowMapShader::ShadowMapShader()
 {
-	bool loaded = load(ASSET_DIRECTORY"vsdepth.glsl", ASSET_DIRECTORY"fsdepth.glsl");
+	bool loaded = load(SHADER_DIRECTORY"vsdepth.glsl", SHADER_DIRECTORY"fsdepth.glsl");
 	if (!loaded)
 		throw std::exception();
 	

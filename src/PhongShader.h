@@ -31,6 +31,7 @@
 class PhongShader : public BaseShader
 {
 public:
+	PhongShader(const std::string& vs, const std::string& fs);
     PhongShader(bool LoadStaticShaderCode=true);
     //Setter
     void diffuseColor( const Color& c);
@@ -57,7 +58,7 @@ public:
 protected:
     void assignLocations();
 	
-private:
+protected:
     Color DiffuseColor;
     Color SpecularColor;
     Color AmbientColor;

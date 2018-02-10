@@ -48,10 +48,13 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	createScene();
 	//createNormalTestScene();
 	//createShadowTestScene();
+	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
     ConstantShader* pConstShader = new ConstantShader();
     PhongShader* pPhongShader = new PhongShader();
 	Matrix m,s,r;
+	//OutlineShader* pOutlineShader = new OutlineShader(ASSET_DIRECTORY "vsoutline.glsl", ASSET_DIRECTORY "fsoutline.glsl");
+	OutlineShader* pOutlineShader = new OutlineShader();
 	
 	// CREATE GUI
 	GUIEvents gui = GUIEvents();
@@ -61,10 +64,19 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	pTank = new Tank();
 	pTank->shader(pPhongShader, true);
 	pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
-	//m = m.translation(0, 0, 0);
-	//pTank->transform(m);
+	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
+	pTank->transform(m);
 	Models.push_back(pTank);
 	
+	float baymaxScaling = 0.02;
+	pTest = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
+//	pTest->shader(pPhongShader, false);
+	pTest->shader(pOutlineShader, false);
+	s = s.scale(baymaxScaling);
+	m = m.translation(-4, 0, -4);
+	pBarrier1->transform(m*s);
+	Models.push_back(pTest);
+
 	//Obstacles
 	for(int i=0; i<5; ++i)
 	{
@@ -78,37 +90,38 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 		Models.push_back(pBarrier1);
 	}
 	
-//	// Coins
-//	for(int i=0; i<5; ++i){
-//		coin = new Model(ASSET_DIRECTORY "buddha.dae", false);
-//		coin->shader(new PhongShader(), false);
-//		m = m.translation(5*i+2, 0, 5);
-//		s = s.scale(1);
-//		coin->transform(m*s);
-//		pCoins.push_back(coin);
-//		Models.push_back(coin);
-//	}
-	
 	// Coins
 	for(int i=0; i<5; ++i){
-		coin = new Model(ASSET_DIRECTORY "coin.obj", false);
+		float scaling = 1.5f;
+		coin = new Coin(ASSET_DIRECTORY "buddha.dae", false, scaling);
 		coin->shader(new PhongShader(), false);
-		float scaling = 2.0f;
-		coin2 = new Coin(ASSET_DIRECTORY "buddha.dae", false, scaling);
-		coin2->shader(new PhongShader(), false);
-		m = m.translation(5*i+2, 0, 5);
+		m = m.translation(5*i-6, 0, 5);
 		s = s.scale(scaling);
-		coin2->transform(m*s);
-		pCoins2.push_back(coin2);
-		Models.push_back(coin2);
+		coin->transform(m*s);
+		pCoins.push_back(coin);
+		Models.push_back(coin);
+	}
+	
+	// Fallen
+	for(int i=0; i<5; ++i){
+		float scaling = 1.0f;
+		deathblock = new DeathBlock(ASSET_DIRECTORY "bunny.dae", false, scaling);
+		deathblock->shader(new PhongShader(), false);
+		m = m.translation(5*i-6, 0, 3);
+		s = s.scale(scaling);
+		deathblock->transform(m*s);
+		pDeathblocks.push_back(deathblock);
+		Models.push_back(deathblock);
 	}
 	
 	// EgoCam
-	Egocam.ProjMatrix().perspective(toRadApp(90), 4.0f/3.0f, 0.1f, 100.0f);
 	Egocam.ViewMatrix().identity();
+	Egocam.ProjMatrix().perspective((float)M_PI*65.0f/180.0f, 640/480, 0.045f, 1000.0f);
+	//Egocam.ProjMatrix().perspective(toRadApp(90), 4.0f/3.0f, 0.1f, 100.0f);
 	
 	/* ------- GAME LOGIC --------- */
-	allCoins = (unsigned int) pCoins.size();
+	allCoins = ALLCOINS;
+	//allCoins = (unsigned int) pCoins.size();
 	collectedCoins = 0;
 }
 
@@ -122,28 +135,29 @@ void Application::start(){
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-// For EgoCam
+// EgoCam
 void Application::getInputPitchRollForward(float& pitch, float& roll, float& forward){
 	pitch = 0;
 	roll = 0;
 	forward = 0;
 	
 	bool upPressed = glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS;
-	bool downPressed = (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS || (glfwGetKey(pWindow, GLFW_KEY_Z ) == GLFW_PRESS));
+	bool downPressed = (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS ||
+						(glfwGetKey(pWindow, GLFW_KEY_Z ) == GLFW_PRESS));
 	bool leftPressed = glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS;
 	bool rightPressed = glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS;
 	bool forwardPressed = glfwGetKey(pWindow, GLFW_KEY_W ) == GLFW_PRESS;
 	bool backwardPressed = glfwGetKey(pWindow, GLFW_KEY_S ) == GLFW_PRESS;
 	
 	if(upPressed)
-		pitch = 1;
+		pitch = 0;
 	else if(downPressed)
-		pitch = -1;
+		pitch = 0;
 	
 	if(leftPressed)
-		roll = -1;
+		roll = 0;
 	else if(rightPressed)
-		roll = 1;
+		roll = 0;
 	
 	if(forwardPressed)
 		forward = 1;
@@ -154,12 +168,7 @@ void Application::getInputPitchRollForward(float& pitch, float& roll, float& for
 void Application::update(float dtime){
 	Cam.update();
 	time+=dtime;
-	
 	gui.update(pWindow, &Cam);
-//	if (glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-//		std::cout << "ESC " << gui.changeHelpMenu() << std::endl;
-//
-//	}
 	
 	// Tank steering
     double deltaTime = calcDeltaTime();
@@ -178,84 +187,85 @@ void Application::update(float dtime){
 
 	// Collision
 	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
-		if(collisionDetection(pTank, (Model*)(*it))){
-			std::cout << "collision!" << std::endl;
-			pTank->steer(-1 * forwardBackward, -1 * leftRight);
-		}
-	}
-	
-	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
 		else {
-			Model* coin = (Model*)*it;
 			if(collisionDetection(pTank, (Model*)(*it))){
-				std::cout << "found coin - remove Model" << std::endl;
-				collectedCoins++;
-				actionTimer = 10; //Timer neu setzen
+				std::cout << "collision!" << std::endl;
+				actionTimer = 10;
+				pTank->steer3d(-2 * forwardBackward, -2 * leftRight, 0);
 			}
 		}
 	}
 	
-//	for(ModelList::iterator it = mlist.begin(); it != mlist.end(); ++it){
-//		if (actionTimer > 0) {
-//			actionTimer--;
-//			return NULL;
-//		}
-//		Model* m = (Model*)(*it);
-//		if(collisionDetection(pTank, m)){
-//			actionTimer = 10; //Timer neu setzen
-//			std::cout << "Collision" << std::endl;
-//			return m;
-//		}
-//	}
-	
-	int actionTimeout = 10;
-	
-	//collisionDetect(ModelList m);
-	
-	for(ModelList::iterator it = pCoins2.begin(); it != pCoins2.end(); ++it){
+	// Collision
+	for(ModelList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
 		if (actionTimer > 0) {
 			actionTimer--;
-			return;
 		}
-		Coin* c = (Coin*)(*it);
-		if(collisionDetection(pTank, c)){
-			actionTimer = actionTimeout;
-			collectedCoins++;
-			c->update(deltaTime);
-			
-			std::cout << "found coin" << collectedCoins << std::endl;
+		else {
+			if(collisionDetection(pTank, (Model*)(*it))){
+				std::cout << "death!" << std::endl;
+				actionTimer = 10;
+				reset(deltaTime);
+				//auf start zurücksetzen
+			}
 		}
 	}
 	
+	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		Coin* c = (Coin*)(*it);
+		if (actionTimer > 0) {
+			actionTimer--;
+		}
+		else if(collisionDetection(pTank, c) && actionTimer == 0 && c->collected == false){
+			collectedCoins++;
+			actionTimer = 5; //Timer neu setzen
+			std::cout << "found coin" << collectedCoins << std::endl;
+			c->collected = true;
+			c->setHeight(10.0f);
+			
+		}
+		if(c->collected && c->getHeight() > -15.0f) {
+			float newHeight = c->getHeight() - 0.75f;
+			c->setHeight(newHeight);
+			c->update(deltaTime);
+		}
+	}
+	
+	if(collectedCoins == allCoins) {
+		gui.wonGame();
+	}
+	
 	// Aiming
-	 double xpos, ypos;
-	 glfwGetCursorPos(pWindow, &xpos, &ypos);
-	 Vector pos = calc3DRay(xpos, ypos, pos);
-	 pTank->aim(pos);
+	double xpos, ypos;
+	glfwGetCursorPos(pWindow, &xpos, &ypos);
+	Vector pos = calc3DRay(xpos, ypos, pos);
+	pTank->aim(pos);
 	
 	// Tank steering
-//	Matrix tankMat = pTank->transform();
-//	float roll, pitch, forward;
-//	getInputPitchRollForward(pitch, roll, forward);
-//
-//	Matrix rollMat, pitchMat, forwardMat;
-//	pitchMat.rotationX(pitch * dtime * 2.0f);
-//	rollMat.rotationZ(roll * dtime * 2.0f);
-//	forwardMat.translation(0, 0, forward * dtime * 2.0f);
-//	tankMat = tankMat * forwardMat * pitchMat * rollMat;
-//	pTank->transform(tankMat);
-//
-//	// Version 1: Third person cam based on inverted object matrix
-//	Matrix matRot180;
-//	Matrix matTransView;
-//	matTransView.translation(0, 0.5f, 1);
-//	matRot180.rotationY(toRadApp(180));
-//	Matrix tankViewMatrix = tankMat * matRot180 * matTransView;
-//	tankViewMatrix.invert();
-//	Egocam.ViewMatrix() = tankViewMatrix;
+	float roll, pitch, forward;
+	Matrix tankMat = pTank->transform();
+	getInputPitchRollForward(pitch, roll, forward);
+	
+	Matrix rollMat, pitchMat, forwardMat;
+	pitchMat.rotationX(pitch * dtime * 2.0f);
+	rollMat.rotationZ(roll * dtime * 2.0f);
+	forwardMat.translation(0, 0, forward * dtime * 2.0f);
+	tankMat = tankMat * forwardMat * pitchMat * rollMat;
+	pTank->transform(tankMat);
+
+	// Version 1: Third person cam based on inverted object matrix
+	Matrix matRotHorizontal;
+	Matrix matRotVertical;
+	Matrix matTransView;
+	matTransView.translation(0, 2.0f, 5);
+	matRotHorizontal.rotationY(toRadApp(-90));
+	matRotVertical.rotationX(toRadApp(-30));
+	Matrix tankViewMatrix = tankMat * matRotHorizontal * matRotVertical * matTransView;
+	tankViewMatrix.invert();
+	Egocam.ViewMatrix() = tankViewMatrix;
 	
 	//pTank->update(deltaTime);
 	
@@ -361,7 +371,6 @@ void Application::end(){
     Models.clear();
 }
 
-
 void Application::createNormalTestScene(){
 	pModel = new LinePlaneModel(10, 10, 10, 10);
 	ConstantShader* pConstShader = new ConstantShader();
@@ -448,17 +457,21 @@ float Application::getLeftRight(){
     return direction;
 }
 
-float Application::getForwardBackward(){
-    float direction = 0.0f;
+float Application::getForwardBackward()
+{
+	float direction = 0.0f;
+	float speed = (glfwGetKey(pWindow, GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS) ? ADDSPEED : 0.0f;
+	
     // Move forward
 	if (glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS){
-        direction += RUNSPEED;
+		speed += RUNSPEED;
+        direction += speed;
 	}
     // Move backward
 	if (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS){
-		direction -= RUNSPEED;
+		speed += RUNSPEED;
+		direction -= speed;
 	}
-//	std::cout << "getForwardBackward" << direction << std::endl;
     return direction;
 }
 
@@ -613,4 +626,23 @@ void Application::createScene(){
 	 sl->outerRadius(outerradius);
 	 ShaderLightMapper::instance().addLight(sl);
 	 */
+}
+
+void Application::reset(float dtime) {
+	gui.restartGame(); //Startbildschirm aufrufen
+	collectedCoins = 0;
+	
+	// alle gesammelten Coins wieder positionieren
+	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		Coin* c = (Coin*)(*it);
+		if(c->collected) {
+			c->collected = false;
+			std::cout << "reset" << std::endl;
+			c->update(dtime);
+		}
+	}
+	//Figur wieder auf den Startpunkt
+	Matrix m;
+	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
+	pTank->transform(m);
 }

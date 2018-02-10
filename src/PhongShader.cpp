@@ -8,12 +8,7 @@
 
 #include "PhongShader.h"
 #include <string>
-
-#ifdef WIN32
-#define ASSET_DIRECTORY "../../assets/"
-#else
-#define ASSET_DIRECTORY "../assets/"
-#endif
+#include "Constants.h"
 
 const char *VertexShaderCode =
 "#version 400\n"
@@ -78,7 +73,7 @@ PhongShader::PhongShader(bool LoadStaticShaderCode) :
     if(!LoadStaticShaderCode)
         return;
     //ShaderProgram = createShaderProgram(VertexShaderCode, FragmentShaderCode);
-	bool loaded = load(ASSET_DIRECTORY"vsphong.glsl", ASSET_DIRECTORY"fsphong.glsl");
+	bool loaded = load(SHADER_DIRECTORY"vsphong.glsl", SHADER_DIRECTORY"fsphong.glsl");
 	if (!loaded)
 		throw std::exception();
     assignLocations();

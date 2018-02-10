@@ -12,6 +12,7 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Texture.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/ShaderLightMapper.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Lights.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/OutlineShader.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/ConstantShader.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/VertexBuffer.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/IndexBuffer.h \
@@ -51,6 +52,7 @@ dependencies: \
   thirdparty/assimp/include/assimp/metadata.h \
   thirdparty/assimp/include/assimp/postprocess.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Coin.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/DeathBlock.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/EgoCam.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/GUIEvents.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/LinePlaneModel.h \

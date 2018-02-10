@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		80398D6920289B6300010C49 /* GUIEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80398D6820289B6300010C49 /* GUIEvents.cpp */; };
 		80398D6D202A025900010C49 /* Coin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80398D6B202A025800010C49 /* Coin.cpp */; };
+		80398F2C202C516A00010C49 /* DeathBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80398F2B202C516A00010C49 /* DeathBlock.cpp */; };
 		8040FAD81FFF76FA004B3A5C /* libassimp.4.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */; };
 		8040FADA1FFF7703004B3A5C /* libfreeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD91FFF7703004B3A5C /* libfreeimage.a */; };
 		805A7472200A620D0057761B /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168C1FEBE2E10079DD72 /* VertexBuffer.cpp */; };
@@ -40,6 +41,7 @@
 		805A74A5200A620D0057761B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316941FEBE2E30079DD72 /* main.cpp */; };
 		805A74A7200A620D0057761B /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A21FEBE2E50079DD72 /* Application.cpp */; };
 		808232FC2007EE6F00B3A6A0 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */; };
+		809B2BDD202EC9A3005C708C /* OutlineShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BDC202EC9A3005C708C /* OutlineShader.cpp */; };
 		80D316F31FEBE8820079DD72 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D316F21FEBE8820079DD72 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,11 +62,16 @@
 		80398D6820289B6300010C49 /* GUIEvents.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GUIEvents.cpp; path = ../src/GUIEvents.cpp; sourceTree = "<group>"; };
 		80398D6A20289C1D00010C49 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../src/Constants.h; sourceTree = "<group>"; };
 		80398D6B202A025800010C49 /* Coin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Coin.cpp; path = ../src/Coin.cpp; sourceTree = "<group>"; };
-		80398D6E202A028000010C49 /* Coin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Coin.h; sourceTree = "<group>"; };
+		80398F27202B684800010C49 /* CGXcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CGXcode; sourceTree = BUILT_PRODUCTS_DIR; };
+		80398F28202B7C8800010C49 /* Coin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Coin.h; path = ../src/Coin.h; sourceTree = "<group>"; };
+		80398F2A202C514100010C49 /* DeathBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DeathBlock.h; path = ../src/DeathBlock.h; sourceTree = "<group>"; };
+		80398F2B202C516A00010C49 /* DeathBlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DeathBlock.cpp; path = ../src/DeathBlock.cpp; sourceTree = "<group>"; };
 		8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.1.0.dylib; path = thirdparty/assimp/libassimp.4.1.0.dylib; sourceTree = "<group>"; };
 		8040FAD91FFF7703004B3A5C /* libfreeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreeimage.a; path = thirdparty/freeimage/libfreeimage.a; sourceTree = "<group>"; };
 		8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		808232F42007E72800B3A6A0 /* libglfw.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.dylib; path = thirdparty/glfw/libglfw.3.dylib; sourceTree = "<group>"; };
+		809B2BDC202EC9A3005C708C /* OutlineShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OutlineShader.cpp; path = ../src/OutlineShader.cpp; sourceTree = "<group>"; };
+		809B2BDE202EC9B9005C708C /* OutlineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OutlineShader.h; path = ../src/OutlineShader.h; sourceTree = "<group>"; };
 		80D316731FEBE2DF0079DD72 /* BaseShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BaseShader.h; path = ../src/BaseShader.h; sourceTree = "<group>"; };
 		80D316741FEBE2DF0079DD72 /* Rgbimage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Rgbimage.cpp; path = ../src/Rgbimage.cpp; sourceTree = "<group>"; };
 		80D316751FEBE2DF0079DD72 /* BaseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BaseModel.h; path = ../src/BaseModel.h; sourceTree = "<group>"; };
@@ -116,7 +123,6 @@
 		80D316A31FEBE2E50079DD72 /* IndexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IndexBuffer.h; path = ../src/IndexBuffer.h; sourceTree = "<group>"; };
 		80D316A41FEBE2E50079DD72 /* Color.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Color.cpp; path = ../src/Color.cpp; sourceTree = "<group>"; };
 		80D316A51FEBE2E50079DD72 /* Lights.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Lights.h; path = ../src/Lights.h; sourceTree = "<group>"; };
-		80D316F01FEBE7A10079DD72 /* CGXcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = CGXcode; path = /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/CGXcode/build/Debug/CGXcode; sourceTree = "<absolute>"; };
 		80D316F21FEBE8820079DD72 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		80E003941FED3E6000601BEA /* EgoCam.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EgoCam.cpp; path = ../src/EgoCam.cpp; sourceTree = "<group>"; };
 		80E003971FED3E8300601BEA /* EgoCam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EgoCam.h; path = ../src/EgoCam.h; sourceTree = "<group>"; };
@@ -144,6 +150,7 @@
 			children = (
 				7ABD816E1DA3C6050008D349 /* CGXcode */,
 				80D316D91FEBE42E0079DD72 /* Frameworks */,
+				80398F27202B684800010C49 /* CGXcode */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 1;
@@ -194,8 +201,14 @@
 		80D316FD1FEBF1330079DD72 /* Shader */ = {
 			isa = PBXGroup;
 			children = (
+				80D316901FEBE2E20079DD72 /* ShaderLightMapper.h */,
+				80D3168F1FEBE2E20079DD72 /* ShaderLightMapper.cpp */,
+				80D316791FEBE2DF0079DD72 /* ShadowMapGenerator.h */,
+				80D316811FEBE2E00079DD72 /* ShadowMapGenerator.cpp */,
 				80D316A11FEBE2E40079DD72 /* ConstantShader.h */,
 				80D316831FEBE2E00079DD72 /* ConstantShader.cpp */,
+				809B2BDE202EC9B9005C708C /* OutlineShader.h */,
+				809B2BDC202EC9A3005C708C /* OutlineShader.cpp */,
 				80D316731FEBE2DF0079DD72 /* BaseShader.h */,
 				80D3167B1FEBE2DF0079DD72 /* BaseShader.cpp */,
 				80D316891FEBE2E10079DD72 /* PhongShader.h */,
@@ -241,10 +254,6 @@
 		80D317001FEBF1D30079DD72 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				80D316901FEBE2E20079DD72 /* ShaderLightMapper.h */,
-				80D3168F1FEBE2E20079DD72 /* ShaderLightMapper.cpp */,
-				80D316791FEBE2DF0079DD72 /* ShadowMapGenerator.h */,
-				80D316811FEBE2E00079DD72 /* ShadowMapGenerator.cpp */,
 				80D316991FEBE2E30079DD72 /* Color.h */,
 				80D316A41FEBE2E50079DD72 /* Color.cpp */,
 				80D3167D1FEBE2E00079DD72 /* Rgbimage.h */,
@@ -257,7 +266,9 @@
 			isa = PBXGroup;
 			children = (
 				80398D6B202A025800010C49 /* Coin.cpp */,
-				80398D6E202A028000010C49 /* Coin.h */,
+				80398F28202B7C8800010C49 /* Coin.h */,
+				80398F2A202C514100010C49 /* DeathBlock.h */,
+				80398F2B202C516A00010C49 /* DeathBlock.cpp */,
 				80D3168A1FEBE2E10079DD72 /* Tank.h */,
 				80D316A01FEBE2E40079DD72 /* Tank.cpp */,
 			);
@@ -301,7 +312,7 @@
 			);
 			name = CGXcode;
 			productName = CGXcode;
-			productReference = 80D316F01FEBE7A10079DD72 /* CGXcode */;
+			productReference = 80398F27202B684800010C49 /* CGXcode */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -373,7 +384,9 @@
 				805A7498200A620D0057761B /* ConstantShader.cpp in Sources */,
 				805A749A200A620D0057761B /* BaseShader.cpp in Sources */,
 				805A749C200A620D0057761B /* PhongShader.cpp in Sources */,
+				80398F2C202C516A00010C49 /* DeathBlock.cpp in Sources */,
 				805A749E200A620D0057761B /* ShaderLightMapper.cpp in Sources */,
+				809B2BDD202EC9A3005C708C /* OutlineShader.cpp in Sources */,
 				80398D6D202A025900010C49 /* Coin.cpp in Sources */,
 				805A74A0200A620D0057761B /* ShadowMapGenerator.cpp in Sources */,
 				805A74A2200A620D0057761B /* Color.cpp in Sources */,
