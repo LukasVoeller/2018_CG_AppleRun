@@ -1,4 +1,5 @@
 
+
 //
 //  Application.cpp
 //  ogl4
@@ -67,30 +68,48 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	//Obstacles
 	for(int i=0; i<5; ++i)
 	{
-		float scaling = 2.0f;
+		float scaling = 1.0f;
 		pBarrier1 = new Model(ASSET_DIRECTORY "buddha.dae", false, scaling);
 		pBarrier1->shader(new PhongShader(), false);
-		m = m.translation(5*i+4, 0, -5);
+		m = m.translation(5*i-2, 0, -5);
 		s = s.scale(scaling);
 		pBarrier1->transform(m*s);
 		pBarriers.push_back(pBarrier1);
 		Models.push_back(pBarrier1);
 	}
 	
+//	// Coins
+//	for(int i=0; i<5; ++i){
+//		coin = new Model(ASSET_DIRECTORY "buddha.dae", false);
+//		coin->shader(new PhongShader(), false);
+//		m = m.translation(5*i+2, 0, 5);
+//		s = s.scale(1);
+//		coin->transform(m*s);
+//		pCoins.push_back(coin);
+//		Models.push_back(coin);
+//	}
+	
 	// Coins
 	for(int i=0; i<5; ++i){
 		coin = new Model(ASSET_DIRECTORY "coin.obj", false);
 		coin->shader(new PhongShader(), false);
+		float scaling = 2.0f;
+		coin2 = new Coin(ASSET_DIRECTORY "buddha.dae", false, scaling);
+		coin2->shader(new PhongShader(), false);
 		m = m.translation(5*i+2, 0, 5);
-		s = s.scale(1);
-		coin->transform(m*s);
-		pCoins.push_back(coin);
-		Models.push_back(coin);
+		s = s.scale(scaling);
+		coin2->transform(m*s);
+		pCoins2.push_back(coin2);
+		Models.push_back(coin2);
 	}
 	
 	// EgoCam
 	Egocam.ProjMatrix().perspective(toRadApp(90), 4.0f/3.0f, 0.1f, 100.0f);
 	Egocam.ViewMatrix().identity();
+	
+	/* ------- GAME LOGIC --------- */
+	allCoins = (unsigned int) pCoins.size();
+	collectedCoins = 0;
 }
 
 void Application::start(){
@@ -165,34 +184,78 @@ void Application::update(float dtime){
 		}
 	}
 	
+	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		if (actionTimer > 0) {
+			actionTimer--;
+		}
+		else {
+			Model* coin = (Model*)*it;
+			if(collisionDetection(pTank, (Model*)(*it))){
+				std::cout << "found coin - remove Model" << std::endl;
+				collectedCoins++;
+				actionTimer = 10; //Timer neu setzen
+			}
+		}
+	}
+	
+//	for(ModelList::iterator it = mlist.begin(); it != mlist.end(); ++it){
+//		if (actionTimer > 0) {
+//			actionTimer--;
+//			return NULL;
+//		}
+//		Model* m = (Model*)(*it);
+//		if(collisionDetection(pTank, m)){
+//			actionTimer = 10; //Timer neu setzen
+//			std::cout << "Collision" << std::endl;
+//			return m;
+//		}
+//	}
+	
+	int actionTimeout = 10;
+	
+	//collisionDetect(ModelList m);
+	
+	for(ModelList::iterator it = pCoins2.begin(); it != pCoins2.end(); ++it){
+		if (actionTimer > 0) {
+			actionTimer--;
+			return;
+		}
+		Coin* c = (Coin*)(*it);
+		if(collisionDetection(pTank, c)){
+			actionTimer = actionTimeout;
+			collectedCoins++;
+			c->update(deltaTime);
+			
+			std::cout << "found coin" << collectedCoins << std::endl;
+		}
+	}
+	
 	// Aiming
-	/*
 	 double xpos, ypos;
 	 glfwGetCursorPos(pWindow, &xpos, &ypos);
 	 Vector pos = calc3DRay(xpos, ypos, pos);
 	 pTank->aim(pos);
-	 */
 	
 	// Tank steering
-	Matrix tankMat = pTank->transform();
-	float roll, pitch, forward;
-	getInputPitchRollForward(pitch, roll, forward);
-	
-	Matrix rollMat, pitchMat, forwardMat;
-	pitchMat.rotationX(pitch * dtime * 2.0f);
-	rollMat.rotationZ(roll * dtime * 2.0f);
-	forwardMat.translation(0, 0, forward * dtime * 2.0f);
-	tankMat = tankMat * forwardMat * pitchMat * rollMat;
-	pTank->transform(tankMat);
-	
-	// Version 1: Third person cam based on inverted object matrix
-	Matrix matRot180;
-	Matrix matTransView;
-	matTransView.translation(0, 0.5f, 1);
-	matRot180.rotationY(toRadApp(180));
-	Matrix tankViewMatrix = tankMat * matRot180 * matTransView;
-	tankViewMatrix.invert();
-	Egocam.ViewMatrix() = tankViewMatrix;
+//	Matrix tankMat = pTank->transform();
+//	float roll, pitch, forward;
+//	getInputPitchRollForward(pitch, roll, forward);
+//
+//	Matrix rollMat, pitchMat, forwardMat;
+//	pitchMat.rotationX(pitch * dtime * 2.0f);
+//	rollMat.rotationZ(roll * dtime * 2.0f);
+//	forwardMat.translation(0, 0, forward * dtime * 2.0f);
+//	tankMat = tankMat * forwardMat * pitchMat * rollMat;
+//	pTank->transform(tankMat);
+//
+//	// Version 1: Third person cam based on inverted object matrix
+//	Matrix matRot180;
+//	Matrix matTransView;
+//	matTransView.translation(0, 0.5f, 1);
+//	matRot180.rotationY(toRadApp(180));
+//	Matrix tankViewMatrix = tankMat * matRot180 * matTransView;
+//	tankViewMatrix.invert();
+//	Egocam.ViewMatrix() = tankViewMatrix;
 	
 	//pTank->update(deltaTime);
 	
@@ -298,122 +361,6 @@ void Application::end(){
     Models.clear();
 }
 
-void Application::createScene(){
-	Matrix m;
-	
-	//------------------------------ SCENE ------------------------------
-	pModel = new Model(ASSET_DIRECTORY "skybox.obj", false);
-	pModel->shader(new PhongShader(), true);
-	pModel->shadowCaster(false);
-	Models.push_back(pModel);
-
-	pModel = new Model(ASSET_DIRECTORY "base.dae", false);
-	pModel->shader(new PhongShader(), true);
-	m.translation(30, 0, 0);
-	pModel->transform(m);
-	Models.push_back(pModel);
-
-	//------------------------------ LIGHTS ------------------------------
-	/*
-	Color c = Color(1.0f, 0.7f, 1.0f);
-	Vector a = Vector(1, 0, 0.1f);
-	float innerradius = 45;
-	float outerradius = 60;
-	
-	// Directional lights
-	DirectionalLight* dl = new DirectionalLight();
-	dl->direction(Vector(0.2f, -1, 1));
-	dl->color(Color(0.25, 0.25, 0.5));
-	dl->castShadows(true);
-	ShaderLightMapper::instance().addLight(dl);
-	
-	// Point lights
-	PointLight* pl = new PointLight();
-	pl->position(Vector(-1.5, 3, 10));
-	pl->color(c);
-	pl->attenuation(a);
-	ShaderLightMapper::instance().addLight(pl);
-
-	pl = new PointLight();
-	pl->position(Vector(5.0f, 3, 10));
-	pl->color(c);
-	pl->attenuation(a);
-	ShaderLightMapper::instance().addLight(pl);
-
-	pl = new PointLight();
-	pl->position(Vector(-1.5, 3, 28));
-	pl->color(c);
-	pl->attenuation(a);
-	ShaderLightMapper::instance().addLight(pl);
-
-	pl = new PointLight();
-	pl->position(Vector(5.0f, 3, 28));
-	pl->color(c);
-	pl->attenuation(a);
-	ShaderLightMapper::instance().addLight(pl);
-
-	pl = new PointLight();
-	pl->position(Vector(-1.5, 3, -8));
-	pl->color(c);
-	pl->attenuation(a);
-	ShaderLightMapper::instance().addLight(pl);
-
-	pl = new PointLight();
-	pl->position(Vector(5.0f, 3, -8));
-	pl->color(c);
-	pl->attenuation(a);
-	ShaderLightMapper::instance().addLight(pl);
-	
-	// Spot lights
-	SpotLight* sl = new SpotLight();
-	sl->position(Vector(-1.5, 3, 10));
-	sl->color(c);
-	sl->direction(Vector(1,-4,0));
-	sl->innerRadius(innerradius);
-	sl->outerRadius(outerradius);
-	ShaderLightMapper::instance().addLight(sl);
-
-	sl = new SpotLight();
-	sl->position(Vector(5.0f, 3, 10));
-	sl->color(c);
-	sl->direction(Vector(-1, -4, 0));
-	sl->innerRadius(innerradius);
-	sl->outerRadius(outerradius);
-	ShaderLightMapper::instance().addLight(sl);
-
-	sl = new SpotLight();
-	sl->position(Vector(-1.5, 3, 28));
-	sl->color(c);
-	sl->direction(Vector(1, -4, 0));
-	sl->innerRadius(innerradius);
-	sl->outerRadius(outerradius);
-	ShaderLightMapper::instance().addLight(sl);
-
-	sl = new SpotLight();
-	sl->position(Vector(5.0f, 3, 28));
-	sl->color(c);
-	sl->direction(Vector(-1, -4, 0));
-	sl->innerRadius(innerradius);
-	sl->outerRadius(outerradius);
-	ShaderLightMapper::instance().addLight(sl);
-	
-	sl = new SpotLight();
-	sl->position(Vector(-1.5, 3, -8));
-	sl->color(c);
-	sl->direction(Vector(1, -4, 0));
-	sl->innerRadius(innerradius);
-	sl->outerRadius(outerradius);
-	ShaderLightMapper::instance().addLight(sl);
-	
-	sl = new SpotLight();
-	sl->position(Vector(5.0f, 3, -8));
-	sl->color(c);
-	sl->direction(Vector(-1, -4, 0));
-	sl->innerRadius(innerradius);
-	sl->outerRadius(outerradius);
-	ShaderLightMapper::instance().addLight(sl);
-	 */
-}
 
 void Application::createNormalTestScene(){
 	pModel = new LinePlaneModel(10, 10, 10, 10);
@@ -489,33 +436,29 @@ Vector Application::calc3DRay( float x, float y, Vector& Pos){
 
 float Application::getLeftRight(){
     float direction = 0.0f;
-	
     // Strafe right
 	if (glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS){
-        direction -= 2.0f;
+		direction -= ROTATIONSPEED;
 	}
-	
     // Strafe left
 	if (glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS){
-        direction += 2.0f;
+        direction += ROTATIONSPEED;
 	}
-	std::cout << "getLeftRight " << direction  << std::endl;
+//	std::cout << "getLeftRight " << direction  << std::endl;
     return direction;
 }
 
 float Application::getForwardBackward(){
     float direction = 0.0f;
-	
     // Move forward
 	if (glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS){
-        direction += 2.0f;
+        direction += RUNSPEED;
 	}
-	
     // Move backward
 	if (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS){
-        direction -= 2.0f;
+		direction -= RUNSPEED;
 	}
-	std::cout << "getForwardBackward" << direction << std::endl;
+//	std::cout << "getForwardBackward" << direction << std::endl;
     return direction;
 }
 
@@ -526,7 +469,6 @@ void Application::getJump(){
             this->downForce = pTank->getJumpPower();
         }
     }
-	std::cout << "getJump" << std::endl;
 }
 
 bool Application::collisionDetection(Tank* model1, Model* model2)
@@ -554,4 +496,121 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
 		vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 &&
     	vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
     	vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
+}
+
+void Application::createScene(){
+	Matrix m;
+	
+	//------------------------------ SCENE ------------------------------
+	pModel = new Model(ASSET_DIRECTORY "skybox.obj", false);
+	pModel->shader(new PhongShader(), true);
+	pModel->shadowCaster(false);
+	Models.push_back(pModel);
+	
+	pModel = new Model(ASSET_DIRECTORY "base.dae", false);
+	pModel->shader(new PhongShader(), true);
+	m.translation(30, 0, 0);
+	pModel->transform(m);
+	Models.push_back(pModel);
+	
+	//------------------------------ LIGHTS ------------------------------
+	/*
+	 Color c = Color(1.0f, 0.7f, 1.0f);
+	 Vector a = Vector(1, 0, 0.1f);
+	 float innerradius = 45;
+	 float outerradius = 60;
+	 
+	 // Directional lights
+	 DirectionalLight* dl = new DirectionalLight();
+	 dl->direction(Vector(0.2f, -1, 1));
+	 dl->color(Color(0.25, 0.25, 0.5));
+	 dl->castShadows(true);
+	 ShaderLightMapper::instance().addLight(dl);
+	 
+	 // Point lights
+	 PointLight* pl = new PointLight();
+	 pl->position(Vector(-1.5, 3, 10));
+	 pl->color(c);
+	 pl->attenuation(a);
+	 ShaderLightMapper::instance().addLight(pl);
+	 
+	 pl = new PointLight();
+	 pl->position(Vector(5.0f, 3, 10));
+	 pl->color(c);
+	 pl->attenuation(a);
+	 ShaderLightMapper::instance().addLight(pl);
+	 
+	 pl = new PointLight();
+	 pl->position(Vector(-1.5, 3, 28));
+	 pl->color(c);
+	 pl->attenuation(a);
+	 ShaderLightMapper::instance().addLight(pl);
+	 
+	 pl = new PointLight();
+	 pl->position(Vector(5.0f, 3, 28));
+	 pl->color(c);
+	 pl->attenuation(a);
+	 ShaderLightMapper::instance().addLight(pl);
+	 
+	 pl = new PointLight();
+	 pl->position(Vector(-1.5, 3, -8));
+	 pl->color(c);
+	 pl->attenuation(a);
+	 ShaderLightMapper::instance().addLight(pl);
+	 
+	 pl = new PointLight();
+	 pl->position(Vector(5.0f, 3, -8));
+	 pl->color(c);
+	 pl->attenuation(a);
+	 ShaderLightMapper::instance().addLight(pl);
+	 
+	 // Spot lights
+	 SpotLight* sl = new SpotLight();
+	 sl->position(Vector(-1.5, 3, 10));
+	 sl->color(c);
+	 sl->direction(Vector(1,-4,0));
+	 sl->innerRadius(innerradius);
+	 sl->outerRadius(outerradius);
+	 ShaderLightMapper::instance().addLight(sl);
+	 
+	 sl = new SpotLight();
+	 sl->position(Vector(5.0f, 3, 10));
+	 sl->color(c);
+	 sl->direction(Vector(-1, -4, 0));
+	 sl->innerRadius(innerradius);
+	 sl->outerRadius(outerradius);
+	 ShaderLightMapper::instance().addLight(sl);
+	 
+	 sl = new SpotLight();
+	 sl->position(Vector(-1.5, 3, 28));
+	 sl->color(c);
+	 sl->direction(Vector(1, -4, 0));
+	 sl->innerRadius(innerradius);
+	 sl->outerRadius(outerradius);
+	 ShaderLightMapper::instance().addLight(sl);
+	 
+	 sl = new SpotLight();
+	 sl->position(Vector(5.0f, 3, 28));
+	 sl->color(c);
+	 sl->direction(Vector(-1, -4, 0));
+	 sl->innerRadius(innerradius);
+	 sl->outerRadius(outerradius);
+	 ShaderLightMapper::instance().addLight(sl);
+	 
+	 sl = new SpotLight();
+	 sl->position(Vector(-1.5, 3, -8));
+	 sl->color(c);
+	 sl->direction(Vector(1, -4, 0));
+	 sl->innerRadius(innerradius);
+	 sl->outerRadius(outerradius);
+	 ShaderLightMapper::instance().addLight(sl);
+	 
+	 sl = new SpotLight();
+	 sl->position(Vector(5.0f, 3, -8));
+	 sl->color(c);
+	 sl->direction(Vector(-1, -4, 0));
+	 sl->innerRadius(innerradius);
+	 sl->outerRadius(outerradius);
+	 ShaderLightMapper::instance().addLight(sl);
+	 */
 }

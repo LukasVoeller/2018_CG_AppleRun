@@ -11,13 +11,22 @@
 #include "PhongShader.h"
 
 GUIEvents::GUIEvents(){
-	this->helpIsActive = false;	
-	this->menu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.003);
-	this->menu->shader(new PhongShader(), true);
+	this->helpIsActive = false;
+	
+	/* HelpMenu - Press ESC */
+	this->helpmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.003);
+	this->helpmenu->shader(new PhongShader(), true);
+	
+	this->startmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.003);
+	this->startmenu->shader(new PhongShader(), true);
 }
 GUIEvents::~GUIEvents(){}
 
 void GUIEvents::update(GLFWwindow* pWindow, Camera* cam) {
+	if (startIsActive && glfwGetKey(pWindow, GLFW_KEY_ENTER) == GLFW_PRESS) {
+		this->startIsActive = false;
+	}
+	
 	// Reference value for timer (frames)
 	int actionTimeout = 10;
 	
@@ -30,7 +39,6 @@ void GUIEvents::update(GLFWwindow* pWindow, Camera* cam) {
 		actionTimer = actionTimeout;
 		this->helpIsActive = !this->helpIsActive;
 	}
-	
 }
 
 void GUIEvents::draw(BaseCamera* cam) {
@@ -45,9 +53,15 @@ void GUIEvents::draw(BaseCamera* cam) {
 	//Menu
 	c.setViewMatrix(m.orthographic(1.0f, 1.0f, 1.0f, 2.0f));
 	
-	// If the menu is active, we draw that and nothing else
+	// Startmenu
+	if (this->startIsActive == true) {
+		this->startmenu->draw(c);
+		return;
+	}
+	
+	// Helpmenu
 	if (this->helpIsActive == true) {
-		this->menu->draw(c);
+		this->helpmenu->draw(c);
 		return;
 	}
 	

@@ -16,13 +16,16 @@ public:
 	GUIEvents();
 	~GUIEvents();
 	bool changeHelpMenu();
+	bool startMenu();
 	
 	void update(GLFWwindow* pWindow, Camera* cam);
 	void draw(BaseCamera* cam);
 protected:
-	Model* menu = NULL;
+	Model* helpmenu = NULL;
+	Model* startmenu = NULL;
 	
 	bool helpIsActive = false;
+	bool startIsActive = true;
 	// timer for actions
 	int actionTimer = 0;
 };

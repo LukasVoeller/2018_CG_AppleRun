@@ -17,9 +17,12 @@
 #endif
 
 //Physics
-#define GRAVITY 15.0f
+#define GRAVITY -15.0f
 #define DOWNFORCE 0.0f
-#define TERRAIN_HEIGHT 3.0f
+#define TERRAIN_HEIGHT 0.6f
+
+#define RUNSPEED 4.0f
+#define ROTATIONSPEED 2.0f;
 //
 //#define PHYSICS_PLAYERSPEED 1.0f
 //#define PHYSICS_PLAYERROTATIONTIME 2.0f

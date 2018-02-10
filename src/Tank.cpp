@@ -66,16 +66,17 @@ void Tank::aim(const Vector& Target )
 void Tank::update(float dtime)
 {
     Matrix TankMat = this->transform();
+	Matrix forwardMat, steeringMat;
     
     //Panzerbewegung berechnen
     float fbFactor = this->forwardBackward * dtime;
     float lrFactor = this->leftRight * dtime;
     float jpFactor = this->jump * dtime;
+	
+	//std::cout << fbFactor << " " << jpFactor <<std::endl;
+	forwardMat.translation(fbFactor, jpFactor, 0);
 
-    Matrix forwardMat, steeringMat;
-    forwardMat.translation(fbFactor, jpFactor, 0);
-    steeringMat.rotationY(lrFactor);
-
+	steeringMat.rotationY(lrFactor);
     TankMat = TankMat * forwardMat * steeringMat;
     
     //Aktuelle Position in Vektor speichern
@@ -98,8 +99,6 @@ void Tank::update(float dtime)
         this->chassis->transform(TankMat);
         this->transform(TankMat);
     }
-	
-	//Update BoundingBox
 }
 
 void Tank::draw(const BaseCamera& Cam)
