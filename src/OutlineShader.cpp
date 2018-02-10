@@ -28,7 +28,7 @@ OutlineShader::OutlineShader(bool LoadStaticShaderCode)
 	if(!LoadStaticShaderCode)
 		return;
 	//ShaderProgram = createShaderProgram(VertexShaderCode, FragmentShaderCode);
-	bool loaded = load(ASSET_DIRECTORY"vsoutline.glsl", ASSET_DIRECTORY"fsoutline.glsl");
+	bool loaded = load(SHADER_DIRECTORY"vsoutline.glsl", SHADER_DIRECTORY"fsoutline.glsl");
 	if (!loaded)
 		throw std::exception();
 	assignLocations();

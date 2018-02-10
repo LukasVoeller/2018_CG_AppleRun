@@ -201,6 +201,10 @@
 		80D316FD1FEBF1330079DD72 /* Shader */ = {
 			isa = PBXGroup;
 			children = (
+				80D316901FEBE2E20079DD72 /* ShaderLightMapper.h */,
+				80D3168F1FEBE2E20079DD72 /* ShaderLightMapper.cpp */,
+				80D316791FEBE2DF0079DD72 /* ShadowMapGenerator.h */,
+				80D316811FEBE2E00079DD72 /* ShadowMapGenerator.cpp */,
 				80D316A11FEBE2E40079DD72 /* ConstantShader.h */,
 				80D316831FEBE2E00079DD72 /* ConstantShader.cpp */,
 				809B2BDE202EC9B9005C708C /* OutlineShader.h */,
@@ -250,10 +254,6 @@
 		80D317001FEBF1D30079DD72 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				80D316901FEBE2E20079DD72 /* ShaderLightMapper.h */,
-				80D3168F1FEBE2E20079DD72 /* ShaderLightMapper.cpp */,
-				80D316791FEBE2DF0079DD72 /* ShadowMapGenerator.h */,
-				80D316811FEBE2E00079DD72 /* ShadowMapGenerator.cpp */,
 				80D316991FEBE2E30079DD72 /* Color.h */,
 				80D316A41FEBE2E50079DD72 /* Color.cpp */,
 				80D3167D1FEBE2E00079DD72 /* Rgbimage.h */,

@@ -16,6 +16,13 @@
 #define ASSET_DIRECTORY "../assets/"
 #endif
 
+//Shader
+#ifdef WIN32
+#define SHADER_DIRECTORY "../../shader/"
+#else
+#define SHADER_DIRECTORY "../shader/"
+#endif
+
 //Physics
 #define GRAVITY -15.0f
 #define DOWNFORCE 0.0f
