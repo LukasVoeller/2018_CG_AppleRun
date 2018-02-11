@@ -16,7 +16,7 @@
 #include <fstream>
 
 #include "Model.h"
-#include "phongshader.h"
+#include "Phongshader.h"
 #include <list>
 #include <limits>
 #include <sstream>

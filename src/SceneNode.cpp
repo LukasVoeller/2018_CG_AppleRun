@@ -53,8 +53,8 @@ Matrix SceneNode::getGlobalTransform() const
 		return localTransform * scaling;
 	}
 	
-	//Matrix parentGlobalTransform = this->getParent()->getGlobalTransform();
-	Matrix parentGlobalTransform = this->getParent()->getGlobalTransformWithoutScaling();
+	Matrix parentGlobalTransform = this->getParent()->getGlobalTransform();
+	//Matrix parentGlobalTransform = this->getParent()->getGlobalTransformWithoutScaling();
 	return parentGlobalTransform * localTransform * scaling;
 }
 

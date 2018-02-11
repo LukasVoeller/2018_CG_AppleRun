@@ -56,7 +56,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	// Exercise 3
 	Scene* pScene = new Scene();
 	pScene->shader(new PhongShader(), true);
-	pScene->addSceneFile(ASSET_DIRECTORY "scene.osh");
+	pScene->addSceneFile(ASSET_DIRECTORY "scenemodel.osh");
 	Models.push_back(pScene);
 	
 	//createScene();
