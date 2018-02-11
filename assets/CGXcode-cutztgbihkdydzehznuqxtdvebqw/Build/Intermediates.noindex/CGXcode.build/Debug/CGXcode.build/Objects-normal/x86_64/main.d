@@ -55,4 +55,6 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/DeathBlock.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/EgoCam.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/GUIEvents.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Scene.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/SceneNode.h \
   thirdparty/freeimage/include/FreeImage.h

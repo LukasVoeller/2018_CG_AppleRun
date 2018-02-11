@@ -55,6 +55,8 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/DeathBlock.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/EgoCam.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/GUIEvents.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Scene.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/SceneNode.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/LinePlaneModel.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/TrianglePlaneModel.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/TriangleSphereModel.h \
