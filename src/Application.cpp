@@ -40,7 +40,7 @@ float toRadApp(float deg){ return deg*M_PI/180.0f; }
 Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), Egocam(pWin), pModel(NULL), ShadowGenerator(2048, 2048){
 	BaseModel* pModel;
 	ConstantShader* pConstShader;
-	PhongShader* pPhongShader;
+	PhongShader* pPhongShader = new PhongShader();
 	
 	// create LineGrid model with constant color shader
 	pModel = new LinePlaneModel(10, 10, 10, 10);
@@ -64,16 +64,14 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	//createShadowTestScene();
 	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
-//    ConstantShader* pConstShader = new ConstantShader();
-//    PhongShader* pPhongShader = new PhongShader();
-//	//OutlineShader* pOutlineShader = new OutlineShader();
-	
+	//OutlineShader* pOutlineShader = new OutlineShader(ASSET_DIRECTORY "vsoutline.glsl", ASSET_DIRECTORY "fsoutline.glsl");
+	OutlineShader* pOutlineShader = new OutlineShader();
 	
 	// CREATE GUI
 	GUIEvents gui = GUIEvents();
 	
 	//------------------------------ MODELS ------------------------------
-	Matrix m,s;
+	Matrix m,s,r;
 	// Tank
 	pTank = new Tank();
 	pPhongShader = new PhongShader();
@@ -92,7 +90,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 //	pTest->transform(m*s);
 //	Models.push_back(pTest);
 	
-	
+
 	//Obstacles
 	for(int i=0; i<5; ++i)
 	{
@@ -134,8 +132,9 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	}
 	
 	// EgoCam
-	Egocam.ProjMatrix().perspective(toRadApp(90), 4.0f/3.0f, 0.1f, 100.0f);
 	Egocam.ViewMatrix().identity();
+	Egocam.ProjMatrix().perspective((float)M_PI*65.0f/180.0f, 640/480, 0.045f, 1000.0f);
+	//Egocam.ProjMatrix().perspective(toRadApp(90), 4.0f/3.0f, 0.1f, 100.0f);
 	
 	/* ------- GAME LOGIC --------- */
 	allCoins = ALLCOINS;
@@ -153,28 +152,29 @@ void Application::start(){
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-// For EgoCam
+// EgoCam
 void Application::getInputPitchRollForward(float& pitch, float& roll, float& forward){
 	pitch = 0;
 	roll = 0;
 	forward = 0;
 	
 	bool upPressed = glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS;
-	bool downPressed = (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS || (glfwGetKey(pWindow, GLFW_KEY_Z ) == GLFW_PRESS));
+	bool downPressed = (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS ||
+						(glfwGetKey(pWindow, GLFW_KEY_Z ) == GLFW_PRESS));
 	bool leftPressed = glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS;
 	bool rightPressed = glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS;
 	bool forwardPressed = glfwGetKey(pWindow, GLFW_KEY_W ) == GLFW_PRESS;
 	bool backwardPressed = glfwGetKey(pWindow, GLFW_KEY_S ) == GLFW_PRESS;
 	
 	if(upPressed)
-		pitch = 1;
+		pitch = 0;
 	else if(downPressed)
-		pitch = -1;
+		pitch = 0;
 	
 	if(leftPressed)
-		roll = -1;
+		roll = 0;
 	else if(rightPressed)
-		roll = 1;
+		roll = 0;
 	
 	if(forwardPressed)
 		forward = 1;
@@ -201,7 +201,7 @@ void Application::update(float dtime){
 	} else {
         this->downForce += gravity * 0.1f;
 	}
-	
+
 	// Collision
 	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
 		if (actionTimer > 0) {
@@ -256,31 +256,33 @@ void Application::update(float dtime){
 	}
 	
 	// Aiming
-	 double xpos, ypos;
-	 glfwGetCursorPos(pWindow, &xpos, &ypos);
-	 Vector pos = calc3DRay(xpos, ypos, pos);
-	 pTank->aim(pos);
+	double xpos, ypos;
+	glfwGetCursorPos(pWindow, &xpos, &ypos);
+	Vector pos = calc3DRay(xpos, ypos, pos);
+	pTank->aim(pos);
 	
 	// Tank steering
-//	Matrix tankMat = pTank->transform();
-//	float roll, pitch, forward;
-//	getInputPitchRollForward(pitch, roll, forward);
-//
-//	Matrix rollMat, pitchMat, forwardMat;
-//	pitchMat.rotationX(pitch * dtime * 2.0f);
-//	rollMat.rotationZ(roll * dtime * 2.0f);
-//	forwardMat.translation(0, 0, forward * dtime * 2.0f);
-//	tankMat = tankMat * forwardMat * pitchMat * rollMat;
-//	pTank->transform(tankMat);
-//
-//	// Version 1: Third person cam based on inverted object matrix
-//	Matrix matRot180;
-//	Matrix matTransView;
-//	matTransView.translation(0, 0.5f, 1);
-//	matRot180.rotationY(toRadApp(180));
-//	Matrix tankViewMatrix = tankMat * matRot180 * matTransView;
-//	tankViewMatrix.invert();
-//	Egocam.ViewMatrix() = tankViewMatrix;
+	float roll, pitch, forward;
+	Matrix tankMat = pTank->transform();
+	getInputPitchRollForward(pitch, roll, forward);
+	
+	Matrix rollMat, pitchMat, forwardMat;
+	pitchMat.rotationX(pitch * dtime * 2.0f);
+	rollMat.rotationZ(roll * dtime * 2.0f);
+	forwardMat.translation(0, 0, forward * dtime * 2.0f);
+	tankMat = tankMat * forwardMat * pitchMat * rollMat;
+	pTank->transform(tankMat);
+
+	// Version 1: Third person cam based on inverted object matrix
+	Matrix matRotHorizontal;
+	Matrix matRotVertical;
+	Matrix matTransView;
+	matTransView.translation(0, 2.0f, 5);
+	matRotHorizontal.rotationY(toRadApp(-90));
+	matRotVertical.rotationX(toRadApp(-30));
+	Matrix tankViewMatrix = tankMat * matRotHorizontal * matRotVertical * matTransView;
+	tankViewMatrix.invert();
+	Egocam.ViewMatrix() = tankViewMatrix;
 	
 	//pTank->update(deltaTime);
 	
@@ -385,7 +387,6 @@ void Application::end(){
 	}
     Models.clear();
 }
-
 
 void Application::createNormalTestScene(){
 	pModel = new LinePlaneModel(10, 10, 10, 10);
@@ -526,7 +527,6 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
 		vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 &&
     	vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
     	vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
-
 }
 
 void Application::createScene(){
@@ -664,5 +664,3 @@ void Application::reset(float dtime) {
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	pTank->transform(m);
 }
-
-
