@@ -1,5 +1,3 @@
-
-
 //
 //  Application.cpp
 //  ogl4
