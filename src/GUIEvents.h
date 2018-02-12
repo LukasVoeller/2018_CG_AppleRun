@@ -10,6 +10,7 @@
 #define GUIEvents_h
 
 #include "Model.h"
+#include "EgoCam.h"
 class GUIEvents
 {
 public:
@@ -19,8 +20,8 @@ public:
 	void wonGame();
 	void restartGame();
 	
-	void update(GLFWwindow* pWindow, Camera* cam);
-	void draw(BaseCamera* cam);
+	void update(GLFWwindow* pWindow, EgoCam* egocam);
+	void draw(EgoCam* egocam);
 protected:
 	Model* helpmenu = NULL;
 	Model* startmenu = NULL;

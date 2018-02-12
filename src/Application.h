@@ -23,40 +23,46 @@
 #include "Tank.h"
 #include "Coin.h"
 #include "DeathBlock.h"
-
 #include "EgoCam.h"
 #include "GUIEvents.h"
-
 #include "Scene.h"
 
 class Application{
 public:
-	typedef std::list<BaseModel*> ModelList;
 	Application(GLFWwindow* pWin);
+	typedef std::list<BaseModel*> ModelList;
+	void getInputPitchRollForward(float& pitch, float& roll, float& forward);
 	void start();
 	void update(float dtime);
 	void draw();
 	void end();
 	
-	void getInputPitchRollForward(float& pitch, float& roll, float& forward);
-	
 protected:
-	Camera Cam;
-	EgoCam Egocam;
+	EgoCam egocam;
 	GUIEvents gui;
-	ModelList Models;
+	ModelList models;
 	GLFWwindow* pWindow;
-	BaseModel* LineGrid;
+	BaseModel* lineGrid;
 	BaseModel* pModel;
-	ShadowMapGenerator ShadowGenerator;
+	ShadowMapGenerator shadowGenerator;
+	
 	void createScene();
 	void createNormalTestScene();
 	void createShadowTestScene();
-	Vector calc3DRay( float x, float y, Vector& Pos);
+	void reset(float dtime);
 	bool collisionDetection(Tank* model, Model* model2);
 	double calcDeltaTime();
+	Vector calc3DRay( float x, float y, Vector& Pos);
+	
+	// Game Variables
+	float gravity = GRAVITY;
+	float downForce = DOWNFORCE;
+	float terrainHeight = TERRAIN_HEIGHT;
+	
+	// Time
 	double oldTime = 0;
 	float time;
+	int actionTimer;
 	
 	// Tank
 	Tank* pTank;
@@ -66,7 +72,7 @@ protected:
 	
 	// Testmodels
 	Model* pBarrier1;
-	Model* pBarrier2; /* only for testing */
+	Model* pBarrier2;
 	
 	// Obstacle List
 	ModelList pBarriers;
@@ -81,17 +87,8 @@ protected:
 	DeathBlock* deathblock;
 	ModelList pDeathblocks;
 	
-	// Game Variables
-	float gravity = GRAVITY;
-	float downForce = DOWNFORCE;
-	float terrainHeight = TERRAIN_HEIGHT;
-	
-	int actionTimer;
-	
-	//testmodel
+	// Testmodel
 	Model* pTest;
-	
-	void reset(float dtime);
 };
 
 #endif /* Application_hpp */

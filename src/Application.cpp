@@ -20,7 +20,6 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <time.h>
-
 #include "Application.h"
 #include "Constants.h"
 #include "GUIEvents.h"
@@ -35,27 +34,24 @@
 
 float toRadApp(float deg){ return deg*M_PI/180.0f; }
 
-Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), Egocam(pWin), pModel(NULL), ShadowGenerator(2048, 2048){
+Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin), pModel(NULL), shadowGenerator(2048, 2048){
 	BaseModel* pModel;
 	ConstantShader* pConstShader;
 	PhongShader* pPhongShader = new PhongShader();
 	
-	// create LineGrid model with constant color shader
+	// Create lineGrid model with constant color shader
 	pModel = new LinePlaneModel(10, 10, 10, 10);
 	pConstShader = new ConstantShader();
 	pConstShader->color( Color(1,1,1));
 	pModel->shader(pConstShader, true);
-	Models.push_back( pModel );
-	LineGrid = pModel;
+	models.push_back( pModel );
+	lineGrid = pModel;
 	
-	// Exercise 1 + 2
-
-	
-	// Exercise 3
+	// Create Scene
 	Scene* pScene = new Scene();
 	pScene->shader(new PhongShader(), true);
 	pScene->addSceneFile(ASSET_DIRECTORY "scenemodel.osh");
-	Models.push_back(pScene);
+	models.push_back(pScene);
 	
 	//createScene();
 	//createNormalTestScene();
@@ -65,11 +61,17 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	//OutlineShader* pOutlineShader = new OutlineShader(ASSET_DIRECTORY "vsoutline.glsl", ASSET_DIRECTORY "fsoutline.glsl");
 	OutlineShader* pOutlineShader = new OutlineShader();
 	
-	// CREATE GUI
+	// Create GUI
 	GUIEvents gui = GUIEvents();
+	
+	// Camera
+	egocam.ViewMatrix().identity();
+	egocam.ProjMatrix().perspective((float)M_PI*65.0f/180.0f, 640/480, 0.045f, 1000.0f);
+	//Egocam.ProjMatrix().perspective(toRadApp(90), 4.0f/3.0f, 0.1f, 100.0f);
 	
 	//------------------------------ MODELS ------------------------------
 	Matrix m,s,r;
+	
 	// Tank
 	pTank = new Tank();
 	pPhongShader = new PhongShader();
@@ -77,23 +79,24 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	pTank->transform(m);
-	Models.push_back(pTank);
+	models.push_back(pTank);
 	
-//	float baymaxScaling = 0.2;
-//	pTest = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
-//	//pTest->shader(pPhongShader, false);
-//	pTest->shader(pOutlineShader, false);
-//	s = s.scale(baymaxScaling);
-//	m = m.translation(-4, 0, -4);
-//	pTest->transform(m*s);
-//	Models.push_back(pTest);
+	// Baymax
+	/*
+	float baymaxScaling = 0.2;
+	Test = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
+	pTest->shader(pPhongShader, false);
+	pTest->shader(pOutlineShader, false);
+	s = s.scale(baymaxScaling);
+	m = m.translation(-4, 0, -4);
+	pTest->transform(m*s);
+	Models.push_back(pTest);
+	*/
 	
-
-	//Obstacles
-	for(int i=0; i<5; ++i)
-	{
+	// Obstacles
+	for(int i=0; i<5; ++i){
 		//float scaling = 0.10f;
-//		pBarrier1 = new Model(ASSET_DIRECTORY "Cube_obj.obj", false, scaling);
+		//pBarrier1 = new Model(ASSET_DIRECTORY "Cube_obj.obj", false, scaling);
 		float scaling = 1.0f;
 		pBarrier1 = new Model(ASSET_DIRECTORY "buddha.dae", false, scaling);
 		pBarrier1->shader(new PhongShader(), true);
@@ -101,7 +104,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 		s = s.scale(scaling);
 		pBarrier1->transform(m*s);
 		pBarriers.push_back(pBarrier1);
-		Models.push_back(pBarrier1);
+		models.push_back(pBarrier1);
 	}
 	
 	// Coins
@@ -113,10 +116,10 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 		s = s.scale(scaling);
 		coin->transform(m*s);
 		pCoins.push_back(coin);
-		Models.push_back(coin);
+		models.push_back(coin);
 	}
 	
-	// Fallen
+	// Traps
 	for(int i=0; i<5; ++i){
 		float scaling = 1.0f;
 		deathblock = new DeathBlock(ASSET_DIRECTORY "bunny.dae", false, scaling);
@@ -126,15 +129,10 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 		s = s.scale(scaling);
 		deathblock->transform(m*s);
 		pDeathblocks.push_back(deathblock);
-		Models.push_back(deathblock);
+		models.push_back(deathblock);
 	}
 	
-	// EgoCam
-	Egocam.ViewMatrix().identity();
-	Egocam.ProjMatrix().perspective((float)M_PI*65.0f/180.0f, 640/480, 0.045f, 1000.0f);
-	//Egocam.ProjMatrix().perspective(toRadApp(90), 4.0f/3.0f, 0.1f, 100.0f);
-	
-	/* ------- GAME LOGIC --------- */
+	//------------------------------ GAME LOGIC ------------------------------
 	allCoins = ALLCOINS;
 	//allCoins = (unsigned int) pCoins.size();
 	collectedCoins = 0;
@@ -150,7 +148,7 @@ void Application::start(){
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-// EgoCam
+// Camera
 void Application::getInputPitchRollForward(float& pitch, float& roll, float& forward){
 	pitch = 0;
 	roll = 0;
@@ -181,9 +179,10 @@ void Application::getInputPitchRollForward(float& pitch, float& roll, float& for
 }
 
 void Application::update(float dtime){
-	Cam.update();
 	time+=dtime;
-	gui.update(pWindow, &Cam);
+	
+	egocam.update();
+	gui.update(pWindow, &egocam);
 	
 	// Tank steering
     double deltaTime = calcDeltaTime();
@@ -200,7 +199,7 @@ void Application::update(float dtime){
         this->downForce += gravity * 0.1f;
 	}
 
-	// Collision
+	// Collision Obstacle
 	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
 		if (actionTimer > 0) {
 			actionTimer--;
@@ -214,7 +213,7 @@ void Application::update(float dtime){
 		}
 	}
 	
-	// Collision
+	// Collision Trap
 	for(ModelList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
 		if (actionTimer > 0) {
 			actionTimer--;
@@ -254,10 +253,10 @@ void Application::update(float dtime){
 	}
 	
 	// Aiming
-	double xpos, ypos;
-	glfwGetCursorPos(pWindow, &xpos, &ypos);
-	Vector pos = calc3DRay(xpos, ypos, pos);
-	pTank->aim(pos);
+	//double xpos, ypos;
+	//glfwGetCursorPos(pWindow, &xpos, &ypos);
+	//Vector pos = calc3DRay(xpos, ypos, pos);
+	//pTank->aim(pos);
 	
 	// Tank steering
 	float roll, pitch, forward;
@@ -280,10 +279,8 @@ void Application::update(float dtime){
 	matRotVertical.rotationX(toRadApp(-30));
 	Matrix tankViewMatrix = tankMat * matRotHorizontal * matRotVertical * matTransView;
 	tankViewMatrix.invert();
-	Egocam.ViewMatrix() = tankViewMatrix;
-	
-	//pTank->update(deltaTime);
-	
+	egocam.ViewMatrix() = tankViewMatrix;
+	 
 	// Version 2: Third person cam based on lookAt matrix
 	/*
 	Matrix tankViewMat;
@@ -339,25 +336,28 @@ double Application::calcDeltaTime(){
 }
 
 void Application::draw(){
-	ShadowGenerator.generate(Models);
+	shadowGenerator.generate(models);
 	
     // Clear screen
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	ShaderLightMapper::instance().activate();
 	
 	// For EgoCam
-	LineGrid->draw(Cam);
+	//LineGrid->draw(Cam);
+	lineGrid->draw(egocam);
 	
     // Setup shaders and draw models
-    for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it ){
-        (*it)->draw(Cam);
+    for( ModelList::iterator it = models.begin(); it != models.end(); ++it ){
+        //(*it)->draw(Cam);
+		(*it)->draw(egocam);
     }
 	
-	//GUI
-	gui.draw(&Cam);
+	// GUI
+	//gui.draw(&Cam);
+	gui.draw(&egocam);
 	
 	// For EgoCam
-	Debug.render(Cam);
+	//Debug.render(Cam);
 	
 	ShaderLightMapper::instance().deactivate();
 	
@@ -367,9 +367,9 @@ void Application::draw(){
 	glScissor(vp[0], vp[1], vp[2]/3, vp[3]/3);
 	glViewport(vp[0], vp[1], vp[2]/3, vp[3]/3);
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	LineGrid->draw(Egocam);
-	for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it ) {
-		(*it)->draw(Egocam);
+	lineGrid->draw(egocam);
+	for( ModelList::iterator it = models.begin(); it != models.end(); ++it ) {
+		(*it)->draw(egocam);
 	}
 	glScissor(vp[0], vp[1], vp[2], vp[3]);
 	glViewport(vp[0], vp[1], vp[2], vp[3]);
@@ -380,10 +380,10 @@ void Application::draw(){
 }
 
 void Application::end(){
-	for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it ){
+	for( ModelList::iterator it = models.begin(); it != models.end(); ++it ){
         delete *it;
 	}
-    Models.clear();
+    models.clear();
 }
 
 void Application::createNormalTestScene(){
@@ -393,20 +393,20 @@ void Application::createNormalTestScene(){
 	pModel->shader(pConstShader, true);
     
 	// Add to render list
-	Models.push_back(pModel);
+	models.push_back(pModel);
 	pModel = new Model(ASSET_DIRECTORY "cube.obj", false);
 	pModel->shader(new PhongShader(), true);
-	Models.push_back(pModel);
+	models.push_back(pModel);
 }
 
 void Application::createShadowTestScene(){
 	pModel = new Model(ASSET_DIRECTORY "shadowcube.obj", false);
 	pModel->shader(new PhongShader(), true);
-	Models.push_back(pModel);
+	models.push_back(pModel);
 
 	pModel = new Model(ASSET_DIRECTORY "bunny.dae", false);
 	pModel->shader(new PhongShader(), true);
-	Models.push_back(pModel);
+	models.push_back(pModel);
 	
 	// Directional lights
 	DirectionalLight* dl = new DirectionalLight();
@@ -428,6 +428,7 @@ void Application::createShadowTestScene(){
 // Berechnung eines 3D-Strahls aus 2D-Mauskoordinaten
 // Input: 	Fenster-Pixelkoordinaten des Mauszeigers, Ray Origin
 // Output:	Ray Direction
+/*
 Vector Application::calc3DRay( float x, float y, Vector& Pos){
     // 1. Normalisieren zwischen (-1,1)
     int windowWidth, windowHeight;
@@ -457,6 +458,7 @@ Vector Application::calc3DRay( float x, float y, Vector& Pos){
     
     return Pos + (direction * s);
 }
+ */
 
 float Application::getLeftRight(){
     float direction = 0.0f;
@@ -534,13 +536,13 @@ void Application::createScene(){
 	pModel = new Model(ASSET_DIRECTORY "skybox.obj", false);
 	pModel->shader(new PhongShader(), true);
 	pModel->shadowCaster(false);
-	Models.push_back(pModel);
+	models.push_back(pModel);
 	
 	pModel = new Model(ASSET_DIRECTORY "base.dae", false);
 	pModel->shader(new PhongShader(), true);
 	m.translation(30, 0, 0);
 	pModel->transform(m);
-	Models.push_back(pModel);
+	models.push_back(pModel);
 	
 	//------------------------------ LIGHTS ------------------------------
 	/*

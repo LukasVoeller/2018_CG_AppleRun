@@ -27,7 +27,7 @@ GUIEvents::GUIEvents(){
 }
 GUIEvents::~GUIEvents(){}
 
-void GUIEvents::update(GLFWwindow* pWindow, Camera* cam) {
+void GUIEvents::update(GLFWwindow* pWindow, EgoCam* egocam) {
 	if (startIsActive && glfwGetKey(pWindow, GLFW_KEY_ENTER) == GLFW_PRESS) {
 		this->startIsActive = false;
 	}
@@ -48,22 +48,21 @@ void GUIEvents::update(GLFWwindow* pWindow, Camera* cam) {
 		actionTimer = actionTimeout;
 		this->helpIsActive = !this->helpIsActive;
 	}
-
+	
 	if(helpIsActive && glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_PRESS) {
 		//close Game
 		this->closeWindow(pWindow);
-		
 	}
 }
 
-void GUIEvents::draw(BaseCamera* cam) {
+void GUIEvents::draw(EgoCam* egocam) {
 	glClear(GL_DEPTH_BUFFER_BIT);
 	
 	Matrix m;
 	SimpleCamera c;
 	
-	c.setProjectionMatrix(cam->getProjectionMatrix());
-	m = cam->getViewMatrix();
+	c.setProjectionMatrix(egocam->getProjectionMatrix());
+	m = egocam->getViewMatrix();
 	
 	//Menu
 	c.setViewMatrix(m.orthographic(1.0f, 1.0f, 1.0f, 2.0f));
