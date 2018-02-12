@@ -36,21 +36,32 @@
 float toRadApp(float deg){ return deg*M_PI/180.0f; }
 
 Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), Egocam(pWin), pModel(NULL), ShadowGenerator(2048, 2048){
-	// Create LineGrid Model with constant Color Shader
-	BaseModel* pModel = new LinePlaneModel(10, 10, 10, 10);
-	ConstantShader* pCShader = new ConstantShader();
-	pCShader->color(Color(1,1,1));
-	pModel->shader(pCShader, true);
+	BaseModel* pModel;
+	ConstantShader* pConstShader;
+	PhongShader* pPhongShader = new PhongShader();
+	
+	// create LineGrid model with constant color shader
+	pModel = new LinePlaneModel(10, 10, 10, 10);
+	pConstShader = new ConstantShader();
+	pConstShader->color( Color(1,1,1));
+	pModel->shader(pConstShader, true);
+	Models.push_back( pModel );
 	LineGrid = pModel;
 	
-	createScene();
+	// Exercise 1 + 2
+
+	
+	// Exercise 3
+	Scene* pScene = new Scene();
+	pScene->shader(new PhongShader(), true);
+	pScene->addSceneFile(ASSET_DIRECTORY "scenemodel.osh");
+	Models.push_back(pScene);
+	
+	//createScene();
 	//createNormalTestScene();
 	//createShadowTestScene();
 	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
-    ConstantShader* pConstShader = new ConstantShader();
-    PhongShader* pPhongShader = new PhongShader();
-	Matrix m,s,r;
 	//OutlineShader* pOutlineShader = new OutlineShader(ASSET_DIRECTORY "vsoutline.glsl", ASSET_DIRECTORY "fsoutline.glsl");
 	OutlineShader* pOutlineShader = new OutlineShader();
 	
@@ -58,29 +69,34 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	GUIEvents gui = GUIEvents();
 	
 	//------------------------------ MODELS ------------------------------
+	Matrix m,s,r;
 	// Tank
 	pTank = new Tank();
+	pPhongShader = new PhongShader();
 	pTank->shader(pPhongShader, true);
 	pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	pTank->transform(m);
 	Models.push_back(pTank);
 	
-	float baymaxScaling = 0.02;
-	pTest = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
-//	pTest->shader(pPhongShader, false);
-	pTest->shader(pOutlineShader, false);
-	s = s.scale(baymaxScaling);
-	m = m.translation(-4, 0, -4);
-	pBarrier1->transform(m*s);
-	Models.push_back(pTest);
+//	float baymaxScaling = 0.2;
+//	pTest = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
+//	//pTest->shader(pPhongShader, false);
+//	pTest->shader(pOutlineShader, false);
+//	s = s.scale(baymaxScaling);
+//	m = m.translation(-4, 0, -4);
+//	pTest->transform(m*s);
+//	Models.push_back(pTest);
+	
 
 	//Obstacles
 	for(int i=0; i<5; ++i)
 	{
+		//float scaling = 0.10f;
+//		pBarrier1 = new Model(ASSET_DIRECTORY "Cube_obj.obj", false, scaling);
 		float scaling = 1.0f;
 		pBarrier1 = new Model(ASSET_DIRECTORY "buddha.dae", false, scaling);
-		pBarrier1->shader(new PhongShader(), false);
+		pBarrier1->shader(new PhongShader(), true);
 		m = m.translation(5*i-2, 0, -5);
 		s = s.scale(scaling);
 		pBarrier1->transform(m*s);
@@ -92,7 +108,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	for(int i=0; i<5; ++i){
 		float scaling = 1.5f;
 		coin = new Coin(ASSET_DIRECTORY "buddha.dae", false, scaling);
-		coin->shader(new PhongShader(), false);
+		coin->shader(new PhongShader(), true);
 		m = m.translation(5*i-6, 0, 5);
 		s = s.scale(scaling);
 		coin->transform(m*s);
@@ -104,8 +120,9 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	for(int i=0; i<5; ++i){
 		float scaling = 1.0f;
 		deathblock = new DeathBlock(ASSET_DIRECTORY "bunny.dae", false, scaling);
-		deathblock->shader(new PhongShader(), false);
-		m = m.translation(5*i-6, 0, 3);
+		//deathblock = new DeathBlock(ASSET_DIRECTORY "Snake/Snake.obj", false, scaling);
+		deathblock->shader(new PhongShader(), true);
+		m = m.translation(5*i-6, 0, 10);
 		s = s.scale(scaling);
 		deathblock->transform(m*s);
 		pDeathblocks.push_back(deathblock);
@@ -458,6 +475,7 @@ float Application::getLeftRight(){
 float Application::getForwardBackward()
 {
 	float direction = 0.0f;
+//	float speed = 0.0f;
 	float speed = (glfwGetKey(pWindow, GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS) ? ADDSPEED : 0.0f;
 	
     // Move forward

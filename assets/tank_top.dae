@@ -12,62 +12,62 @@
 	<library_images>
 		<image id="ID5">
 			<init_from>
-				<ref>file://tank_tex/Tank_body_nocolor.BMP</ref>
+				<ref>file://tex/Tank_body_nocolor.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID7">
 			<init_from>
-				<ref>file://tank_tex/Tank_body_nocolor.BMP</ref>
+				<ref>file://tex/Tank_body_nocolor.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID11">
 			<init_from>
-				<ref>file://tank_tex/Tank_Alpha.BMP</ref>
+				<ref>file://tex/Tank_Alpha.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID13">
 			<init_from>
-				<ref>file://tank_tex/Tank_Alpha.BMP</ref>
+				<ref>file://tex/Tank_Alpha.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID17">
 			<init_from>
-				<ref>file://tank_tex/Tank_body_Desert.BMP</ref>
+				<ref>file://tex/Tank_body.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID19">
 			<init_from>
-				<ref>file://tank_tex/Tank_body_Desert.BMP</ref>
+				<ref>file://tex/Tank_body.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID23">
 			<init_from>
-				<ref>file://tank_tex/MG_body_nocolor.BMP</ref>
+				<ref>file://tex/MG_body_nocolor.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID25">
 			<init_from>
-				<ref>file://tank_tex/MG_body_nocolor.BMP</ref>
+				<ref>file://tex/MG_body_nocolor.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID29">
 			<init_from>
-				<ref>file://tank_tex/MG_body.BMP</ref>
+				<ref>file://tex/MG_body.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID31">
 			<init_from>
-				<ref>file://tank_tex/MG_body.BMP</ref>
+				<ref>file://tex/MG_body.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID35">
 			<init_from>
-				<ref>file://tank_tex/Track.BMP</ref>
+				<ref>file://tex/Track.BMP</ref>
 			</init_from>
 		</image>
 		<image id="ID37">
 			<init_from>
-				<ref>file://tank_tex/Track.BMP</ref>
+				<ref>file://tex/Track.BMP</ref>
 			</init_from>
 		</image>
 	</library_images>

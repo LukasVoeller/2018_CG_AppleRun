@@ -27,6 +27,8 @@
 #include "EgoCam.h"
 #include "GUIEvents.h"
 
+#include "Scene.h"
+
 class Application{
 public:
 	typedef std::list<BaseModel*> ModelList;

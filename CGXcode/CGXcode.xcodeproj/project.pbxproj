@@ -42,6 +42,8 @@
 		805A74A7200A620D0057761B /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A21FEBE2E50079DD72 /* Application.cpp */; };
 		808232FC2007EE6F00B3A6A0 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */; };
 		809B2BDD202EC9A3005C708C /* OutlineShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BDC202EC9A3005C708C /* OutlineShader.cpp */; };
+		809B2BE1202F14D2005C708C /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BE0202F14D2005C708C /* Scene.cpp */; };
+		809B2BE5202F1F4A005C708C /* SceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BE4202F1F4A005C708C /* SceneNode.cpp */; };
 		80D316F31FEBE8820079DD72 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D316F21FEBE8820079DD72 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +74,10 @@
 		808232F42007E72800B3A6A0 /* libglfw.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.dylib; path = thirdparty/glfw/libglfw.3.dylib; sourceTree = "<group>"; };
 		809B2BDC202EC9A3005C708C /* OutlineShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OutlineShader.cpp; path = ../src/OutlineShader.cpp; sourceTree = "<group>"; };
 		809B2BDE202EC9B9005C708C /* OutlineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OutlineShader.h; path = ../src/OutlineShader.h; sourceTree = "<group>"; };
+		809B2BDF202F14BE005C708C /* Scene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = ../src/Scene.h; sourceTree = "<group>"; };
+		809B2BE0202F14D2005C708C /* Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = ../src/Scene.cpp; sourceTree = "<group>"; };
+		809B2BE3202F1E6B005C708C /* SceneNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SceneNode.h; path = ../src/SceneNode.h; sourceTree = "<group>"; };
+		809B2BE4202F1F4A005C708C /* SceneNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SceneNode.cpp; path = ../src/SceneNode.cpp; sourceTree = "<group>"; };
 		80D316731FEBE2DF0079DD72 /* BaseShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BaseShader.h; path = ../src/BaseShader.h; sourceTree = "<group>"; };
 		80D316741FEBE2DF0079DD72 /* Rgbimage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Rgbimage.cpp; path = ../src/Rgbimage.cpp; sourceTree = "<group>"; };
 		80D316751FEBE2DF0079DD72 /* BaseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BaseModel.h; path = ../src/BaseModel.h; sourceTree = "<group>"; };
@@ -158,6 +164,7 @@
 		7ABD816E1DA3C6050008D349 /* CGXcode */ = {
 			isa = PBXGroup;
 			children = (
+				809B2BE2202F1E43005C708C /* SceneManagement */,
 				80D316FF1FEBF18A0079DD72 /* Buffer */,
 				80D317011FEBF21F0079DD72 /* Entity */,
 				80D317021FEBF31B0079DD72 /* Graphic */,
@@ -173,6 +180,17 @@
 				80398D6A20289C1D00010C49 /* Constants.h */,
 			);
 			name = CGXcode;
+			sourceTree = "<group>";
+		};
+		809B2BE2202F1E43005C708C /* SceneManagement */ = {
+			isa = PBXGroup;
+			children = (
+				809B2BDF202F14BE005C708C /* Scene.h */,
+				809B2BE0202F14D2005C708C /* Scene.cpp */,
+				809B2BE3202F1E6B005C708C /* SceneNode.h */,
+				809B2BE4202F1F4A005C708C /* SceneNode.cpp */,
+			);
+			name = SceneManagement;
 			sourceTree = "<group>";
 		};
 		80D316D91FEBE42E0079DD72 /* Frameworks */ = {
@@ -367,6 +385,7 @@
 				805A7478200A620D0057761B /* Tank.cpp in Sources */,
 				805A747A200A620D0057761B /* Camera.cpp in Sources */,
 				805A747C200A620D0057761B /* Texture.cpp in Sources */,
+				809B2BE1202F14D2005C708C /* Scene.cpp in Sources */,
 				805A747E200A620D0057761B /* Aabb.cpp in Sources */,
 				805A7480200A620D0057761B /* Lights.cpp in Sources */,
 				805A7482200A620D0057761B /* EgoCam.cpp in Sources */,
@@ -388,6 +407,7 @@
 				805A749E200A620D0057761B /* ShaderLightMapper.cpp in Sources */,
 				809B2BDD202EC9A3005C708C /* OutlineShader.cpp in Sources */,
 				80398D6D202A025900010C49 /* Coin.cpp in Sources */,
+				809B2BE5202F1F4A005C708C /* SceneNode.cpp in Sources */,
 				805A74A0200A620D0057761B /* ShadowMapGenerator.cpp in Sources */,
 				805A74A2200A620D0057761B /* Color.cpp in Sources */,
 				805A74A4200A620D0057761B /* Rgbimage.cpp in Sources */,
