@@ -133,8 +133,8 @@ float Tank::getJumpPower(){
 //(Kleinste) achsenausgerichtete Box berechnen, die das Modell komplett umschließt
 void Tank::calcBoundingBox(AABB& Box)
 {
-	const AABB& chassisBox = this->chassis->boundingBox();
-	const AABB& cannonBox = this->cannon->boundingBox();
+	const AABB& chassisBox = this->chassis->getBoundingBox();
+	const AABB& cannonBox = this->cannon->getBoundingBox();
 	
 	Box.Min.X = std::min(chassisBox.Min.X, cannonBox.Min.X);
 	Box.Min.Y = std::min(chassisBox.Min.Y, cannonBox.Min.Y);

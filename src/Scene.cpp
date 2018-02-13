@@ -6,13 +6,16 @@
 //  Copyright © 2018 Philipp Lensing. All rights reserved.
 //
 
-#include <stdio.h>
-
 #include "Scene.h"
+
 #include <string.h>
-#include "Model.h"
 #include <assert.h>
 #include <stdio.h>
+
+#include "Model.h"
+#include "Coin.h"
+#include "DeathBlock.h"
+
 
 Scene::Scene()
 {
@@ -57,17 +60,56 @@ bool Scene::addSceneFile(const char* Scenefile)
 			if (parent == NULL) {
 				parent = &m_Root;
 			}
+			
 			SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
+			
+			//TODO: jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)
+			if(strstr(ModelID, "buddha")) {
+				mCoins.push_back(sceneNode);
+			}
+			if(strstr(ModelID, "bunny")) {
+				mDeathItems.push_back(sceneNode);
+			}
+			if(strstr(ModelID, "woodcube")) {
+				mBarriers.push_back(sceneNode);
+			}
+			
+			
 		}
 		if(strstr(Line, "FILE")) //FILE nur in "Model"-Lines
 		{
 			char Modelfile[256];
 			char ModelID[256];
-			sscanf(Line, "MODEL ID=%s FILE=%s", ModelID, Modelfile);
+			char ModelType[256];
 			
-			Model* m = new Model(Modelfile);
-			m->shader(this->shader());
+			memset(ModelID, '\0', sizeof(ModelID));
+			memset(Modelfile, '\0', sizeof(Modelfile));
+			memset(ModelType, '\0', sizeof(ModelType));
 			
+			sscanf(Line, "MODEL ID=%s FILE=%s TYPE=%s", ModelID, Modelfile, ModelType);
+			
+			std::cout << ModelID << std::endl;
+			
+			Model* m;
+			if(strstr (ModelType, "BARRIER")) {
+				m = new Model(Modelfile, false, 1.5f);
+				m->shader(this->shader());
+			}
+			else if(strstr (ModelType, "COIN")) {
+				m = new Coin(Modelfile, false, 1.5f);
+				m->shader(this->shader());
+			}
+			else if(strstr (ModelType, "DEATH")) {
+				m = new DeathBlock(Modelfile);
+				m->shader(this->shader());
+			}
+			else {
+				std::cout << "NIX" <<std::endl;
+				//Model-Class verwenden (oder Barrier?)
+				m = new Model(Modelfile);
+				m->shader(this->shader());
+			}
+	
 			m_Models.insert(std::pair<std::string, Model*>(ModelID, m));
 		}
 	}

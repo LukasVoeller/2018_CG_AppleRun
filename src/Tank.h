@@ -32,7 +32,7 @@ public:
     bool getIsInAir();
     void setIsInAir(bool newIsInAir);
     float getJumpPower();
-	const AABB& boundingBox() const { return BoundingBox; }
+	const AABB& getBoundingBox() const { return BoundingBox; }
 protected:
 	void calcBoundingBox(AABB& Box);
 private:

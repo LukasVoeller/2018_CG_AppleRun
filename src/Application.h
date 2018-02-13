@@ -28,10 +28,12 @@
 #include "GUIEvents.h"
 
 #include "Scene.h"
+#include "SceneNode.h"
 
 class Application{
 public:
 	typedef std::list<BaseModel*> ModelList;
+	typedef std::list<SceneNode*> NodeList;
 	Application(GLFWwindow* pWin);
 	void start();
 	void update(float dtime);
@@ -80,6 +82,7 @@ protected:
 	//DeathBlock
 	DeathBlock* deathblock;
 	ModelList pDeathblocks;
+
 	
 	// Game Variables
 	float gravity = GRAVITY;

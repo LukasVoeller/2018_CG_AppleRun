@@ -49,16 +49,26 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	pModel->shader(pConstShader, true);
 	Models.push_back( pModel );
 	LineGrid = pModel;
-	
-	// Exercise 1 + 2
 
-	
-	// Exercise 3
 	Scene* pScene = new Scene();
 	pScene->shader(new PhongShader(), true);
 	pScene->addSceneFile(ASSET_DIRECTORY "scenemodel.osh");
 	Models.push_back(pScene);
 	
+	NodeList tmp = pScene->getCoins();
+	for(std::list<SceneNode*>::iterator it = tmp.begin(); it != tmp.end(); ++it) {
+		Model* m = const_cast<Model*>((*it)->getModel());
+		pCoins.push_back(m);
+	}
+	
+	tmp = pScene->getObstacles();
+	const AABB barrierBox = AABB(Vector(-0.5,0,-0.5), Vector(1,2,1));
+	for(std::list<SceneNode*>::iterator it = tmp.begin(); it != tmp.end(); ++it) {
+		Model* m = const_cast<Model*>((*it)->getModel());
+		m->setBoundingBox(barrierBox);
+		pBarriers.push_back(m);
+	}
+
 	//createScene();
 	//createNormalTestScene();
 	//createShadowTestScene();
@@ -203,7 +213,9 @@ void Application::update(float dtime){
 	}
 
 	// Collision
+	int count =0;
 	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
+		std::cout << "Barrier " << ++count << std::endl;
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
@@ -231,7 +243,10 @@ void Application::update(float dtime){
 		}
 	}
 	
+	count = 0;
 	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		
+		std::cout << "Coin " << ++count << std::endl;
 		Coin* c = (Coin*)(*it);
 		if (actionTimer > 0) {
 			actionTimer--;
@@ -505,8 +520,8 @@ void Application::getJump(){
 bool Application::collisionDetection(Tank* model1, Model* model2)
 {
 	
-//	const AABB& box1 = model1->boundingBox();
-//	const AABB& box2 = model2->boundingBox();
+//	const AABB& box1 = model1->getBoundingBox();
+//	const AABB& box2 = model2->getBoundingBox();
 //
 ////	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
 ////	return (box1.Min.X < box2.Max.X &&
@@ -517,8 +532,8 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
 	Vector vec1 = model1->transform().translation();
     Vector vec2 = model2->transform().translation();
 
-	Vector size1 = model1->boundingBox().size();
-    Vector size2 = model2->boundingBox().size();
+	Vector size1 = model1->getBoundingBox().size();
+    Vector size2 = model2->getBoundingBox().size();
 
     //Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
     return (vec1.X - size1.X/2 < vec2.X + size2.X/2 &&

@@ -25,7 +25,7 @@ public:
     void transform( const Matrix& m) { Transform = m; }
     virtual void shader( BaseShader* shader, bool deleteOnDestruction=false );
     virtual BaseShader* shader() const { return pShader; }
-    virtual const AABB& boundingBox() const { return AABB::unitBox(); }
+    virtual const AABB& getBoundingBox() const { return AABB::unitBox(); }
 	bool shadowCaster() const { return ShadowCaster; }
 	void shadowCaster(bool sc) { ShadowCaster = sc; }
 	

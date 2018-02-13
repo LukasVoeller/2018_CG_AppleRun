@@ -11,18 +11,13 @@
 
 SceneNode::SceneNode() : m_Name(""), m_Scaling(1, 1, 1), m_pParent(NULL), m_pModel(NULL)
 {
-	//TODO: Verstehen :D
-//	setScaling(Vector(2, 2, 2));
 	setLocalTransform(Vector(0, 0, 0), Vector(0, 1, 0), 0);
 }
 
-SceneNode::SceneNode(const std::string& Name, const Vector& Translation, const Vector& RotationAxis, const float RotationAngle, const Vector& Scale, SceneNode* pParent, Model* pModel)
+SceneNode::SceneNode(const std::string& Name, const Vector& Translation, const Vector& RotationAxis, const float RotationAngle, const Vector& Scale, SceneNode* pParent, Model* pModel, std::string modelType): m_Name(Name), m_Scaling(Scale), m_pModel(pModel), modelType(modelType)
 {
-	setName(Name);
 	setLocalTransform(Translation, RotationAxis, RotationAngle);
-	setScaling(Scale);
 	setParent(pParent);
-	setModel(pModel);
 }
 
 const Matrix& SceneNode::getLocalTransform() const
@@ -43,32 +38,20 @@ void SceneNode::setLocalTransform(const Matrix& LocalTransform)
 	m_LocalTransform = LocalTransform;
 }
 
-Matrix SceneNode::getGlobalTransform() const
+Matrix SceneNode::getGlobalTransform(bool scaling) const
 {
-	Matrix scaling, localTransform;
-	scaling = scaling.scale(this->getScaling());
+	Matrix scaleMat, localTransform;
+	if(scaling) {
+		scaleMat = scaleMat.scale(this->getScaling());
+	}
 	localTransform = this->getLocalTransform();
 	
 	if (this->getParent() == NULL) {
-		return localTransform * scaling;
+		return localTransform * scaleMat;
 	}
 	
-	Matrix parentGlobalTransform = this->getParent()->getGlobalTransform();
-	//Matrix parentGlobalTransform = this->getParent()->getGlobalTransformWithoutScaling();
-	return parentGlobalTransform * localTransform * scaling;
-}
-
-Matrix SceneNode::getGlobalTransformWithoutScaling() const
-{
-	Matrix localTransform;
-	localTransform = this->getLocalTransform();
-
-	if (this->getParent() == NULL) {
-		return localTransform;
-	}
-
-	Matrix parentGlobalTransform = this->getParent()->getGlobalTransformWithoutScaling();
-	return parentGlobalTransform * localTransform;
+	Matrix parentGlobalTransform = this->getParent()->getGlobalTransform(scaling);
+	return parentGlobalTransform * localTransform * scaleMat;
 }
 
 const SceneNode* SceneNode::getParent() const
@@ -117,6 +100,16 @@ const std::string& SceneNode::getName() const
 	return m_Name;
 }
 
+void SceneNode::setModelType(const std::string& mType)
+{
+	modelType = mType;
+}
+
+const std::string& SceneNode::getModelType() const
+{
+	return modelType;
+}
+
 const Vector& SceneNode::getScaling() const
 {
 	return m_Scaling;
@@ -133,10 +126,11 @@ void SceneNode::draw(const BaseCamera& Cam)
 		m_pModel->draw(Cam);
 	}
 	
-	//Kinder iterativ zeichnen
+	//Kinder rekursiv zeichnen
 	std::set<SceneNode *>::iterator it;
 	for (it = this->getChildren().begin(); it != this->getChildren().end(); ++it)
 	{
 		(*it)->draw(Cam);
 	}
 }
+

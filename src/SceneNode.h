@@ -14,6 +14,7 @@
 #include <set>
 #include <vector>
 #include <map>
+#include <string>
 #include "BaseModel.h"
 #include "Model.h"
 
@@ -21,16 +22,16 @@ class SceneNode
 {
 public:
 	SceneNode();
-	SceneNode( const std::string& Name, const Vector& Translation, const Vector& RotationAxis, const float RotationAngle, const Vector& Scale, SceneNode* pParent, Model* pModel);
+	SceneNode( const std::string& Name, const Vector& Translation, const Vector& RotationAxis, const float RotationAngle, const Vector& Scale, SceneNode* pParent, Model* pModel, std::string modelType="MODEL");
 	
 	//getter
 	const Matrix& getLocalTransform() const;
-	Matrix getGlobalTransform() const;
-	Matrix getGlobalTransformWithoutScaling() const;
+	Matrix getGlobalTransform(bool scaling = true) const;
 	const SceneNode* getParent() const;
 	const Model* getModel() const;
 	const std::string& getName() const;
 	const Vector& getScaling() const;
+	const std::string& getModelType() const;
 	
 	//setter
 	void setLocalTransform( const Vector& Translation, const Vector& RotationAxis, const float RotationAngle );
@@ -42,9 +43,13 @@ public:
 	void setModel( Model* pModel);
 	void setName( const std::string& Name);
 	void setScaling( const Vector& Scaling);
+	void setModelType(const std::string& modelType);
 	void draw(const BaseCamera& Cam);
+	//update-methode
+	void update(float dtime);
 protected:
 	std::string m_Name;
+	std::string modelType;
 	Model* m_pModel;
 	SceneNode* m_pParent;
 	std::set<SceneNode*> m_Children;
