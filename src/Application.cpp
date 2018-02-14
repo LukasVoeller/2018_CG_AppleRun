@@ -59,7 +59,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	//OutlineShader* pOutlineShader = new OutlineShader(ASSET_DIRECTORY "vsoutline.glsl", ASSET_DIRECTORY "fsoutline.glsl");
-	OutlineShader* pOutlineShader = new OutlineShader();
+	//OutlineShader* pOutlineShader = new OutlineShader();
 	
 	// Create GUI
 	GUIEvents gui = GUIEvents();
@@ -179,10 +179,10 @@ void Application::getInputPitchRollForward(float& pitch, float& roll, float& for
 }
 
 void Application::update(float dtime){
-	time+=dtime;
-	
 	egocam.update();
 	gui.update(pWindow, &egocam);
+	
+	time+=dtime;
 	
 	// Tank steering
     double deltaTime = calcDeltaTime();
@@ -228,6 +228,7 @@ void Application::update(float dtime){
 		}
 	}
 	
+	// ???
 	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
 		Coin* c = (Coin*)(*it);
 		if (actionTimer > 0) {
@@ -336,47 +337,26 @@ double Application::calcDeltaTime(){
 }
 
 void Application::draw(){
-	shadowGenerator.generate(models);
-	
-    // Clear screen
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	ShaderLightMapper::instance().activate();
-	
-	// For EgoCam
-	//LineGrid->draw(Cam);
-	lineGrid->draw(egocam);
-	
-    // Setup shaders and draw models
-    for( ModelList::iterator it = models.begin(); it != models.end(); ++it ){
-        //(*it)->draw(Cam);
-		(*it)->draw(egocam);
-    }
-	
-	// GUI
-	//gui.draw(&Cam);
-	gui.draw(&egocam);
-	
-	// For EgoCam
-	//Debug.render(Cam);
-	
-	ShaderLightMapper::instance().deactivate();
-	
-	// Third Person view
 	GLint vp[4];
 	glGetIntegerv(GL_VIEWPORT, vp);
-	glScissor(vp[0], vp[1], vp[2]/3, vp[3]/3);
-	glViewport(vp[0], vp[1], vp[2]/3, vp[3]/3);
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	lineGrid->draw(egocam);
+	
+	// Draw Models
 	for( ModelList::iterator it = models.begin(); it != models.end(); ++it ) {
 		(*it)->draw(egocam);
 	}
-	glScissor(vp[0], vp[1], vp[2], vp[3]);
-	glViewport(vp[0], vp[1], vp[2], vp[3]);
+	
+	// GUI
+	gui.draw(&egocam);
+	
+	// Util
+	//shadowGenerator.generate(models);
+	//ShaderLightMapper::instance().activate();
+	//ShaderLightMapper::instance().deactivate();
 	
     // Check once per frame for OpenGL errors
-    GLenum Error = glGetError();
-    assert(Error==0);
+    GLenum error = glGetError();
+    assert(error==0);
 }
 
 void Application::end(){
