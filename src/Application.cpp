@@ -1,5 +1,3 @@
-
-
 //
 //  Application.cpp
 //  ogl4
@@ -22,7 +20,6 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <time.h>
-
 #include "Application.h"
 #include "Constants.h"
 #include "GUIEvents.h"
@@ -37,24 +34,25 @@
 
 float toRadApp(float deg){ return deg*M_PI/180.0f; }
 
-Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), Egocam(pWin), pModel(NULL), ShadowGenerator(2048, 2048){
+Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin), pModel(NULL), shadowGenerator(2048, 2048){
 	BaseModel* pModel;
 	ConstantShader* pConstShader;
 	PhongShader* pPhongShader = new PhongShader();
 	
-	// create LineGrid model with constant color shader
+	// Create lineGrid model with constant color shader
 	pModel = new LinePlaneModel(10, 10, 10, 10);
 	pConstShader = new ConstantShader();
 	pConstShader->color( Color(1,1,1));
 	pModel->shader(pConstShader, true);
-	Models.push_back( pModel );
-	LineGrid = pModel;
+
+	models.push_back( pModel );
+	lineGrid = pModel;
 
 	pScene = new Scene();
 	pScene->shader(new PhongShader(), true);
 	//pScene->addSceneFile(ASSET_DIRECTORY "scenemodel.osh");
 	pScene->addSceneFile(ASSET_DIRECTORY "testscene.osh");
-	Models.push_back(pScene);
+	models.push_back(pScene);
 	
 	
 	pBarriers = pScene->getObstacles();
@@ -67,13 +65,19 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	//OutlineShader* pOutlineShader = new OutlineShader(ASSET_DIRECTORY "vsoutline.glsl", ASSET_DIRECTORY "fsoutline.glsl");
-	OutlineShader* pOutlineShader = new OutlineShader();
+	//OutlineShader* pOutlineShader = new OutlineShader();
 	
-	// CREATE GUI
+	// Create GUI
 	GUIEvents gui = GUIEvents();
+	
+	// Camera
+	egocam.ViewMatrix().identity();
+	egocam.ProjMatrix().perspective((float)M_PI*65.0f/180.0f, 640/480, 0.045f, 1000.0f);
+	//Egocam.ProjMatrix().perspective(toRadApp(90), 4.0f/3.0f, 0.1f, 100.0f);
 	
 	//------------------------------ MODELS ------------------------------
 	Matrix m,s,r;
+	
 	// Tank
 	pTank = new Tank();
 	pPhongShader = new PhongShader();
@@ -81,7 +85,8 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	pTank->transform(m);
-	Models.push_back(pTank);
+	
+	models.push_back(pTank);
 	
 //	float baymaxScaling = 0.2;
 //	pTest = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
@@ -91,13 +96,9 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 //	m = m.translation(-4, 0, -4);
 //	pTest->transform(m*s);
 //	Models.push_back(pTest);
+
 	
-	// EgoCam
-	Egocam.ViewMatrix().identity();
-	Egocam.ProjMatrix().perspective((float)M_PI*65.0f/180.0f, 640/480, 0.045f, 1000.0f);
-	//Egocam.ProjMatrix().perspective(toRadApp(90), 4.0f/3.0f, 0.1f, 100.0f);
-	
-	/* ------- GAME LOGIC --------- */
+	//------------------------------ GAME LOGIC ------------------------------
 	allCoins = ALLCOINS;
 	//allCoins = (unsigned int) pCoins.size();
 	collectedCoins = 0;
@@ -113,7 +114,7 @@ void Application::start(){
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-// EgoCam
+// Camera
 void Application::getInputPitchRollForward(float& pitch, float& roll, float& forward){
 	pitch = 0;
 	roll = 0;
@@ -144,9 +145,10 @@ void Application::getInputPitchRollForward(float& pitch, float& roll, float& for
 }
 
 void Application::update(float dtime){
-	Cam.update();
+	egocam.update();
+	gui.update(pWindow, &egocam);
+	
 	time+=dtime;
-	gui.update(pWindow, &Cam);
 	
 	// Tank steering
     double deltaTime = calcDeltaTime();
@@ -155,6 +157,8 @@ void Application::update(float dtime){
     
     // Jump
     getJump();
+	std::cout << "Tank" << std::endl;
+	pTank->transform().translation().debugOutput();
     pTank->steer3d(forwardBackward, leftRight, this->downForce);
     if(pTank->getLatestPosition().Y < this->terrainHeight){
         pTank->setIsInAir(false);
@@ -166,13 +170,13 @@ void Application::update(float dtime){
 	// Collision
 	int count =0;
 	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
+		//std::cout << "Barrier " << ++count << std::endl;
 		(*it)->getModel()->transform((*it)->getLocalTransform());
 		
 		/* Fix, weil BoundingBox-Werte nicht passen */
 		const AABB barrierBox = AABB(Vector(-1,0,-1), Vector(1,2,1));
 		const AABB& bb = (*it)->getModel()->getBoundingBox();
 		(*it)->getModel()->setBoundingBox(barrierBox);
-		
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
@@ -187,6 +191,7 @@ void Application::update(float dtime){
 		}
 	}
 	
+
 	// Collision
 	count = 0;
 	for(NodeList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
@@ -224,7 +229,7 @@ void Application::update(float dtime){
 			const AABB& bb = c->getBoundingBox();
 			c->setBoundingBox(coinBox);
 		}
-		
+
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
@@ -254,10 +259,10 @@ void Application::update(float dtime){
 	}
 	
 	// Aiming
-	double xpos, ypos;
-	glfwGetCursorPos(pWindow, &xpos, &ypos);
-	Vector pos = calc3DRay(xpos, ypos, pos);
-	pTank->aim(pos);
+	//double xpos, ypos;
+	//glfwGetCursorPos(pWindow, &xpos, &ypos);
+	//Vector pos = calc3DRay(xpos, ypos, pos);
+	//pTank->aim(pos);
 	
 	// Tank steering
 	float roll, pitch, forward;
@@ -280,10 +285,8 @@ void Application::update(float dtime){
 	matRotVertical.rotationX(toRadApp(-30));
 	Matrix tankViewMatrix = tankMat * matRotHorizontal * matRotVertical * matTransView;
 	tankViewMatrix.invert();
-	Egocam.ViewMatrix() = tankViewMatrix;
-	
-	//pTank->update(deltaTime);
-	
+	egocam.ViewMatrix() = tankViewMatrix;
+	 
 	// Version 2: Third person cam based on lookAt matrix
 	/*
 	Matrix tankViewMat;
@@ -339,51 +342,33 @@ double Application::calcDeltaTime(){
 }
 
 void Application::draw(){
-	ShadowGenerator.generate(Models);
-	
-    // Clear screen
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	ShaderLightMapper::instance().activate();
-	
-	// For EgoCam
-	LineGrid->draw(Cam);
-	
-    // Setup shaders and draw models
-    for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it ){
-        (*it)->draw(Cam);
-    }
-	
-	//GUI
-	gui.draw(&Cam);
-	
-	// For EgoCam
-	Debug.render(Cam);
-	
-	ShaderLightMapper::instance().deactivate();
-	
-	// Third Person view
 	GLint vp[4];
 	glGetIntegerv(GL_VIEWPORT, vp);
-	glScissor(vp[0], vp[1], vp[2]/3, vp[3]/3);
-	glViewport(vp[0], vp[1], vp[2]/3, vp[3]/3);
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	LineGrid->draw(Egocam);
-	for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it ) {
-		(*it)->draw(Egocam);
+	
+	// Draw Models
+	for( ModelList::iterator it = models.begin(); it != models.end(); ++it ) {
+		(*it)->draw(egocam);
 	}
-	glScissor(vp[0], vp[1], vp[2], vp[3]);
-	glViewport(vp[0], vp[1], vp[2], vp[3]);
+	
+	// GUI
+	gui.draw(&egocam);
+	
+	// Util
+	//shadowGenerator.generate(models);
+	//ShaderLightMapper::instance().activate();
+	//ShaderLightMapper::instance().deactivate();
 	
     // Check once per frame for OpenGL errors
-    GLenum Error = glGetError();
-    assert(Error==0);
+    GLenum error = glGetError();
+    assert(error==0);
 }
 
 void Application::end(){
-	for( ModelList::iterator it = Models.begin(); it != Models.end(); ++it ){
+	for( ModelList::iterator it = models.begin(); it != models.end(); ++it ){
         delete *it;
 	}
-    Models.clear();
+    models.clear();
 }
 
 void Application::createNormalTestScene(){
@@ -393,20 +378,20 @@ void Application::createNormalTestScene(){
 	pModel->shader(pConstShader, true);
     
 	// Add to render list
-	Models.push_back(pModel);
+	models.push_back(pModel);
 	pModel = new Model(ASSET_DIRECTORY "cube.obj", false);
 	pModel->shader(new PhongShader(), true);
-	Models.push_back(pModel);
+	models.push_back(pModel);
 }
 
 void Application::createShadowTestScene(){
 	pModel = new Model(ASSET_DIRECTORY "shadowcube.obj", false);
 	pModel->shader(new PhongShader(), true);
-	Models.push_back(pModel);
+	models.push_back(pModel);
 
 	pModel = new Model(ASSET_DIRECTORY "bunny.dae", false);
 	pModel->shader(new PhongShader(), true);
-	Models.push_back(pModel);
+	models.push_back(pModel);
 	
 	// Directional lights
 	DirectionalLight* dl = new DirectionalLight();
@@ -428,6 +413,7 @@ void Application::createShadowTestScene(){
 // Berechnung eines 3D-Strahls aus 2D-Mauskoordinaten
 // Input: 	Fenster-Pixelkoordinaten des Mauszeigers, Ray Origin
 // Output:	Ray Direction
+/*
 Vector Application::calc3DRay( float x, float y, Vector& Pos){
     // 1. Normalisieren zwischen (-1,1)
     int windowWidth, windowHeight;
@@ -457,6 +443,7 @@ Vector Application::calc3DRay( float x, float y, Vector& Pos){
     
     return Pos + (direction * s);
 }
+ */
 
 float Application::getLeftRight(){
     float direction = 0.0f;
@@ -515,6 +502,9 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
 	Vector vec1 = model1->transform().translation();
     Vector vec2 = model2->transform().translation();
 
+	vec1.debugOutput();
+	vec2.debugOutput();
+	
 	Vector size1 = model1->getBoundingBox().size();
     Vector size2 = model2->getBoundingBox().size();
 
@@ -534,13 +524,13 @@ void Application::createScene(){
 	pModel = new Model(ASSET_DIRECTORY "skybox.obj", false);
 	pModel->shader(new PhongShader(), true);
 	pModel->shadowCaster(false);
-	Models.push_back(pModel);
+	models.push_back(pModel);
 	
 	pModel = new Model(ASSET_DIRECTORY "base.dae", false);
 	pModel->shader(new PhongShader(), true);
 	m.translation(30, 0, 0);
 	pModel->transform(m);
-	Models.push_back(pModel);
+	models.push_back(pModel);
 	
 	//------------------------------ LIGHTS ------------------------------
 	/*
