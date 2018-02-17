@@ -61,6 +61,8 @@ bool Scene::addSceneFile(const char* Scenefile)
 				parent = &m_Root;
 			}
 			
+			Pos.debugOutput();
+			
 			SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 			
 			//TODO: jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)
@@ -68,6 +70,7 @@ bool Scene::addSceneFile(const char* Scenefile)
 				mCoins.push_back(sceneNode);
 			}
 			if(strstr(ModelID, "bunny")) {
+				std::cout << "todeshasi" << std::endl;
 				mDeathItems.push_back(sceneNode);
 			}
 			if(strstr(ModelID, "woodcube")) {
@@ -88,8 +91,6 @@ bool Scene::addSceneFile(const char* Scenefile)
 			
 			sscanf(Line, "MODEL ID=%s FILE=%s TYPE=%s", ModelID, Modelfile, ModelType);
 			
-			std::cout << ModelID << std::endl;
-			
 			Model* m;
 			if(strstr (ModelType, "BARRIER")) {
 				m = new Model(Modelfile, false, 1.5f);
@@ -100,11 +101,10 @@ bool Scene::addSceneFile(const char* Scenefile)
 				m->shader(this->shader());
 			}
 			else if(strstr (ModelType, "DEATH")) {
-				m = new DeathBlock(Modelfile);
+				m = new DeathBlock(Modelfile, false, 1.5f);
 				m->shader(this->shader());
 			}
 			else {
-				std::cout << "NIX" <<std::endl;
 				//Model-Class verwenden (oder Barrier?)
 				m = new Model(Modelfile);
 				m->shader(this->shader());
@@ -120,10 +120,31 @@ bool Scene::addSceneFile(const char* Scenefile)
 void Scene::draw(const BaseCamera& Cam)
 {
 	m_Root.draw(Cam);
+	
+//	std::set<SceneNode*>::iterator it;
+//	for (it = m_Root.getChildren().begin(); it != m_Root.getChildren().end(); ++it)
+//	{
+//		draw(*it);
+//	}
+	
+}
+
+void Scene::draw(SceneNode* pNode)
+{
+//	std::cout << "transform node" << std::endl;
+//	Matrix globalTrans = pNode->getGlobalTransform();
+//	pNode->getModel()->transform(globalTrans);
+	
+//	std::set<SceneNode*>::iterator it;
+//	for (it = pNode->getChildren().begin(); it != pNode->getChildren().end(); ++it)
+//	{
+//		draw(*it);
+//	}
+	
 }
 
 /*
- Iterative Suchfunktion für Parentnodes
+ Rekursive Suchfunktion für Parentnodes
  Wenn ParentID = NULL -> root ist Parent
  */
 SceneNode* Scene::findNode(char* parentID, SceneNode* node) {

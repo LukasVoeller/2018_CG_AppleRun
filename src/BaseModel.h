@@ -28,6 +28,7 @@ public:
     virtual const AABB& getBoundingBox() const { return AABB::unitBox(); }
 	bool shadowCaster() const { return ShadowCaster; }
 	void shadowCaster(bool sc) { ShadowCaster = sc; }
+	const Vector& getPosition() const;
 	
 protected:
     Matrix Transform;

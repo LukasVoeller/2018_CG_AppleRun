@@ -31,6 +31,7 @@ void SceneNode::setLocalTransform(const Vector& Translation, const Vector& Rotat
 	rotation.rotationAxis(RotationAxis, RotationAngle);
 	translation.translation(Translation);
 	this->setLocalTransform(translation * rotation);
+
 }
 
 void SceneNode::setLocalTransform(const Matrix& LocalTransform)
@@ -85,7 +86,7 @@ void SceneNode::setModel(Model* pModel)
 	m_pModel = pModel;
 }
 
-const Model* SceneNode::getModel() const
+Model* SceneNode::getModel() const
 {
 	return m_pModel;
 }
@@ -121,8 +122,9 @@ void SceneNode::setScaling(const Vector& Scaling)
 
 void SceneNode::draw(const BaseCamera& Cam)
 {
+
 	if (m_pModel != NULL) {
-		m_pModel->transform(this->getGlobalTransform());
+		m_pModel->transform(this->getGlobalTransform(true));
 		m_pModel->draw(Cam);
 	}
 	
@@ -133,4 +135,5 @@ void SceneNode::draw(const BaseCamera& Cam)
 		(*it)->draw(Cam);
 	}
 }
+
 

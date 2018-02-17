@@ -19,13 +19,10 @@ class Coin : public Model
 public:
 	Coin();
 	Coin(const char* ModelFile, bool FitSize=true, float scale=1.0);
-	void update(float dtime);
-	float getHeight();
-	void setHeight(float height);
 	Vector getLatestPosition();
+	void setLatestPosition(Vector pos);
 	bool collected = false;
 protected:
-	float height = -30.0f;
 	Vector position;
 };
 

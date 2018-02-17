@@ -46,6 +46,7 @@ protected:
 	Camera Cam;
 	EgoCam Egocam;
 	GUIEvents gui;
+	Scene* pScene;
 	ModelList Models;
 	GLFWwindow* pWindow;
 	BaseModel* LineGrid;
@@ -71,17 +72,17 @@ protected:
 	Model* pBarrier2; /* only for testing */
 	
 	// Obstacle List
-	ModelList pBarriers;
+	NodeList pBarriers;
 	
 	// Coins
 	Coin* coin;
-	ModelList pCoins;
+	NodeList pCoins;
 	unsigned int allCoins;
 	unsigned int collectedCoins;
 	
 	//DeathBlock
 	DeathBlock* deathblock;
-	ModelList pDeathblocks;
+	NodeList pDeathblocks;
 
 	
 	// Game Variables

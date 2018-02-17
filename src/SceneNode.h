@@ -28,7 +28,7 @@ public:
 	const Matrix& getLocalTransform() const;
 	Matrix getGlobalTransform(bool scaling = true) const;
 	const SceneNode* getParent() const;
-	const Model* getModel() const;
+	Model* getModel() const;
 	const std::string& getName() const;
 	const Vector& getScaling() const;
 	const std::string& getModelType() const;
@@ -45,8 +45,6 @@ public:
 	void setScaling( const Vector& Scaling);
 	void setModelType(const std::string& modelType);
 	void draw(const BaseCamera& Cam);
-	//update-methode
-	void update(float dtime);
 protected:
 	std::string m_Name;
 	std::string modelType;

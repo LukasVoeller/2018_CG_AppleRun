@@ -16,7 +16,7 @@
 #include <fstream>
 
 #include "Model.h"
-#include "Phongshader.h"
+#include "PhongShader.h"
 #include <list>
 #include <limits>
 #include <sstream>
@@ -97,7 +97,6 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
     }
 	
 	factor = factor * scale;
-	//KOMISCH: Wenn ich das nach unten verschiebe werden andere Sachen gerendert?!
 	this->BoundingBox = AABB(Vector(FLT_MAX, FLT_MAX, FLT_MAX), Vector(FLT_MIN, FLT_MIN, FLT_MIN));
 	calcBoundingBox(pScene, this->BoundingBox);
 	

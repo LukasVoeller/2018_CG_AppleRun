@@ -28,7 +28,7 @@ public:
 	NodeList getObstacles() {return mBarriers; }
 	NodeList getDeathItems() {return mDeathItems; }
 protected:
-	//void draw(SceneNode* pNode); // brauch ich das?//einzelner Knoten
+	void draw(SceneNode* pNode); // brauch ich das?//einzelner Knoten
 	SceneNode m_Root;
 	std::map<std::string, Model*> m_Models;
 	

@@ -50,24 +50,16 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 	Models.push_back( pModel );
 	LineGrid = pModel;
 
-	Scene* pScene = new Scene();
+	pScene = new Scene();
 	pScene->shader(new PhongShader(), true);
-	pScene->addSceneFile(ASSET_DIRECTORY "scenemodel.osh");
+	//pScene->addSceneFile(ASSET_DIRECTORY "scenemodel.osh");
+	pScene->addSceneFile(ASSET_DIRECTORY "testscene.osh");
 	Models.push_back(pScene);
 	
-	NodeList tmp = pScene->getCoins();
-	for(std::list<SceneNode*>::iterator it = tmp.begin(); it != tmp.end(); ++it) {
-		Model* m = const_cast<Model*>((*it)->getModel());
-		pCoins.push_back(m);
-	}
 	
-	tmp = pScene->getObstacles();
-	const AABB barrierBox = AABB(Vector(-0.5,0,-0.5), Vector(1,2,1));
-	for(std::list<SceneNode*>::iterator it = tmp.begin(); it != tmp.end(); ++it) {
-		Model* m = const_cast<Model*>((*it)->getModel());
-		m->setBoundingBox(barrierBox);
-		pBarriers.push_back(m);
-	}
+	pBarriers = pScene->getObstacles();
+	pCoins = pScene->getCoins();
+	pDeathblocks = pScene->getDeathItems();
 
 	//createScene();
 	//createNormalTestScene();
@@ -99,47 +91,6 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin), time(0), 
 //	m = m.translation(-4, 0, -4);
 //	pTest->transform(m*s);
 //	Models.push_back(pTest);
-	
-
-	//Obstacles
-	for(int i=0; i<5; ++i)
-	{
-		//float scaling = 0.10f;
-//		pBarrier1 = new Model(ASSET_DIRECTORY "Cube_obj.obj", false, scaling);
-		float scaling = 1.0f;
-		pBarrier1 = new Model(ASSET_DIRECTORY "buddha.dae", false, scaling);
-		pBarrier1->shader(new PhongShader(), true);
-		m = m.translation(5*i-2, 0, -5);
-		s = s.scale(scaling);
-		pBarrier1->transform(m*s);
-		pBarriers.push_back(pBarrier1);
-		Models.push_back(pBarrier1);
-	}
-	
-	// Coins
-	for(int i=0; i<5; ++i){
-		float scaling = 1.5f;
-		coin = new Coin(ASSET_DIRECTORY "buddha.dae", false, scaling);
-		coin->shader(new PhongShader(), true);
-		m = m.translation(5*i-6, 0, 5);
-		s = s.scale(scaling);
-		coin->transform(m*s);
-		pCoins.push_back(coin);
-		Models.push_back(coin);
-	}
-	
-	// Fallen
-	for(int i=0; i<5; ++i){
-		float scaling = 1.0f;
-		deathblock = new DeathBlock(ASSET_DIRECTORY "bunny.dae", false, scaling);
-		//deathblock = new DeathBlock(ASSET_DIRECTORY "Snake/Snake.obj", false, scaling);
-		deathblock->shader(new PhongShader(), true);
-		m = m.translation(5*i-6, 0, 10);
-		s = s.scale(scaling);
-		deathblock->transform(m*s);
-		pDeathblocks.push_back(deathblock);
-		Models.push_back(deathblock);
-	}
 	
 	// EgoCam
 	Egocam.ViewMatrix().identity();
@@ -214,27 +165,43 @@ void Application::update(float dtime){
 
 	// Collision
 	int count =0;
-	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
-		std::cout << "Barrier " << ++count << std::endl;
+	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
+		(*it)->getModel()->transform((*it)->getLocalTransform());
+		
+		/* Fix, weil BoundingBox-Werte nicht passen */
+		const AABB barrierBox = AABB(Vector(-1,0,-1), Vector(1,2,1));
+		const AABB& bb = (*it)->getModel()->getBoundingBox();
+		(*it)->getModel()->setBoundingBox(barrierBox);
+		
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
 		else {
-			if(collisionDetection(pTank, (Model*)(*it))){
-				std::cout << "collision!" << std::endl;
+			if(collisionDetection(pTank, (Model*)(*it)->getModel())){
+				pTank->transform().translation().debugOutput();
+				(*it)->getModel()->transform().translation().debugOutput();
+				std::cout << "collision with barrier" << std::endl;
 				actionTimer = 10;
-				pTank->steer3d(-2 * forwardBackward, -2 * leftRight, 0);
+				pTank->steer3d(-5 * forwardBackward, -5 * leftRight, 0);
 			}
 		}
 	}
 	
 	// Collision
-	for(ModelList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
+	count = 0;
+	for(NodeList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
+		(*it)->getModel()->transform((*it)->getLocalTransform());
+		
+		/* Fix, weil BoundingBox-Werte nicht passen */
+		const AABB deathBox = AABB(Vector(-1,0,-1), Vector(1,2,1));
+		const AABB& bb = (*it)->getModel()->getBoundingBox();
+		
+		(*it)->getModel()->setBoundingBox(deathBox);
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
 		else {
-			if(collisionDetection(pTank, (Model*)(*it))){
+			if(collisionDetection(pTank, (*it)->getModel())){
 				std::cout << "death!" << std::endl;
 				actionTimer = 10;
 				reset(deltaTime);
@@ -244,25 +211,41 @@ void Application::update(float dtime){
 	}
 	
 	count = 0;
-	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		const Matrix* pCoinMat = &(*it)->getLocalTransform();
 		
-		std::cout << "Coin " << ++count << std::endl;
-		Coin* c = (Coin*)(*it);
+		Matrix trans;
+		//Besser iwo anders hin damit... eigentlich hier falsch
+		Coin* c = (Coin*)(*it)->getModel();
+		if(!c->collected) {
+			c->transform((*it)->getLocalTransform());
+			/* Fix, weil BoundingBox-Werte nicht passen */
+			const AABB coinBox = AABB(Vector(-1,0,-1), Vector(1,2,1));
+			const AABB& bb = c->getBoundingBox();
+			c->setBoundingBox(coinBox);
+		}
+		
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
 		else if(collisionDetection(pTank, c) && actionTimer == 0 && c->collected == false){
 			collectedCoins++;
 			actionTimer = 5; //Timer neu setzen
-			std::cout << "found coin" << collectedCoins << std::endl;
+			std::cout << "found coin " << collectedCoins << std::endl;
 			c->collected = true;
-			c->setHeight(10.0f);
+
+			trans.translation(0, 2.0f, 0);
+			(*it)->setLocalTransform((*it)->getLocalTransform()*trans);
 			
 		}
-		if(c->collected && c->getHeight() > -15.0f) {
-			float newHeight = c->getHeight() - 0.75f;
-			c->setHeight(newHeight);
-			c->update(deltaTime);
+		if(c->collected &&  pCoinMat->translation().Y > -6.0f) {
+			Matrix t;
+			std::cout << "update coin" << (*it)->getLocalTransform().translation().Y << std::endl;
+			float newHeight = pCoinMat->translation().Y - 0.3f;
+
+			t.translation(pCoinMat->translation().X, newHeight, pCoinMat->translation().Z);
+			(*it)->setLocalTransform(t);
+			c->setLatestPosition(pCoinMat->translation());
 		}
 	}
 	
@@ -666,12 +649,17 @@ void Application::reset(float dtime) {
 	collectedCoins = 0;
 	
 	// alle gesammelten Coins wieder positionieren
-	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
-		Coin* c = (Coin*)(*it);
+	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		Coin* c = (Coin*)(*it)->getModel();
 		if(c->collected) {
+			(*it)->getGlobalTransform().translation().debugOutput();
+			(*it)->getLocalTransform().translation().debugOutput();
 			c->collected = false;
 			std::cout << "reset" << std::endl;
-			c->update(dtime);
+			Matrix t;
+			
+			(*it)->setLocalTransform(Vector(c->getLatestPosition().X, 0, c->getLatestPosition().Z), Vector(0, 1, 0), 0);
+			(*it)->getLocalTransform().translation().debugOutput();
 		}
 	}
 	//Figur wieder auf den Startpunkt
