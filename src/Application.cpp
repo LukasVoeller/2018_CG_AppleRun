@@ -54,7 +54,6 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pScene->addSceneFile(ASSET_DIRECTORY "testscene.osh");
 	models.push_back(pScene);
 	
-	
 	pBarriers = pScene->getObstacles();
 	pCoins = pScene->getCoins();
 	pDeathblocks = pScene->getDeathItems();
@@ -64,7 +63,6 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	//createShadowTestScene();
 	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
-	//OutlineShader* pOutlineShader = new OutlineShader(ASSET_DIRECTORY "vsoutline.glsl", ASSET_DIRECTORY "fsoutline.glsl");
 	//OutlineShader* pOutlineShader = new OutlineShader();
 	
 	// Create GUI
@@ -156,13 +154,15 @@ void Application::update(float dtime){
     float leftRight = getLeftRight();
     
     // Jump
+	// Blöd, weil man von Blöcken nicht weiterspringen kann...
     getJump();
     pTank->steer3d(forwardBackward, leftRight, this->downForce);
-    if(pTank->getLatestPosition().Y < this->terrainHeight){
+    if(pTank->getLatestPosition().Y <= this->terrainHeight + DELTA){
         pTank->setIsInAir(false);
         this->downForce = 0.0f;
 	} else {
         this->downForce += gravity * 0.1f;
+		std::cout << "DownForce " << downForce << std::endl;
 	}
 
 	// Collision
@@ -178,8 +178,19 @@ void Application::update(float dtime){
 		else {
 			if(collisionDetection(pTank, *it)){
 				std::cout << "collision with barrier" << std::endl;
-				coolDownTimer = 10;
-				pTank->steer3d(-5 * forwardBackward, -5 * leftRight, 0);
+                coolDownTimer = 10;
+                
+                if(pTank->getLatestPosition().Y > terrainHeight + DELTA ) {
+                    std::cout << "Oben "<< pTank->getLatestPosition().Y << std::endl;
+                    this->downForce = 0.0f;
+                    pTank->setIsInAir(false);
+                    
+                }
+                else {
+                    std::cout << "Daneben "<< std::endl;
+                    pTank->steer3d(-10 * forwardBackward * deltaTime, -10 * leftRight * deltaTime, 0);
+                }
+				
 			}
 		}
 	}
@@ -225,14 +236,14 @@ void Application::update(float dtime){
 			std::cout << "found coin " << collectedCoins << std::endl;
 			(*it)->setCollected(true);
 
-			trans.translation(0, 2.0f, 0);
+			trans.translation(0, 2.5f, 0);
 			(*it)->setLocalTransform((*it)->getLocalTransform()*trans);
 			
 		}
 		if((*it)->isCollected() &&  pCoinMat->translation().Y > -6.0f) {
 			Matrix t;
 			std::cout << "update coin" << (*it)->getLocalTransform().translation().Y << std::endl;
-			float newHeight = pCoinMat->translation().Y - 0.3f;
+			float newHeight = pCoinMat->translation().Y - 0.25f;
 
 			t.translation(pCoinMat->translation().X, newHeight, pCoinMat->translation().Z);
 			(*it)->setLocalTransform(t);
@@ -494,12 +505,8 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
 /****** Collision with scenenode *********/
 bool Application::collisionDetection(Tank* model1, SceneNode* node)
 {
-	
 	Vector vec1 = model1->transform().translation();
 	Vector vec2 = node->getModel()->transform().translation();
-	
-	vec1.debugOutput();
-	vec2.debugOutput();
 	
 	Vector size1 = model1->getBoundingBox().size();
 	Vector size2 = node->getScaledBoundingBox().size();
@@ -637,14 +644,11 @@ void Application::reset(float dtime) {
 	// alle gesammelten Coins wieder positionieren
 	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
 		if((*it)->isCollected()) {
-			(*it)->getGlobalTransform().translation().debugOutput();
-			(*it)->getLocalTransform().translation().debugOutput();
 			(*it)->setCollected(false);
 			std::cout << "reset" << std::endl;
 			Matrix t;
 			
 			(*it)->setLocalTransform(Vector((*it)->getLatestPosition().X, 0, (*it)->getLatestPosition().Z), Vector(0, 1, 0), 0);
-			(*it)->getLocalTransform().translation().debugOutput();
 		}
 	}
 	//Figur wieder auf den Startpunkt

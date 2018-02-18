@@ -81,7 +81,7 @@ void Tank::update(float dtime)
     
     //Aktuelle Position in Vektor speichern
     this->position.X = TankMat.m[12];
-    this->position.Y = TankMat.m[13];
+    this->position.Y = std::max(TankMat.m[13], TERRAIN_HEIGHT);
     this->position.Z = TankMat.m[14];
     
     //Kanone berechnen

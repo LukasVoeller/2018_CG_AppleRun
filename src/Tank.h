@@ -12,6 +12,8 @@
 #include <stdio.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <algorithm>
+#include "Constants.h"
 #include "Model.h"
 #include "PhongShader.h"
 #include "ConstantShader.h"
