@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		80398D6920289B6300010C49 /* GUIEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80398D6820289B6300010C49 /* GUIEvents.cpp */; };
-		80398D6D202A025900010C49 /* Coin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80398D6B202A025800010C49 /* Coin.cpp */; };
-		80398F2C202C516A00010C49 /* DeathBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80398F2B202C516A00010C49 /* DeathBlock.cpp */; };
 		8040FAD81FFF76FA004B3A5C /* libassimp.4.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */; };
 		8040FADA1FFF7703004B3A5C /* libfreeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD91FFF7703004B3A5C /* libfreeimage.a */; };
 		805A7472200A620D0057761B /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168C1FEBE2E10079DD72 /* VertexBuffer.cpp */; };
@@ -63,11 +61,7 @@
 		80398D6720289B0900010C49 /* GUIEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GUIEvents.h; path = ../src/GUIEvents.h; sourceTree = "<group>"; };
 		80398D6820289B6300010C49 /* GUIEvents.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GUIEvents.cpp; path = ../src/GUIEvents.cpp; sourceTree = "<group>"; };
 		80398D6A20289C1D00010C49 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../src/Constants.h; sourceTree = "<group>"; };
-		80398D6B202A025800010C49 /* Coin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Coin.cpp; path = ../src/Coin.cpp; sourceTree = "<group>"; };
 		80398F27202B684800010C49 /* CGXcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CGXcode; sourceTree = BUILT_PRODUCTS_DIR; };
-		80398F28202B7C8800010C49 /* Coin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Coin.h; path = ../src/Coin.h; sourceTree = "<group>"; };
-		80398F2A202C514100010C49 /* DeathBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DeathBlock.h; path = ../src/DeathBlock.h; sourceTree = "<group>"; };
-		80398F2B202C516A00010C49 /* DeathBlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DeathBlock.cpp; path = ../src/DeathBlock.cpp; sourceTree = "<group>"; };
 		8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.1.0.dylib; path = thirdparty/assimp/libassimp.4.1.0.dylib; sourceTree = "<group>"; };
 		8040FAD91FFF7703004B3A5C /* libfreeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreeimage.a; path = thirdparty/freeimage/libfreeimage.a; sourceTree = "<group>"; };
 		8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
@@ -283,10 +277,6 @@
 		80D317011FEBF21F0079DD72 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				80398D6B202A025800010C49 /* Coin.cpp */,
-				80398F28202B7C8800010C49 /* Coin.h */,
-				80398F2A202C514100010C49 /* DeathBlock.h */,
-				80398F2B202C516A00010C49 /* DeathBlock.cpp */,
 				80D3168A1FEBE2E10079DD72 /* Tank.h */,
 				80D316A01FEBE2E40079DD72 /* Tank.cpp */,
 			);
@@ -403,10 +393,8 @@
 				805A7498200A620D0057761B /* ConstantShader.cpp in Sources */,
 				805A749A200A620D0057761B /* BaseShader.cpp in Sources */,
 				805A749C200A620D0057761B /* PhongShader.cpp in Sources */,
-				80398F2C202C516A00010C49 /* DeathBlock.cpp in Sources */,
 				805A749E200A620D0057761B /* ShaderLightMapper.cpp in Sources */,
 				809B2BDD202EC9A3005C708C /* OutlineShader.cpp in Sources */,
-				80398D6D202A025900010C49 /* Coin.cpp in Sources */,
 				809B2BE5202F1F4A005C708C /* SceneNode.cpp in Sources */,
 				805A74A0200A620D0057761B /* ShadowMapGenerator.cpp in Sources */,
 				805A74A2200A620D0057761B /* Color.cpp in Sources */,

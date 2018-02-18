@@ -213,7 +213,7 @@ void Application::update(float dtime){
 	
 	count = 0;
 	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
-		Coin* c = dynamic_cast<Coin*>((*it)->getModel());
+		Model* c = (*it)->getModel();
 		std::cout << "Coin " << ++count << " "<< (*it)->isCollected() <<  std::endl;
 		const Matrix* pCoinMat = &(*it)->getLocalTransform();
 		

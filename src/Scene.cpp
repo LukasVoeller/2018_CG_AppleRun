@@ -13,8 +13,6 @@
 #include <stdio.h>
 
 #include "Model.h"
-#include "Coin.h"
-#include "DeathBlock.h"
 
 
 Scene::Scene()
@@ -94,11 +92,11 @@ bool Scene::addSceneFile(const char* Scenefile)
 				m->shader(this->shader());
 			}
 			else if(strstr (ModelType, "COIN")) {
-				m = new Coin(Modelfile, false, 1.5f);
+				m = new Model(Modelfile, false, 1.5f);
 				m->shader(this->shader());
 			}
 			else if(strstr (ModelType, "DEATH")) {
-				m = new DeathBlock(Modelfile, false, 1.5f);
+				m = new Model(Modelfile, false, 1.5f);
 				m->shader(this->shader());
 			}
 			else {

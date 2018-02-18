@@ -21,8 +21,6 @@
 #include "BaseModel.h"
 #include "ShadowMapGenerator.h"
 #include "Tank.h"
-#include "Coin.h"
-#include "DeathBlock.h"
 #include "EgoCam.h"
 #include "GUIEvents.h"
 #include "Scene.h"
@@ -74,21 +72,15 @@ protected:
 	float getLeftRight();
 	void getJump();
 	
-	// Testmodels
-	Model* pBarrier1;
-	Model* pBarrier2;
-	
 	// Obstacle List
 	NodeList pBarriers;
 	
 	// Coins
-	Coin* coin;
 	NodeList pCoins;
 	unsigned int allCoins;
 	unsigned int collectedCoins;
 	
 	//DeathBlock
-	DeathBlock* deathblock;
 	NodeList pDeathblocks;
 
 	
