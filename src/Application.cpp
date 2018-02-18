@@ -218,6 +218,7 @@ void Application::update(float dtime){
 	count = 0;
 	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
 		std::cout << "Coin " << ++count << " "<< (*it)->isCollected() <<  std::endl;
+        (*it)->getGlobalTransform().translation().debugOutput();
 		const Matrix* pCoinMat = &(*it)->getLocalTransform();
 		
 		Matrix trans;
@@ -506,7 +507,7 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
 bool Application::collisionDetection(Tank* model1, SceneNode* node)
 {
 	Vector vec1 = model1->transform().translation();
-	Vector vec2 = node->getModel()->transform().translation();
+	Vector vec2 = node->getLocalTransform().translation();
 	
 	Vector size1 = model1->getBoundingBox().size();
 	Vector size2 = node->getScaledBoundingBox().size();

@@ -13,6 +13,7 @@
 #include "Matrix.h"
 #include <set>
 #include <vector>
+#include <string.h>
 #include <map>
 #include <string>
 #include "BaseModel.h"
