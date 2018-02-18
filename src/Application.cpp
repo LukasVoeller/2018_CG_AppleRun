@@ -171,10 +171,10 @@ void Application::update(float dtime){
 		//std::cout << "Barrier " << ++count << std::endl;
 		(*it)->getModel()->transform((*it)->getLocalTransform());
 		
-		/* Fix, weil BoundingBox-Werte nicht passen */
-		const AABB barrierBox = AABB(Vector(-1,0,-1), Vector(1,2,1));
-		const AABB& bb = (*it)->getModel()->getBoundingBox();
-		(*it)->getModel()->setBoundingBox(barrierBox);
+		
+		/* BoundingBox skalieren für Kollisionserkennung -> besser woanders hin */
+		(*it)->getModel()->scaleBoundingBox((*it)->getScaling());
+		
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
@@ -192,12 +192,10 @@ void Application::update(float dtime){
 	count = 0;
 	for(NodeList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
 		(*it)->getModel()->transform((*it)->getLocalTransform());
-		
-		/* Fix, weil BoundingBox-Werte nicht passen */
-		const AABB deathBox = AABB(Vector(-1,0,-1), Vector(1,2,1));
-		const AABB& bb = (*it)->getModel()->getBoundingBox();
-		
-		(*it)->getModel()->setBoundingBox(deathBox);
+
+		/* BoundingBox skalieren für Kollisionserkennung -> besser woanders hin */
+		(*it)->getModel()->scaleBoundingBox((*it)->getScaling());
+
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
@@ -221,11 +219,9 @@ void Application::update(float dtime){
 		//Besser iwo anders hin damit... eigentlich hier falsch
 		if(!(*it)->isCollected()) {
 			c->transform((*it)->getLocalTransform());
-			/* Fix, weil BoundingBox-Werte nicht passen */
-			const AABB coinBox = AABB(Vector(-1,0,-1), Vector(1,2,1));
-			const AABB& bb = c->getBoundingBox();
-			c->setBoundingBox(coinBox);
-		}
+
+			/* BoundingBox skalieren für Kollisionserkennung -> besser woanders hin */
+			(*it)->getModel()->scaleBoundingBox((*it)->getScaling());		}
 
 		if (actionTimer > 0) {
 			actionTimer--;
@@ -487,15 +483,6 @@ void Application::getJump(){
 bool Application::collisionDetection(Tank* model1, Model* model2)
 {
 	
-//	const AABB& box1 = model1->getBoundingBox();
-//	const AABB& box2 = model2->getBoundingBox();
-//
-////	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
-////	return (box1.Min.X < box2.Max.X &&
-////			box2.Min.X < box1.Max.X &&
-////			box1.Min.Z < box2.Max.Z &&
-////			box2.Min.Z < box1.Max.Z);
-	
 	Vector vec1 = model1->transform().translation();
     Vector vec2 = model2->transform().translation();
 
@@ -503,7 +490,7 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
 	vec2.debugOutput();
 	
 	Vector size1 = model1->getBoundingBox().size();
-    Vector size2 = model2->getBoundingBox().size();
+	Vector size2 = model2->getScaledBoundingBox().size();
 
     //Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
     return (vec1.X - size1.X/2 < vec2.X + size2.X/2 &&

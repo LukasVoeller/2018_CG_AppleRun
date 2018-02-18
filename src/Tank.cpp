@@ -143,14 +143,4 @@ void Tank::calcBoundingBox(AABB& Box)
 	Box.Max.X = std::max(chassisBox.Max.X, cannonBox.Max.X);
 	Box.Max.Y = std::max(chassisBox.Max.Y, cannonBox.Max.Y);
 	Box.Max.Z = std::max(chassisBox.Max.Z, cannonBox.Max.Z);
-	
-	// Verschiebung der BoundingBox
-	//	Box.Min.X = std::min(this->position.X - chassisBox.size().X/2, this->position.X - cannonBox.size().X/2);
-	//	Box.Min.Y = std::min(this->position.Y - chassisBox.size().Y/2, this->position.Y - cannonBox.size().Y/2);
-	//	Box.Min.Z = std::min(this->position.Z - chassisBox.size().Z/2, this->position.Z - cannonBox.size().Z/2);
-	//
-	//	Box.Min.X = std::max(this->position.X + chassisBox.size().X/2, this->position.X + cannonBox.size().X/2);
-	//	Box.Min.Y = std::max(this->position.Y + chassisBox.size().Y/2, this->position.Y + cannonBox.size().Y/2);
-	//	Box.Min.Z = std::max(this->position.Z + chassisBox.size().Z/2, this->position.Z + cannonBox.size().Z/2);
-
 }

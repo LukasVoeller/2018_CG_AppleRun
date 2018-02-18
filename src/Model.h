@@ -11,6 +11,7 @@
 #include "Texture.h"
 #include "Aabb.h"
 #include <string>
+#include <list>
 
 class Model : public BaseModel
 {
@@ -24,6 +25,9 @@ public:
     virtual void draw(const BaseCamera& Cam);
     const AABB& getBoundingBox() const { return BoundingBox; }
 	void setBoundingBox(const AABB& box) {BoundingBox = box; }
+
+	const AABB& getScaledBoundingBox() const { return scaledBoundingBox; }
+	const AABB& scaleBoundingBox(Vector scale);
 
 protected:
     struct Mesh
@@ -74,6 +78,7 @@ protected:
     Material* pMaterials;
     unsigned int MaterialCount;
     AABB BoundingBox;
+	AABB scaledBoundingBox;
 
     std::string Filepath;
 	std::string Path;
