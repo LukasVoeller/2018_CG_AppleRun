@@ -114,7 +114,7 @@ void Application::start(){
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-// Camera
+// Andere Bedienung
 void Application::getInputPitchRollForward(float& pitch, float& roll, float& forward){
 	pitch = 0;
 	roll = 0;
@@ -169,19 +169,16 @@ void Application::update(float dtime){
 	int count =0;
 	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
 		//std::cout << "Barrier " << ++count << std::endl;
+		//gehört hier eigt nicht hin
 		(*it)->getModel()->transform((*it)->getLocalTransform());
 		
-		
-		/* BoundingBox skalieren für Kollisionserkennung -> besser woanders hin */
-		(*it)->getModel()->scaleBoundingBox((*it)->getScaling());
-		
-		if (actionTimer > 0) {
-			actionTimer--;
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
 		}
 		else {
-			if(collisionDetection(pTank, (Model*)(*it)->getModel())){
+			if(collisionDetection(pTank, *it)){
 				std::cout << "collision with barrier" << std::endl;
-				actionTimer = 10;
+				coolDownTimer = 10;
 				pTank->steer3d(-5 * forwardBackward, -5 * leftRight, 0);
 			}
 		}
@@ -191,18 +188,16 @@ void Application::update(float dtime){
 	// Collision
 	count = 0;
 	for(NodeList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
+		//Muss eigt woanders hin?
 		(*it)->getModel()->transform((*it)->getLocalTransform());
 
-		/* BoundingBox skalieren für Kollisionserkennung -> besser woanders hin */
-		(*it)->getModel()->scaleBoundingBox((*it)->getScaling());
-
-		if (actionTimer > 0) {
-			actionTimer--;
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
 		}
 		else {
-			if(collisionDetection(pTank, (*it)->getModel())){
+			if(collisionDetection(pTank, *it)){
 				std::cout << "death!" << std::endl;
-				actionTimer = 10;
+				coolDownTimer = 10;
 				reset(deltaTime);
 				//auf start zurücksetzen
 			}
@@ -211,24 +206,22 @@ void Application::update(float dtime){
 	
 	count = 0;
 	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
-		Model* c = (*it)->getModel();
 		std::cout << "Coin " << ++count << " "<< (*it)->isCollected() <<  std::endl;
 		const Matrix* pCoinMat = &(*it)->getLocalTransform();
 		
 		Matrix trans;
 		//Besser iwo anders hin damit... eigentlich hier falsch
 		if(!(*it)->isCollected()) {
-			c->transform((*it)->getLocalTransform());
+			(*it)->getModel()->transform((*it)->getLocalTransform());
 
-			/* BoundingBox skalieren für Kollisionserkennung -> besser woanders hin */
-			(*it)->getModel()->scaleBoundingBox((*it)->getScaling());		}
-
-		if (actionTimer > 0) {
-			actionTimer--;
 		}
-		else if(collisionDetection(pTank, c) && actionTimer == 0 && (*it)->isCollected() == false){
+
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
+		}
+		else if(collisionDetection(pTank, (*it)) && coolDownTimer == 0 && (*it)->isCollected() == false){
 			collectedCoins++;
-			actionTimer = 5; //Timer neu setzen
+			coolDownTimer = 5; //Timer neu setzen
 			std::cout << "found coin " << collectedCoins << std::endl;
 			(*it)->setCollected(true);
 
@@ -480,14 +473,11 @@ void Application::getJump(){
     }
 }
 
+/******* Old collisionDetection for things not in the scene **/
 bool Application::collisionDetection(Tank* model1, Model* model2)
 {
-	
 	Vector vec1 = model1->transform().translation();
     Vector vec2 = model2->transform().translation();
-
-	vec1.debugOutput();
-	vec2.debugOutput();
 	
 	Vector size1 = model1->getBoundingBox().size();
 	Vector size2 = model2->getScaledBoundingBox().size();
@@ -499,6 +489,28 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
 		vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 &&
     	vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
     	vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
+}
+
+/****** Collision with scenenode *********/
+bool Application::collisionDetection(Tank* model1, SceneNode* node)
+{
+	
+	Vector vec1 = model1->transform().translation();
+	Vector vec2 = node->getModel()->transform().translation();
+	
+	vec1.debugOutput();
+	vec2.debugOutput();
+	
+	Vector size1 = model1->getBoundingBox().size();
+	Vector size2 = node->getScaledBoundingBox().size();
+	
+	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
+	return (vec1.X - size1.X/2 < vec2.X + size2.X/2 &&
+			vec2.X - size2.X/2 < vec1.X + size1.X/2 &&
+			vec1.Y - size1.Y/2 < vec2.Y + size2.Y/2 &&
+			vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 &&
+			vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
+			vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
 }
 
 void Application::createScene(){

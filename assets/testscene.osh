@@ -1,8 +1,8 @@
-MODEL ID=sky_box FILE=../assets/skybox.obj TYPE=MODEL
-MODEL ID=base FILE=../assets/base.dae TYPE=MODEL
-MODEL ID=woodcube FILE=../assets/Cube_obj.obj TYPE=BARRIER
-MODEL ID=bunny FILE=../assets/bunny.dae TYPE=DEATH
-MODEL ID=buddha FILE=../assets/buddha.dae TYPE=COIN
+MODEL ID=sky_box FILE=../assets/skybox.obj
+MODEL ID=base FILE=../assets/base.dae
+MODEL ID=woodcube FILE=../assets/Cube_obj.obj
+MODEL ID=bunny FILE=../assets/bunny.dae
+MODEL ID=buddha FILE=../assets/buddha.dae
 MODEL ID=plane FILE=../assets/plane.obj
 MODEL ID=skycylinder FILE=../assets/skycylinder.obj
 NODE ID=P0 PARENTID=NULL MODELID=skycylinder TRANSLATION=-0.000000 150.000000 0.000000 ROTATIONAXIS=0.000000 1.000000 0.000000 ROTATIONANGLE=0.000000 SCALE=10.00000 10.00000 10.00000

@@ -53,6 +53,7 @@ protected:
 	void createShadowTestScene();
 	void reset(float dtime);
 	bool collisionDetection(Tank* model, Model* model2);
+	bool collisionDetection(Tank* model, SceneNode* model2);
 	double calcDeltaTime();
 	Vector calc3DRay( float x, float y, Vector& Pos);
 	
@@ -64,7 +65,7 @@ protected:
 	// Time
 	double oldTime = 0;
 	float time;
-	int actionTimer = 0;
+	int coolDownTimer = 0;
 	
 	// Tank
 	Tank* pTank;

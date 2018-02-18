@@ -84,26 +84,11 @@ bool Scene::addSceneFile(const char* Scenefile)
 			memset(Modelfile, '\0', sizeof(Modelfile));
 			memset(ModelType, '\0', sizeof(ModelType));
 			
-			sscanf(Line, "MODEL ID=%s FILE=%s TYPE=%s", ModelID, Modelfile, ModelType);
+			sscanf(Line, "MODEL ID=%s FILE=%s", ModelID, Modelfile);
 			
 			Model* m;
-			if(strstr (ModelType, "BARRIER")) {
-				m = new Model(Modelfile, false, 1.5f);
-				m->shader(this->shader());
-			}
-			else if(strstr (ModelType, "COIN")) {
-				m = new Model(Modelfile, false, 1.5f);
-				m->shader(this->shader());
-			}
-			else if(strstr (ModelType, "DEATH")) {
-				m = new Model(Modelfile, false, 1.5f);
-				m->shader(this->shader());
-			}
-			else {
-				//Model-Class verwenden (oder Barrier?)
-				m = new Model(Modelfile);
-				m->shader(this->shader());
-			}
+			m = new Model(Modelfile);
+			m->shader(this->shader());
 	
 			m_Models.insert(std::pair<std::string, Model*>(ModelID, m));
 		}
@@ -116,11 +101,6 @@ void Scene::draw(const BaseCamera& Cam)
 {
 	m_Root.draw(Cam);
 	
-//	std::set<SceneNode*>::iterator it;
-//	for (it = m_Root.getChildren().begin(); it != m_Root.getChildren().end(); ++it)
-//	{
-//		draw(*it);
-//	}
 	
 }
 

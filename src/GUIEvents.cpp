@@ -37,12 +37,12 @@ void GUIEvents::update(GLFWwindow* pWindow, EgoCam* egocam) {
 	}
 	
 	// Cooldown actions
-	if (actionTimer > 0) {
-		actionTimer--;
+	if (coolDownTimer > 0) {
+		coolDownTimer--;
 		return;
 	}
 	if (glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		actionTimer = 10;
+		coolDownTimer = 10;
 		this->helpIsActive = !this->helpIsActive;
 	}
 	

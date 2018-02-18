@@ -22,7 +22,7 @@ class SceneNode
 {
 public:
 	SceneNode();
-	SceneNode( const std::string& Name, const Vector& Translation, const Vector& RotationAxis, const float RotationAngle, const Vector& Scale, SceneNode* pParent, Model* pModel, std::string modelType="MODEL");
+	SceneNode( const std::string& Name, const Vector& Translation, const Vector& RotationAxis, const float RotationAngle, const Vector& Scale, SceneNode* pParent, Model* pModel);
 	
 	//getter
 	const Matrix& getLocalTransform() const;
@@ -31,7 +31,7 @@ public:
 	Model* getModel() const;
 	const std::string& getName() const;
 	const Vector& getScaling() const;
-	const std::string& getModelType() const; //löschen
+	const AABB& getScaledBoundingBox() const;
 	const Vector& getLatestPosition() const; //für Coins
 	const bool isCollected() const; //für Coins
 	
@@ -44,10 +44,9 @@ public:
 	void removeChild(SceneNode* pChild);
 	void setModel( Model* pModel);
 	void setName( const std::string& Name);
-	void setScaling( const Vector& Scaling);
-	void setModelType(const std::string& modelType); //löschen
-	void setCollected (const bool collected); //für Coins
+	void setScaling( const Vector& Scaling);	void setCollected (const bool collected); //für Coins
 	void setLatestPosition(const Vector& pos); //für Coins
+	void setScaledBoundingBox(const AABB& bb);
 	void draw(const BaseCamera& Cam);
 protected:
 	std::string m_Name;
@@ -58,8 +57,10 @@ protected:
 	Matrix m_LocalTransform;
 	Vector m_Scaling;
 	
-	bool collected = false;
-	Vector latestPosition;
+	AABB scaledBoundingBox;
+	
+	bool collected = false; //für Coins
+	Vector latestPosition; //für Coins
 };
 
 #endif /* SceneNode_h */
