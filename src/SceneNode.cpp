@@ -120,6 +120,24 @@ void SceneNode::setScaling(const Vector& Scaling)
 	m_Scaling = Scaling;
 }
 
+const Vector& SceneNode::getLatestPosition() const
+{
+	return latestPosition;
+}
+void SceneNode::setLatestPosition(const Vector& pos)
+{
+	latestPosition = pos;
+}
+
+const bool SceneNode::isCollected() const
+{
+	return collected;
+}
+void SceneNode::setCollected(const bool isCollected)
+{
+	collected = isCollected;
+}
+
 void SceneNode::draw(const BaseCamera& Cam)
 {
 

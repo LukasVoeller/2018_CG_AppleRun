@@ -61,8 +61,6 @@ bool Scene::addSceneFile(const char* Scenefile)
 				parent = &m_Root;
 			}
 			
-			Pos.debugOutput();
-			
 			SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 			
 			//TODO: jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)
@@ -70,7 +68,6 @@ bool Scene::addSceneFile(const char* Scenefile)
 				mCoins.push_back(sceneNode);
 			}
 			if(strstr(ModelID, "bunny")) {
-				std::cout << "todeshasi" << std::endl;
 				mDeathItems.push_back(sceneNode);
 			}
 			if(strstr(ModelID, "woodcube")) {

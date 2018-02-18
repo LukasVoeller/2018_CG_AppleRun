@@ -66,7 +66,7 @@ protected:
 	// Time
 	double oldTime = 0;
 	float time;
-	int actionTimer;
+	int actionTimer = 0;
 	
 	// Tank
 	Tank* pTank;

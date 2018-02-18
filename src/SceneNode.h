@@ -31,7 +31,9 @@ public:
 	Model* getModel() const;
 	const std::string& getName() const;
 	const Vector& getScaling() const;
-	const std::string& getModelType() const;
+	const std::string& getModelType() const; //löschen
+	const Vector& getLatestPosition() const; //für Coins
+	const bool isCollected() const; //für Coins
 	
 	//setter
 	void setLocalTransform( const Vector& Translation, const Vector& RotationAxis, const float RotationAngle );
@@ -43,7 +45,9 @@ public:
 	void setModel( Model* pModel);
 	void setName( const std::string& Name);
 	void setScaling( const Vector& Scaling);
-	void setModelType(const std::string& modelType);
+	void setModelType(const std::string& modelType); //löschen
+	void setCollected (const bool collected); //für Coins
+	void setLatestPosition(const Vector& pos); //für Coins
 	void draw(const BaseCamera& Cam);
 protected:
 	std::string m_Name;
@@ -53,6 +57,9 @@ protected:
 	std::set<SceneNode*> m_Children;
 	Matrix m_LocalTransform;
 	Vector m_Scaling;
+	
+	bool collected = false;
+	Vector latestPosition;
 };
 
 #endif /* SceneNode_h */

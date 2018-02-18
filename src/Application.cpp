@@ -157,8 +157,6 @@ void Application::update(float dtime){
     
     // Jump
     getJump();
-	std::cout << "Tank" << std::endl;
-	pTank->transform().translation().debugOutput();
     pTank->steer3d(forwardBackward, leftRight, this->downForce);
     if(pTank->getLatestPosition().Y < this->terrainHeight){
         pTank->setIsInAir(false);
@@ -182,8 +180,6 @@ void Application::update(float dtime){
 		}
 		else {
 			if(collisionDetection(pTank, (Model*)(*it)->getModel())){
-				pTank->transform().translation().debugOutput();
-				(*it)->getModel()->transform().translation().debugOutput();
 				std::cout << "collision with barrier" << std::endl;
 				actionTimer = 10;
 				pTank->steer3d(-5 * forwardBackward, -5 * leftRight, 0);
@@ -217,12 +213,13 @@ void Application::update(float dtime){
 	
 	count = 0;
 	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		Coin* c = dynamic_cast<Coin*>((*it)->getModel());
+		std::cout << "Coin " << ++count << " "<< (*it)->isCollected() <<  std::endl;
 		const Matrix* pCoinMat = &(*it)->getLocalTransform();
 		
 		Matrix trans;
 		//Besser iwo anders hin damit... eigentlich hier falsch
-		Coin* c = (Coin*)(*it)->getModel();
-		if(!c->collected) {
+		if(!(*it)->isCollected()) {
 			c->transform((*it)->getLocalTransform());
 			/* Fix, weil BoundingBox-Werte nicht passen */
 			const AABB coinBox = AABB(Vector(-1,0,-1), Vector(1,2,1));
@@ -233,24 +230,24 @@ void Application::update(float dtime){
 		if (actionTimer > 0) {
 			actionTimer--;
 		}
-		else if(collisionDetection(pTank, c) && actionTimer == 0 && c->collected == false){
+		else if(collisionDetection(pTank, c) && actionTimer == 0 && (*it)->isCollected() == false){
 			collectedCoins++;
 			actionTimer = 5; //Timer neu setzen
 			std::cout << "found coin " << collectedCoins << std::endl;
-			c->collected = true;
+			(*it)->setCollected(true);
 
 			trans.translation(0, 2.0f, 0);
 			(*it)->setLocalTransform((*it)->getLocalTransform()*trans);
 			
 		}
-		if(c->collected &&  pCoinMat->translation().Y > -6.0f) {
+		if((*it)->isCollected() &&  pCoinMat->translation().Y > -6.0f) {
 			Matrix t;
 			std::cout << "update coin" << (*it)->getLocalTransform().translation().Y << std::endl;
 			float newHeight = pCoinMat->translation().Y - 0.3f;
 
 			t.translation(pCoinMat->translation().X, newHeight, pCoinMat->translation().Z);
 			(*it)->setLocalTransform(t);
-			c->setLatestPosition(pCoinMat->translation());
+			(*it)->setLatestPosition(pCoinMat->translation());
 		}
 	}
 	
@@ -265,16 +262,16 @@ void Application::update(float dtime){
 	//pTank->aim(pos);
 	
 	// Tank steering
-	float roll, pitch, forward;
+//	float roll, pitch, forward;
 	Matrix tankMat = pTank->transform();
-	getInputPitchRollForward(pitch, roll, forward);
-	
-	Matrix rollMat, pitchMat, forwardMat;
-	pitchMat.rotationX(pitch * dtime * 2.0f);
-	rollMat.rotationZ(roll * dtime * 2.0f);
-	forwardMat.translation(0, 0, forward * dtime * 2.0f);
-	tankMat = tankMat * forwardMat * pitchMat * rollMat;
-	pTank->transform(tankMat);
+//	getInputPitchRollForward(pitch, roll, forward);
+//
+//	Matrix rollMat, pitchMat, forwardMat;
+//	pitchMat.rotationX(pitch * dtime * 2.0f);
+//	rollMat.rotationZ(roll * dtime * 2.0f);
+//	forwardMat.translation(0, 0, forward * dtime * 2.0f);
+//	tankMat = tankMat * forwardMat * pitchMat * rollMat;
+//	pTank->transform(tankMat);
 
 	// Version 1: Third person cam based on inverted object matrix
 	Matrix matRotHorizontal;
@@ -640,15 +637,14 @@ void Application::reset(float dtime) {
 	
 	// alle gesammelten Coins wieder positionieren
 	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
-		Coin* c = (Coin*)(*it)->getModel();
-		if(c->collected) {
+		if((*it)->isCollected()) {
 			(*it)->getGlobalTransform().translation().debugOutput();
 			(*it)->getLocalTransform().translation().debugOutput();
-			c->collected = false;
+			(*it)->setCollected(false);
 			std::cout << "reset" << std::endl;
 			Matrix t;
 			
-			(*it)->setLocalTransform(Vector(c->getLatestPosition().X, 0, c->getLatestPosition().Z), Vector(0, 1, 0), 0);
+			(*it)->setLocalTransform(Vector((*it)->getLatestPosition().X, 0, (*it)->getLatestPosition().Z), Vector(0, 1, 0), 0);
 			(*it)->getLocalTransform().translation().debugOutput();
 		}
 	}

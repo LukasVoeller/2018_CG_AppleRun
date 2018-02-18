@@ -14,15 +14,15 @@ GUIEvents::GUIEvents(){
 	this->helpIsActive = false;
 	
 	/* HelpMenu - Ein-/Ausblenden mit ESC */
-	this->helpmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.003);
+	this->helpmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.002);
 	this->helpmenu->shader(new PhongShader(), true);
 	
 	/* Ausblenden mit ENTER */
-	this->startmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.003);
+	this->startmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.002);
 	this->startmenu->shader(new PhongShader(), true);
 	
 	/* Spielende */
-	this->winningmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.003);
+	this->winningmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.002);
 	this->winningmenu->shader(new PhongShader(), true);
 }
 GUIEvents::~GUIEvents(){}
@@ -36,21 +36,18 @@ void GUIEvents::update(GLFWwindow* pWindow, EgoCam* egocam) {
 		this->winningMenuIsActive = false;
 	}
 	
-	// Reference value for timer (frames)
-	int actionTimeout = 10;
-	
-	// Dont do anything else if the action cooldown is not up
+	// Cooldown actions
 	if (actionTimer > 0) {
 		actionTimer--;
 		return;
 	}
 	if (glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		actionTimer = actionTimeout;
+		actionTimer = 10;
 		this->helpIsActive = !this->helpIsActive;
 	}
 	
 	if(helpIsActive && glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_PRESS) {
-		//close Game
+		// Close Game
 		this->closeWindow(pWindow);
 	}
 }
