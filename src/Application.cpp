@@ -57,6 +57,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pBarriers = pScene->getObstacles();
 	pCoins = pScene->getCoins();
 	pDeathblocks = pScene->getDeathItems();
+	pMovingItems = pScene->getMovingItems();
 
 	//createScene();
 	//createNormalTestScene();
@@ -145,6 +146,7 @@ void Application::getInputPitchRollForward(float& pitch, float& roll, float& for
 void Application::update(float dtime){
 	egocam.update();
 	gui.update(pWindow, &egocam);
+	move();
 	
 	time+=dtime;
 	
@@ -187,10 +189,42 @@ void Application::update(float dtime){
                     
                 }
                 else {
-                    std::cout << "Daneben "<< std::endl;
-                    pTank->steer3d(-10 * forwardBackward * deltaTime, -10 * leftRight * deltaTime, 0);
+                    // Zurückschieben auf legale Position
+					Matrix m, t;
+					m = pTank->transform();
+					t = t.translation(-8*forwardBackward*deltaTime, 0, -8*leftRight*deltaTime);
+					pTank->transform(m*t);
                 }
+			}
+		}
+	}
+	
+	for(NodeList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it){
+		//(*it)->getModel()->transform((*it)->getLocalTransform());
+		
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
+		}
+		else {
+			if(collisionDetection(pTank, *it)){
+				std::cout << "collision with palette" << std::endl;
+				coolDownTimer = 10;
 				
+				if(pTank->getLatestPosition().Y > terrainHeight + DELTA ) {
+					std::cout << "Oben "<< pTank->getLatestPosition().Y << std::endl;
+					this->downForce = 0.0f;
+					pTank->setIsInAir(false);
+					//Matrix moveMat = (*it)->getLocalTransform();
+					//pTank->transform(pTank->transform()* moveMat);
+					
+				}
+				else {
+					// Zurückschieben auf legale Position
+					Matrix m, t;
+					m = pTank->transform();
+					t = t.translation(-8*forwardBackward*deltaTime, 0, -8*leftRight*deltaTime);
+					pTank->transform(m*t);
+				}
 			}
 		}
 	}
@@ -217,8 +251,7 @@ void Application::update(float dtime){
 	
 	count = 0;
 	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
-		std::cout << "Coin " << ++count << " "<< (*it)->isCollected() <<  std::endl;
-        (*it)->getGlobalTransform().translation().debugOutput();
+		//std::cout << "Coin " << ++count << " "<< (*it)->isCollected() <<  std::endl;
 		const Matrix* pCoinMat = &(*it)->getLocalTransform();
 		
 		Matrix trans;
@@ -656,4 +689,27 @@ void Application::reset(float dtime) {
 	Matrix m;
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	pTank->transform(m);
+}
+
+void Application::move() {
+	for(NodeList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it){
+		Vector t = (*it)->getLocalTransform().translation();
+		//(*it)->getModel()->transform((*it)->getLocalTransform());
+		
+		float heigth = t.Y;
+		
+		if (heigth > 13.0f) {
+			(*it)->setMoveUp(false);
+		}
+		if(heigth < 0.0f) {
+			(*it)->setMoveUp(true);
+		}
+		
+		heigth = (*it)->isMovingUp() ? heigth + 0.05 : heigth - 0.05;
+		
+		Matrix trans;
+		trans.translation(t.X, heigth, t.Z);
+		(*it)->setLocalTransform(trans);
+		(*it)->getLocalTransform().translation().debugOutput();
+	}
 }

@@ -72,6 +72,10 @@ bool Scene::addSceneFile(const char* Scenefile)
 				mBarriers.push_back(sceneNode);
 			}
 			
+			if(strstr(ModelID, "palette")) {
+				mMovingItems.push_back(sceneNode);
+			}
+			
 			
 		}
 		if(strstr(Line, "FILE")) //FILE nur in "Model"-Lines

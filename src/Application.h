@@ -38,6 +38,8 @@ public:
 	void draw();
 	void end();
 	
+	void move();
+	
 protected:
 	EgoCam egocam;
 	GUIEvents gui;
@@ -54,6 +56,7 @@ protected:
 	void reset(float dtime);
 	bool collisionDetection(Tank* model, Model* model2);
 	bool collisionDetection(Tank* model, SceneNode* model2);
+	void calcLegalPosition(Tank* model, SceneNode* model2);
 	double calcDeltaTime();
 	Vector calc3DRay( float x, float y, Vector& Pos);
 	
@@ -83,7 +86,8 @@ protected:
 	
 	//DeathBlock
 	NodeList pDeathblocks;
-
+	
+	NodeList pMovingItems;
 	
 	// Testmodel
 	Model* pTest;

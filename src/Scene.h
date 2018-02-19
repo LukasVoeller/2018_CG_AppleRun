@@ -27,6 +27,7 @@ public:
 	NodeList getCoins() {return mCoins;}
 	NodeList getObstacles() {return mBarriers; }
 	NodeList getDeathItems() {return mDeathItems; }
+	NodeList getMovingItems() {return mMovingItems; }
 protected:
 	void draw(SceneNode* pNode); // brauch ich das?//einzelner Knoten
 	SceneNode m_Root;
@@ -35,6 +36,7 @@ protected:
 	NodeList mCoins;
 	NodeList mBarriers;
 	NodeList mDeathItems;
+	NodeList mMovingItems;
 private:
 	SceneNode* findNode(char* parentID, SceneNode *node); //helper
 	SceneNode* deleteNodes(SceneNode* parent);

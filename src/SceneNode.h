@@ -35,6 +35,7 @@ public:
 	const AABB& getScaledBoundingBox() const;
 	const Vector& getLatestPosition() const; //für Coins
 	const bool isCollected() const; //für Coins
+	const bool isMovingUp() const;
 	
 	//setter
 	void setLocalTransform( const Vector& Translation, const Vector& RotationAxis, const float RotationAngle );
@@ -45,8 +46,10 @@ public:
 	void removeChild(SceneNode* pChild);
 	void setModel( Model* pModel);
 	void setName( const std::string& Name);
-	void setScaling( const Vector& Scaling);	void setCollected (const bool collected); //für Coins
+	void setScaling( const Vector& Scaling);
+	void setCollected (const bool collected); //für Coins
 	void setLatestPosition(const Vector& pos); //für Coins
+	void setMoveUp(const bool up); //Paletten
 	void setScaledBoundingBox(const AABB& bb);
 	void draw(const BaseCamera& Cam);
 protected:
@@ -62,6 +65,8 @@ protected:
 	
 	bool collected = false; //für Coins
 	Vector latestPosition; //für Coins
+	
+	bool moveUp = true; //für Paletten
 };
 
 #endif /* SceneNode_h */

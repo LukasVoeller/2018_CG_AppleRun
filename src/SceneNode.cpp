@@ -21,6 +21,7 @@ SceneNode::SceneNode(const std::string& Name, const Vector& Translation, const V
 	
 	//da jeder SceneNode individuelle Skalierung besitzt, wird die BoundingBox skaliert
 	this->scaledBoundingBox = this->getModel()->scaleBoundingBox(this->m_Scaling);
+	setLatestPosition(this->getLocalTransform().translation());
 }
 
 const Matrix& SceneNode::getLocalTransform() const
@@ -108,6 +109,7 @@ const Vector& SceneNode::getScaling() const
 {
 	return m_Scaling;
 }
+
 void SceneNode::setScaling(const Vector& Scaling)
 {
 	m_Scaling = Scaling;
@@ -126,6 +128,7 @@ const Vector& SceneNode::getLatestPosition() const
 {
 	return latestPosition;
 }
+
 void SceneNode::setLatestPosition(const Vector& pos)
 {
 	latestPosition = pos;
@@ -138,6 +141,15 @@ const bool SceneNode::isCollected() const
 void SceneNode::setCollected(const bool isCollected)
 {
 	collected = isCollected;
+}
+
+const bool SceneNode::isMovingUp() const
+{
+	return moveUp;
+}
+void SceneNode::setMoveUp(const bool up)
+{
+	moveUp = up;
 }
 
 void SceneNode::draw(const BaseCamera& Cam)
