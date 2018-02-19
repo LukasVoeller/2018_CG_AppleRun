@@ -41,6 +41,7 @@
 		805A74A5200A620D0057761B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316941FEBE2E30079DD72 /* main.cpp */; };
 		805A74A7200A620D0057761B /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A21FEBE2E50079DD72 /* Application.cpp */; };
 		808232FC2007EE6F00B3A6A0 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */; };
+		809853DA20373A640072687D /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809853D820373A640072687D /* Character.cpp */; };
 		809B2BDD202EC9A3005C708C /* OutlineShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BDC202EC9A3005C708C /* OutlineShader.cpp */; };
 		809B2BE1202F14D2005C708C /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BE0202F14D2005C708C /* Scene.cpp */; };
 		809B2BE5202F1F4A005C708C /* SceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BE4202F1F4A005C708C /* SceneNode.cpp */; };
@@ -72,6 +73,8 @@
 		8040FAD91FFF7703004B3A5C /* libfreeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreeimage.a; path = thirdparty/freeimage/libfreeimage.a; sourceTree = "<group>"; };
 		8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		808232F42007E72800B3A6A0 /* libglfw.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.dylib; path = thirdparty/glfw/libglfw.3.dylib; sourceTree = "<group>"; };
+		809853D820373A640072687D /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Character.cpp; path = ../src/Character.cpp; sourceTree = "<group>"; };
+		809853DB20373ABA0072687D /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Character.h; path = ../src/Character.h; sourceTree = "<group>"; };
 		809B2BDC202EC9A3005C708C /* OutlineShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OutlineShader.cpp; path = ../src/OutlineShader.cpp; sourceTree = "<group>"; };
 		809B2BDE202EC9B9005C708C /* OutlineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OutlineShader.h; path = ../src/OutlineShader.h; sourceTree = "<group>"; };
 		809B2BDF202F14BE005C708C /* Scene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = ../src/Scene.h; sourceTree = "<group>"; };
@@ -283,12 +286,14 @@
 		80D317011FEBF21F0079DD72 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				80398D6B202A025800010C49 /* Coin.cpp */,
 				80398F28202B7C8800010C49 /* Coin.h */,
+				80398D6B202A025800010C49 /* Coin.cpp */,
 				80398F2A202C514100010C49 /* DeathBlock.h */,
 				80398F2B202C516A00010C49 /* DeathBlock.cpp */,
 				80D3168A1FEBE2E10079DD72 /* Tank.h */,
 				80D316A01FEBE2E40079DD72 /* Tank.cpp */,
+				809853DB20373ABA0072687D /* Character.h */,
+				809853D820373A640072687D /* Character.cpp */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -402,6 +407,7 @@
 				805A7496200A620D0057761B /* LinePlaneModel.cpp in Sources */,
 				805A7498200A620D0057761B /* ConstantShader.cpp in Sources */,
 				805A749A200A620D0057761B /* BaseShader.cpp in Sources */,
+				809853DA20373A640072687D /* Character.cpp in Sources */,
 				805A749C200A620D0057761B /* PhongShader.cpp in Sources */,
 				80398F2C202C516A00010C49 /* DeathBlock.cpp in Sources */,
 				805A749E200A620D0057761B /* ShaderLightMapper.cpp in Sources */,

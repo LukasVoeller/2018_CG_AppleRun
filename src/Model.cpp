@@ -247,13 +247,13 @@ void Model::calcBoundingBox(const aiScene* pScene, AABB& Box)
         for (int j = 0; j < mesh->mNumVertices; ++j) {
             aiVector3D vertex = mesh->mVertices[j];
 
-			Box.Min.X = std::min(Box.Min.X, vertex.x*scale);
-			Box.Min.Y = std::min(Box.Min.Y, vertex.y*scale);
-			Box.Min.Z = std::min(Box.Min.Z, vertex.z*scale);
+			Box.min.X = std::min(Box.min.X, vertex.x*scale);
+			Box.min.Y = std::min(Box.min.Y, vertex.y*scale);
+			Box.min.Z = std::min(Box.min.Z, vertex.z*scale);
 
-            Box.Max.X = std::max(Box.Max.X, vertex.x*scale);
-            Box.Max.Y = std::max(Box.Max.Y, vertex.y*scale);
-            Box.Max.Z = std::max(Box.Max.Z, vertex.z*scale);
+            Box.max.X = std::max(Box.max.X, vertex.x*scale);
+            Box.max.Y = std::max(Box.max.Y, vertex.y*scale);
+            Box.max.Z = std::max(Box.max.Z, vertex.z*scale);
         }
     }
 }
