@@ -55,4 +55,6 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/GUIEvents.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Scene.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/SceneNode.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Coin.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/MovingItem.h \
   thirdparty/freeimage/include/FreeImage.h

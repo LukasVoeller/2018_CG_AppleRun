@@ -10,6 +10,8 @@
 		80398D6920289B6300010C49 /* GUIEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80398D6820289B6300010C49 /* GUIEvents.cpp */; };
 		8040FAD81FFF76FA004B3A5C /* libassimp.4.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */; };
 		8040FADA1FFF7703004B3A5C /* libfreeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD91FFF7703004B3A5C /* libfreeimage.a */; };
+		80539B4A203B350D005D4F35 /* Coin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80539B49203B350D005D4F35 /* Coin.cpp */; };
+		80539B4E203B3E3A005D4F35 /* MovingItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80539B4D203B3E3A005D4F35 /* MovingItem.cpp */; };
 		805A7472200A620D0057761B /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168C1FEBE2E10079DD72 /* VertexBuffer.cpp */; };
 		805A7474200A620D0057761B /* Framebuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316801FEBE2E00079DD72 /* Framebuffer.cpp */; };
 		805A7476200A620D0057761B /* IndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169A1FEBE2E30079DD72 /* IndexBuffer.cpp */; };
@@ -65,6 +67,10 @@
 		8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.1.0.dylib; path = thirdparty/assimp/libassimp.4.1.0.dylib; sourceTree = "<group>"; };
 		8040FAD91FFF7703004B3A5C /* libfreeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreeimage.a; path = thirdparty/freeimage/libfreeimage.a; sourceTree = "<group>"; };
 		8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
+		80539B49203B350D005D4F35 /* Coin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Coin.cpp; path = ../src/Coin.cpp; sourceTree = "<group>"; };
+		80539B4B203B352C005D4F35 /* Coin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Coin.h; path = ../src/Coin.h; sourceTree = "<group>"; };
+		80539B4C203B3D90005D4F35 /* MovingItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MovingItem.h; path = ../src/MovingItem.h; sourceTree = "<group>"; };
+		80539B4D203B3E3A005D4F35 /* MovingItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MovingItem.cpp; path = ../src/MovingItem.cpp; sourceTree = "<group>"; };
 		808232F42007E72800B3A6A0 /* libglfw.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.dylib; path = thirdparty/glfw/libglfw.3.dylib; sourceTree = "<group>"; };
 		809B2BDC202EC9A3005C708C /* OutlineShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OutlineShader.cpp; path = ../src/OutlineShader.cpp; sourceTree = "<group>"; };
 		809B2BDE202EC9B9005C708C /* OutlineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OutlineShader.h; path = ../src/OutlineShader.h; sourceTree = "<group>"; };
@@ -277,6 +283,10 @@
 		80D317011FEBF21F0079DD72 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				80539B4B203B352C005D4F35 /* Coin.h */,
+				80539B49203B350D005D4F35 /* Coin.cpp */,
+				80539B4C203B3D90005D4F35 /* MovingItem.h */,
+				80539B4D203B3E3A005D4F35 /* MovingItem.cpp */,
 				80D3168A1FEBE2E10079DD72 /* Tank.h */,
 				80D316A01FEBE2E40079DD72 /* Tank.cpp */,
 			);
@@ -378,6 +388,7 @@
 				809B2BE1202F14D2005C708C /* Scene.cpp in Sources */,
 				805A747E200A620D0057761B /* Aabb.cpp in Sources */,
 				805A7480200A620D0057761B /* Lights.cpp in Sources */,
+				80539B4A203B350D005D4F35 /* Coin.cpp in Sources */,
 				805A7482200A620D0057761B /* EgoCam.cpp in Sources */,
 				805A7484200A620D0057761B /* DebugRender.cpp in Sources */,
 				805A7486200A620D0057761B /* Vector.cpp in Sources */,
@@ -394,6 +405,7 @@
 				805A749A200A620D0057761B /* BaseShader.cpp in Sources */,
 				805A749C200A620D0057761B /* PhongShader.cpp in Sources */,
 				805A749E200A620D0057761B /* ShaderLightMapper.cpp in Sources */,
+				80539B4E203B3E3A005D4F35 /* MovingItem.cpp in Sources */,
 				809B2BDD202EC9A3005C708C /* OutlineShader.cpp in Sources */,
 				809B2BE5202F1F4A005C708C /* SceneNode.cpp in Sources */,
 				805A74A0200A620D0057761B /* ShadowMapGenerator.cpp in Sources */,

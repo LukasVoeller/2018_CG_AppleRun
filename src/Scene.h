@@ -15,28 +15,32 @@
 #include "Model.h"
 
 #include "SceneNode.h"
+#include "Coin.h"
+#include "MovingItem.h"
 
 class Scene : public BaseModel
 {
 public:
 	typedef std::list<SceneNode*> NodeList;
+	typedef std::list<Coin*> CoinList;
+	typedef std::list<MovingItem*> MovingItemList;
 	Scene();
 	virtual ~Scene();
 	bool addSceneFile(const char* Scenefile);
 	virtual void draw(const BaseCamera& Cam); //komplette Szene
-	NodeList getCoins() {return mCoins;}
+	CoinList getCoins() {return mCoins;}
 	NodeList getObstacles() {return mBarriers; }
 	NodeList getDeathItems() {return mDeathItems; }
-	NodeList getMovingItems() {return mMovingItems; }
+	MovingItemList getMovingItems() {return mMovingItems; }
 protected:
 	void draw(SceneNode* pNode); // brauch ich das?//einzelner Knoten
 	SceneNode m_Root;
 	std::map<std::string, Model*> m_Models;
 	
-	NodeList mCoins;
+	CoinList mCoins;
 	NodeList mBarriers;
 	NodeList mDeathItems;
-	NodeList mMovingItems;
+	MovingItemList mMovingItems;
 private:
 	SceneNode* findNode(char* parentID, SceneNode *node); //helper
 	SceneNode* deleteNodes(SceneNode* parent);

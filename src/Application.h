@@ -32,6 +32,8 @@ public:
 	Application(GLFWwindow* pWin);
 	typedef std::list<BaseModel*> ModelList;
 	typedef std::list<SceneNode*> NodeList;
+	typedef std::list<Coin*> CoinList;
+	typedef std::list<MovingItem*> MovingItemList;
 	void getInputPitchRollForward(float& pitch, float& roll, float& forward);
 	void start();
 	void update(float dtime);
@@ -80,14 +82,14 @@ protected:
 	NodeList pBarriers;
 	
 	// Coins
-	NodeList pCoins;
+	CoinList pCoins;
 	unsigned int allCoins;
 	unsigned int collectedCoins;
 	
 	//DeathBlock
 	NodeList pDeathblocks;
 	
-	NodeList pMovingItems;
+	MovingItemList pMovingItems;
 	
 	// Testmodel
 	Model* pTest;

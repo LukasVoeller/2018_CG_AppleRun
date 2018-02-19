@@ -6,7 +6,6 @@
 //  Copyright © 2018 Philipp Lensing. All rights reserved.
 //
 
-#include <stdio.h>
 #include "SceneNode.h"
 
 SceneNode::SceneNode() : m_Name(""), m_Scaling(1, 1, 1), m_pParent(NULL), m_pModel(NULL)
@@ -21,7 +20,6 @@ SceneNode::SceneNode(const std::string& Name, const Vector& Translation, const V
 	
 	//da jeder SceneNode individuelle Skalierung besitzt, wird die BoundingBox skaliert
 	this->scaledBoundingBox = this->getModel()->scaleBoundingBox(this->m_Scaling);
-	setLatestPosition(this->getLocalTransform().translation());
 }
 
 const Matrix& SceneNode::getLocalTransform() const
@@ -122,34 +120,6 @@ const AABB& SceneNode::getScaledBoundingBox() const
 void SceneNode::setScaledBoundingBox(const AABB& bb)
 {
 	scaledBoundingBox = bb;
-}
-
-const Vector& SceneNode::getLatestPosition() const
-{
-	return latestPosition;
-}
-
-void SceneNode::setLatestPosition(const Vector& pos)
-{
-	latestPosition = pos;
-}
-
-const bool SceneNode::isCollected() const
-{
-	return collected;
-}
-void SceneNode::setCollected(const bool isCollected)
-{
-	collected = isCollected;
-}
-
-const bool SceneNode::isMovingUp() const
-{
-	return moveUp;
-}
-void SceneNode::setMoveUp(const bool up)
-{
-	moveUp = up;
 }
 
 void SceneNode::draw(const BaseCamera& Cam)

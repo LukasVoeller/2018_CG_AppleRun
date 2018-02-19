@@ -13,6 +13,7 @@
 #include <stdio.h>
 
 #include "Model.h"
+#include "Coin.h"
 
 
 Scene::Scene()
@@ -59,22 +60,29 @@ bool Scene::addSceneFile(const char* Scenefile)
 				parent = &m_Root;
 			}
 			
-			SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
+//			SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 			
 			//TODO: jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)
 			if(strstr(ModelID, "buddha")) {
+				Coin* sceneNode = new Coin(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mCoins.push_back(sceneNode);
 			}
-			if(strstr(ModelID, "bunny")) {
+			else if(strstr(ModelID, "bunny")) {
+				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mDeathItems.push_back(sceneNode);
 			}
-			if(strstr(ModelID, "woodcube")) {
+			else if(strstr(ModelID, "woodcube")) {
+				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mBarriers.push_back(sceneNode);
 			}
-			
-			if(strstr(ModelID, "palette")) {
+			else if(strstr(ModelID, "palette")) {
+				MovingItem* sceneNode = new MovingItem(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mMovingItems.push_back(sceneNode);
 			}
+			else {
+				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
+			}
+			
 			
 			
 		}

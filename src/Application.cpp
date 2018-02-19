@@ -168,6 +168,7 @@ void Application::update(float dtime){
 	}
 
 	// Collision
+	//TODO: Fixen, dass man von unten nicht reinspringen kann!!!
 	int count =0;
 	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
 		//std::cout << "Barrier " << ++count << std::endl;
@@ -199,7 +200,7 @@ void Application::update(float dtime){
 		}
 	}
 	
-	for(NodeList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it){
+	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it){
 		//(*it)->getModel()->transform((*it)->getLocalTransform());
 		
 		if (coolDownTimer > 0) {
@@ -250,7 +251,7 @@ void Application::update(float dtime){
 	}
 	
 	count = 0;
-	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+	for(CoinList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
 		//std::cout << "Coin " << ++count << " "<< (*it)->isCollected() <<  std::endl;
 		const Matrix* pCoinMat = &(*it)->getLocalTransform();
 		
@@ -677,7 +678,7 @@ void Application::reset(float dtime) {
 	collectedCoins = 0;
 	
 	// alle gesammelten Coins wieder positionieren
-	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+	for(CoinList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
 		if((*it)->isCollected()) {
 			(*it)->setCollected(false);
 			std::cout << "reset" << std::endl;
@@ -693,7 +694,7 @@ void Application::reset(float dtime) {
 }
 
 void Application::move() {
-	for(NodeList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it){
+	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it){
 		Vector t = (*it)->getLocalTransform().translation();
 		//(*it)->getModel()->transform((*it)->getLocalTransform());
 		
