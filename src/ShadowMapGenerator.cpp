@@ -118,14 +118,14 @@ AABB ShadowMapGenerator::calcSceneBoundingBox(std::list<BaseModel*>& Models) con
 	
 	AABB OverallBox;
 	BaseModel* FirstModel = *Models.begin();
-	OverallBox = FirstModel->boundingBox().transform(FirstModel->transform());
+	OverallBox = FirstModel->getBoundingBox().transform(FirstModel->transform());
 	bool ShadowCasterFound = false;
 	
 	for (BaseModel* pModel : Models)
 	{
 		if (pModel->shadowCaster())
 		{
-			AABB Box = pModel->boundingBox().transform(pModel->transform());
+			AABB Box = pModel->getBoundingBox().transform(pModel->transform());
 			if (ShadowCasterFound)
 				OverallBox.merge(Box);
 			else

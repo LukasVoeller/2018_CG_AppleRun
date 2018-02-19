@@ -15,11 +15,7 @@
 #include <string>
 #include <fstream>
 
-#include "Model.h"
-#include "Phongshader.h"
-#include <list>
 #include <limits>
-#include <sstream>
 #include <float.h>
 
 Model::Model() : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0), scale(1.0)
@@ -97,7 +93,6 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize)
     }
 	
 	factor = factor * scale;
-	//KOMISCH: Wenn ich das nach unten verschiebe werden andere Sachen gerendert?!
 	this->BoundingBox = AABB(Vector(FLT_MAX, FLT_MAX, FLT_MAX), Vector(FLT_MIN, FLT_MIN, FLT_MIN));
 	calcBoundingBox(pScene, this->BoundingBox);
 	
@@ -256,6 +251,19 @@ void Model::calcBoundingBox(const aiScene* pScene, AABB& Box)
             Box.max.Z = std::max(Box.max.Z, vertex.z*scale);
         }
     }
+}
+
+const AABB& Model::scaleBoundingBox(Vector scale) {
+	scaledBoundingBox.Min.X = BoundingBox.Min.X * scale.X;
+	scaledBoundingBox.Min.Y = BoundingBox.Min.Y * scale.Y;
+	scaledBoundingBox.Min.Z = BoundingBox.Min.Z * scale.Z;
+	
+	scaledBoundingBox.Max.X = BoundingBox.Max.X * scale.X;
+	scaledBoundingBox.Max.Y = BoundingBox.Max.Y * scale.Y;
+	scaledBoundingBox.Max.Z = BoundingBox.Max.Z * scale.Z;
+	
+	return scaledBoundingBox;
+
 }
 
 void Model::loadNodes(const aiScene* pScene)

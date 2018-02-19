@@ -31,7 +31,7 @@ protected:
 	bool startIsActive = true;
 	bool winningMenuIsActive = false;
 	// timer for actions
-	int actionTimer = 0;
+	int coolDownTimer = 0;
 	
 	void closeWindow(GLFWwindow* pWindow);
 };

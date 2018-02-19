@@ -37,3 +37,7 @@ void BaseModel::draw(const BaseCamera& Cam)
     pShader->modelTransform(transform());
     pShader->activate(Cam);
 }
+
+const Vector& BaseModel::getPosition() const {
+	return this->transform().translation();
+}

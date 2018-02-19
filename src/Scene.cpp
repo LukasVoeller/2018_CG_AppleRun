@@ -6,13 +6,14 @@
 //  Copyright © 2018 Philipp Lensing. All rights reserved.
 //
 
-#include <stdio.h>
-
 #include "Scene.h"
+
 #include <string.h>
-#include "Model.h"
 #include <assert.h>
 #include <stdio.h>
+
+#include "Model.h"
+
 
 Scene::Scene()
 {
@@ -57,17 +58,38 @@ bool Scene::addSceneFile(const char* Scenefile)
 			if (parent == NULL) {
 				parent = &m_Root;
 			}
+			
 			SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
+			
+			//TODO: jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)
+			if(strstr(ModelID, "buddha")) {
+				mCoins.push_back(sceneNode);
+			}
+			if(strstr(ModelID, "bunny")) {
+				mDeathItems.push_back(sceneNode);
+			}
+			if(strstr(ModelID, "woodcube")) {
+				mBarriers.push_back(sceneNode);
+			}
+			
+			
 		}
 		if(strstr(Line, "FILE")) //FILE nur in "Model"-Lines
 		{
 			char Modelfile[256];
 			char ModelID[256];
+			char ModelType[256];
+			
+			memset(ModelID, '\0', sizeof(ModelID));
+			memset(Modelfile, '\0', sizeof(Modelfile));
+			memset(ModelType, '\0', sizeof(ModelType));
+			
 			sscanf(Line, "MODEL ID=%s FILE=%s", ModelID, Modelfile);
 			
-			Model* m = new Model(Modelfile);
+			Model* m;
+			m = new Model(Modelfile);
 			m->shader(this->shader());
-			
+	
 			m_Models.insert(std::pair<std::string, Model*>(ModelID, m));
 		}
 	}
@@ -78,10 +100,26 @@ bool Scene::addSceneFile(const char* Scenefile)
 void Scene::draw(const BaseCamera& Cam)
 {
 	m_Root.draw(Cam);
+	
+	
+}
+
+void Scene::draw(SceneNode* pNode)
+{
+//	std::cout << "transform node" << std::endl;
+//	Matrix globalTrans = pNode->getGlobalTransform();
+//	pNode->getModel()->transform(globalTrans);
+	
+//	std::set<SceneNode*>::iterator it;
+//	for (it = pNode->getChildren().begin(); it != pNode->getChildren().end(); ++it)
+//	{
+//		draw(*it);
+//	}
+	
 }
 
 /*
- Iterative Suchfunktion für Parentnodes
+ Rekursive Suchfunktion für Parentnodes
  Wenn ParentID = NULL -> root ist Parent
  */
 SceneNode* Scene::findNode(char* parentID, SceneNode* node) {

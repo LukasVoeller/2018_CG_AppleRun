@@ -81,7 +81,7 @@ void Tank::update(float dtime)
     
     //Aktuelle Position in Vektor speichern
     this->position.X = TankMat.m[12];
-    this->position.Y = TankMat.m[13];
+    this->position.Y = std::max(TankMat.m[13], TERRAIN_HEIGHT);
     this->position.Z = TankMat.m[14];
     
     //Kanone berechnen
@@ -133,13 +133,14 @@ float Tank::getJumpPower(){
 //(Kleinste) achsenausgerichtete Box berechnen, die das Modell komplett umschließt
 void Tank::calcBoundingBox(AABB& Box)
 {
-	const AABB& chassisBox = this->chassis->boundingBox();
-	const AABB& cannonBox = this->cannon->boundingBox();
+	const AABB& chassisBox = this->chassis->getBoundingBox();
+	const AABB& cannonBox = this->cannon->getBoundingBox();
 	
 	Box.min.X = std::min(chassisBox.min.X, cannonBox.min.X);
 	Box.min.Y = std::min(chassisBox.min.Y, cannonBox.min.Y);
 	Box.min.Z = std::min(chassisBox.min.Z, cannonBox.min.Z);
 
+<<<<<<< HEAD
 	Box.max.X = std::max(chassisBox.max.X, cannonBox.max.X);
 	Box.max.Y = std::max(chassisBox.max.Y, cannonBox.max.Y);
 	Box.max.Z = std::max(chassisBox.max.Z, cannonBox.max.Z);
@@ -153,4 +154,9 @@ void Tank::calcBoundingBox(AABB& Box)
 	//	Box.Min.Y = std::max(this->position.Y + chassisBox.size().Y/2, this->position.Y + cannonBox.size().Y/2);
 	//	Box.Min.Z = std::max(this->position.Z + chassisBox.size().Z/2, this->position.Z + cannonBox.size().Z/2);
 
+=======
+	Box.Max.X = std::max(chassisBox.Max.X, cannonBox.Max.X);
+	Box.Max.Y = std::max(chassisBox.Max.Y, cannonBox.Max.Y);
+	Box.Max.Z = std::max(chassisBox.Max.Z, cannonBox.Max.Z);
+>>>>>>> dce9ef01c80c7d3756e97d7bafc3ed8fd011e261
 }

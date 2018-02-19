@@ -51,8 +51,6 @@ dependencies: \
   thirdparty/assimp/include/assimp/anim.h \
   thirdparty/assimp/include/assimp/metadata.h \
   thirdparty/assimp/include/assimp/postprocess.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Coin.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/DeathBlock.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/EgoCam.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/GUIEvents.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Scene.h \

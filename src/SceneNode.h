@@ -13,7 +13,9 @@
 #include "Matrix.h"
 #include <set>
 #include <vector>
+#include <string.h>
 #include <map>
+#include <string>
 #include "BaseModel.h"
 #include "Model.h"
 
@@ -25,12 +27,14 @@ public:
 	
 	//getter
 	const Matrix& getLocalTransform() const;
-	Matrix getGlobalTransform() const;
-	Matrix getGlobalTransformWithoutScaling() const;
+	Matrix getGlobalTransform(bool scaling = true) const;
 	const SceneNode* getParent() const;
-	const Model* getModel() const;
+	Model* getModel() const;
 	const std::string& getName() const;
 	const Vector& getScaling() const;
+	const AABB& getScaledBoundingBox() const;
+	const Vector& getLatestPosition() const; //für Coins
+	const bool isCollected() const; //für Coins
 	
 	//setter
 	void setLocalTransform( const Vector& Translation, const Vector& RotationAxis, const float RotationAngle );
@@ -41,15 +45,23 @@ public:
 	void removeChild(SceneNode* pChild);
 	void setModel( Model* pModel);
 	void setName( const std::string& Name);
-	void setScaling( const Vector& Scaling);
+	void setScaling( const Vector& Scaling);	void setCollected (const bool collected); //für Coins
+	void setLatestPosition(const Vector& pos); //für Coins
+	void setScaledBoundingBox(const AABB& bb);
 	void draw(const BaseCamera& Cam);
 protected:
 	std::string m_Name;
+	std::string modelType;
 	Model* m_pModel;
 	SceneNode* m_pParent;
 	std::set<SceneNode*> m_Children;
 	Matrix m_LocalTransform;
 	Vector m_Scaling;
+	
+	AABB scaledBoundingBox;
+	
+	bool collected = false; //für Coins
+	Vector latestPosition; //für Coins
 };
 
 #endif /* SceneNode_h */

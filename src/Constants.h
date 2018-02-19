@@ -24,7 +24,7 @@
 #endif
 
 //Physics
-#define GRAVITY -15.0f
+#define GRAVITY -5.0f
 #define DOWNFORCE 0.0f
 #define TERRAIN_HEIGHT 0.6f
 
@@ -44,7 +44,12 @@
 #define WINDOW_HEIGHT 600
 #define WINDOW_WIDTH 800
 #define FULLSCREEN false
-//
+
+
+//helper
+#define DELTA 0.001
+
+
 //#define PHYSICS_PLAYERSPEED 1.0f
 //#define PHYSICS_PLAYERROTATIONTIME 2.0f
 //#define PHYSICS_SPRINTMULTIPLIER 2.0f

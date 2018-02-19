@@ -21,16 +21,17 @@
 #include "BaseModel.h"
 #include "ShadowMapGenerator.h"
 #include "Tank.h"
-#include "Coin.h"
-#include "DeathBlock.h"
 #include "EgoCam.h"
 #include "GUIEvents.h"
 #include "Scene.h"
+#include "SceneNode.h"
 
-class Application{
+class Application
+{
 public:
 	Application(GLFWwindow* pWin);
 	typedef std::list<BaseModel*> ModelList;
+	typedef std::list<SceneNode*> NodeList;
 	void getInputPitchRollForward(float& pitch, float& roll, float& forward);
 	void start();
 	void update(float dtime);
@@ -40,6 +41,7 @@ public:
 protected:
 	EgoCam egocam;
 	GUIEvents gui;
+	Scene* pScene;
 	ModelList models;
 	GLFWwindow* pWindow;
 	BaseModel* lineGrid;
@@ -51,6 +53,7 @@ protected:
 	void createShadowTestScene();
 	void reset(float dtime);
 	bool collisionDetection(Tank* model, Model* model2);
+	bool collisionDetection(Tank* model, SceneNode* model2);
 	double calcDeltaTime();
 	Vector calc3DRay( float x, float y, Vector& Pos);
 	
@@ -62,7 +65,7 @@ protected:
 	// Time
 	double oldTime = 0;
 	float time;
-	int actionTimer;
+	int coolDownTimer = 0;
 	
 	// Tank
 	Tank* pTank;
@@ -70,6 +73,7 @@ protected:
 	float getLeftRight();
 	void getJump();
 	
+<<<<<<< HEAD
 	// Robot Sphere
 	
 	
@@ -77,18 +81,19 @@ protected:
 	Model* pBarrier1;
 	Model* pBarrier2;
 	
+=======
+>>>>>>> dce9ef01c80c7d3756e97d7bafc3ed8fd011e261
 	// Obstacle List
-	ModelList pBarriers;
+	NodeList pBarriers;
 	
 	// Coins
-	Coin* coin;
-	ModelList pCoins;
+	NodeList pCoins;
 	unsigned int allCoins;
 	unsigned int collectedCoins;
 	
 	//DeathBlock
-	DeathBlock* deathblock;
-	ModelList pDeathblocks;
+	NodeList pDeathblocks;
+
 	
 	// Testmodel
 	Model* pTest;

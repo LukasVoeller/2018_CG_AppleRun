@@ -44,21 +44,25 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pConstShader = new ConstantShader();
 	pConstShader->color( Color(1,1,1));
 	pModel->shader(pConstShader, true);
+
 	models.push_back( pModel );
 	lineGrid = pModel;
-	
-	// Create Scene
-	Scene* pScene = new Scene();
+
+	pScene = new Scene();
 	pScene->shader(new PhongShader(), true);
-	pScene->addSceneFile(ASSET_DIRECTORY "scenemodel.osh");
+	//pScene->addSceneFile(ASSET_DIRECTORY "scenemodel.osh");
+	pScene->addSceneFile(ASSET_DIRECTORY "testscene.osh");
 	models.push_back(pScene);
 	
+	pBarriers = pScene->getObstacles();
+	pCoins = pScene->getCoins();
+	pDeathblocks = pScene->getDeathItems();
+
 	//createScene();
 	//createNormalTestScene();
 	//createShadowTestScene();
 	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
-	//OutlineShader* pOutlineShader = new OutlineShader(ASSET_DIRECTORY "vsoutline.glsl", ASSET_DIRECTORY "fsoutline.glsl");
 	//OutlineShader* pOutlineShader = new OutlineShader();
 	
 	// Create GUI
@@ -79,58 +83,18 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	pTank->transform(m);
+	
 	models.push_back(pTank);
 	
-	// Baymax
-	/*
-	float baymaxScaling = 0.2;
-	Test = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
-	pTest->shader(pPhongShader, false);
-	pTest->shader(pOutlineShader, false);
-	s = s.scale(baymaxScaling);
-	m = m.translation(-4, 0, -4);
-	pTest->transform(m*s);
-	Models.push_back(pTest);
-	*/
-	
-	// Obstacles
-	for(int i=0; i<5; ++i){
-		//float scaling = 0.10f;
-		//pBarrier1 = new Model(ASSET_DIRECTORY "Cube_obj.obj", false, scaling);
-		float scaling = 1.0f;
-		pBarrier1 = new Model(ASSET_DIRECTORY "buddha.dae", false, scaling);
-		pBarrier1->shader(new PhongShader(), true);
-		m = m.translation(5*i-2, 0, -5);
-		s = s.scale(scaling);
-		pBarrier1->transform(m*s);
-		pBarriers.push_back(pBarrier1);
-		models.push_back(pBarrier1);
-	}
-	
-	// Coins
-	for(int i=0; i<5; ++i){
-		float scaling = 1.5f;
-		coin = new Coin(ASSET_DIRECTORY "buddha.dae", false, scaling);
-		coin->shader(new PhongShader(), true);
-		m = m.translation(5*i-6, 0, 5);
-		s = s.scale(scaling);
-		coin->transform(m*s);
-		pCoins.push_back(coin);
-		models.push_back(coin);
-	}
-	
-	// Traps
-	for(int i=0; i<5; ++i){
-		float scaling = 1.0f;
-		deathblock = new DeathBlock(ASSET_DIRECTORY "bunny.dae", false, scaling);
-		//deathblock = new DeathBlock(ASSET_DIRECTORY "Snake/Snake.obj", false, scaling);
-		deathblock->shader(new PhongShader(), true);
-		m = m.translation(5*i-6, 0, 10);
-		s = s.scale(scaling);
-		deathblock->transform(m*s);
-		pDeathblocks.push_back(deathblock);
-		models.push_back(deathblock);
-	}
+//	float baymaxScaling = 0.2;
+//	pTest = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
+//	//pTest->shader(pPhongShader, false);
+//	pTest->shader(pOutlineShader, false);
+//	s = s.scale(baymaxScaling);
+//	m = m.translation(-4, 0, -4);
+//	pTest->transform(m*s);
+//	Models.push_back(pTest);
+
 	
 	//------------------------------ GAME LOGIC ------------------------------
 	allCoins = ALLCOINS;
@@ -148,7 +112,7 @@ void Application::start(){
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-// Camera
+// Andere Bedienung
 void Application::getInputPitchRollForward(float& pitch, float& roll, float& forward){
 	pitch = 0;
 	roll = 0;
@@ -190,62 +154,101 @@ void Application::update(float dtime){
     float leftRight = getLeftRight();
     
     // Jump
+	// Blöd, weil man von Blöcken nicht weiterspringen kann...
     getJump();
     pTank->steer3d(forwardBackward, leftRight, this->downForce);
-    if(pTank->getLatestPosition().Y < this->terrainHeight){
+    if(pTank->getLatestPosition().Y <= this->terrainHeight + DELTA){
         pTank->setIsInAir(false);
         this->downForce = 0.0f;
 	} else {
         this->downForce += gravity * 0.1f;
+		std::cout << "DownForce " << downForce << std::endl;
 	}
 
-	// Collision Obstacle
-	for(ModelList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
-		if (actionTimer > 0) {
-			actionTimer--;
+	// Collision
+	int count =0;
+	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
+		//std::cout << "Barrier " << ++count << std::endl;
+		//gehört hier eigt nicht hin
+		(*it)->getModel()->transform((*it)->getLocalTransform());
+		
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
 		}
 		else {
-			if(collisionDetection(pTank, (Model*)(*it))){
-				std::cout << "collision!" << std::endl;
-				actionTimer = 10;
-				pTank->steer3d(-2 * forwardBackward, -2 * leftRight, 0);
+			if(collisionDetection(pTank, *it)){
+				std::cout << "collision with barrier" << std::endl;
+                coolDownTimer = 10;
+                
+                if(pTank->getLatestPosition().Y > terrainHeight + DELTA ) {
+                    std::cout << "Oben "<< pTank->getLatestPosition().Y << std::endl;
+                    this->downForce = 0.0f;
+                    pTank->setIsInAir(false);
+                    
+                }
+                else {
+                    std::cout << "Daneben "<< std::endl;
+                    pTank->steer3d(-10 * forwardBackward * deltaTime, -10 * leftRight * deltaTime, 0);
+                }
+				
 			}
 		}
 	}
 	
-	// Collision Trap
-	for(ModelList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
-		if (actionTimer > 0) {
-			actionTimer--;
+
+	// Collision
+	count = 0;
+	for(NodeList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
+		//Muss eigt woanders hin?
+		(*it)->getModel()->transform((*it)->getLocalTransform());
+
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
 		}
 		else {
-			if(collisionDetection(pTank, (Model*)(*it))){
+			if(collisionDetection(pTank, *it)){
 				std::cout << "death!" << std::endl;
-				actionTimer = 10;
+				coolDownTimer = 10;
 				reset(deltaTime);
 				//auf start zurücksetzen
 			}
 		}
 	}
 	
-	// ???
-	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
-		Coin* c = (Coin*)(*it);
-		if (actionTimer > 0) {
-			actionTimer--;
+	count = 0;
+	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		std::cout << "Coin " << ++count << " "<< (*it)->isCollected() <<  std::endl;
+        (*it)->getGlobalTransform().translation().debugOutput();
+		const Matrix* pCoinMat = &(*it)->getLocalTransform();
+		
+		Matrix trans;
+		//Besser iwo anders hin damit... eigentlich hier falsch
+		if(!(*it)->isCollected()) {
+			(*it)->getModel()->transform((*it)->getLocalTransform());
+
 		}
-		else if(collisionDetection(pTank, c) && actionTimer == 0 && c->collected == false){
+
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
+		}
+		else if(collisionDetection(pTank, (*it)) && coolDownTimer == 0 && (*it)->isCollected() == false){
 			collectedCoins++;
-			actionTimer = 5; //Timer neu setzen
-			std::cout << "found coin" << collectedCoins << std::endl;
-			c->collected = true;
-			c->setHeight(10.0f);
+			coolDownTimer = 5; //Timer neu setzen
+			std::cout << "found coin " << collectedCoins << std::endl;
+			(*it)->setCollected(true);
+
+			trans.translation(0, 2.5f, 0);
+			(*it)->setLocalTransform((*it)->getLocalTransform()*trans);
 			
 		}
-		if(c->collected && c->getHeight() > -15.0f) {
-			float newHeight = c->getHeight() - 0.75f;
-			c->setHeight(newHeight);
-			c->update(deltaTime);
+		if((*it)->isCollected() &&  pCoinMat->translation().Y > -6.0f) {
+			Matrix t;
+			std::cout << "update coin" << (*it)->getLocalTransform().translation().Y << std::endl;
+			float newHeight = pCoinMat->translation().Y - 0.25f;
+
+			t.translation(pCoinMat->translation().X, newHeight, pCoinMat->translation().Z);
+			(*it)->setLocalTransform(t);
+			(*it)->setLatestPosition(pCoinMat->translation());
 		}
 	}
 	
@@ -260,16 +263,16 @@ void Application::update(float dtime){
 	//pTank->aim(pos);
 	
 	// Tank steering
-	float roll, pitch, forward;
+//	float roll, pitch, forward;
 	Matrix tankMat = pTank->transform();
-	getInputPitchRollForward(pitch, roll, forward);
-	
-	Matrix rollMat, pitchMat, forwardMat;
-	pitchMat.rotationX(pitch * dtime * 2.0f);
-	rollMat.rotationZ(roll * dtime * 2.0f);
-	forwardMat.translation(0, 0, forward * dtime * 2.0f);
-	tankMat = tankMat * forwardMat * pitchMat * rollMat;
-	pTank->transform(tankMat);
+//	getInputPitchRollForward(pitch, roll, forward);
+//
+//	Matrix rollMat, pitchMat, forwardMat;
+//	pitchMat.rotationX(pitch * dtime * 2.0f);
+//	rollMat.rotationZ(roll * dtime * 2.0f);
+//	forwardMat.translation(0, 0, forward * dtime * 2.0f);
+//	tankMat = tankMat * forwardMat * pitchMat * rollMat;
+//	pTank->transform(tankMat);
 
 	// Version 1: Third person cam based on inverted object matrix
 	Matrix matRotHorizontal;
@@ -482,23 +485,14 @@ void Application::getJump(){
     }
 }
 
+/******* Old collisionDetection for things not in the scene **/
 bool Application::collisionDetection(Tank* model1, Model* model2)
 {
-	
-//	const AABB& box1 = model1->boundingBox();
-//	const AABB& box2 = model2->boundingBox();
-//
-////	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
-////	return (box1.Min.X < box2.Max.X &&
-////			box2.Min.X < box1.Max.X &&
-////			box1.Min.Z < box2.Max.Z &&
-////			box2.Min.Z < box1.Max.Z);
-	
 	Vector vec1 = model1->transform().translation();
     Vector vec2 = model2->transform().translation();
-
-	Vector size1 = model1->boundingBox().size();
-    Vector size2 = model2->boundingBox().size();
+	
+	Vector size1 = model1->getBoundingBox().size();
+	Vector size2 = model2->getScaledBoundingBox().size();
 
     //Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
     return (vec1.X - size1.X/2 < vec2.X + size2.X/2 &&
@@ -507,6 +501,24 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
 		vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 &&
     	vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
     	vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
+}
+
+/****** Collision with scenenode *********/
+bool Application::collisionDetection(Tank* model1, SceneNode* node)
+{
+	Vector vec1 = model1->transform().translation();
+	Vector vec2 = node->getLocalTransform().translation();
+	
+	Vector size1 = model1->getBoundingBox().size();
+	Vector size2 = node->getScaledBoundingBox().size();
+	
+	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
+	return (vec1.X - size1.X/2 < vec2.X + size2.X/2 &&
+			vec2.X - size2.X/2 < vec1.X + size1.X/2 &&
+			vec1.Y - size1.Y/2 < vec2.Y + size2.Y/2 &&
+			vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 &&
+			vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
+			vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
 }
 
 void Application::createScene(){
@@ -631,12 +643,13 @@ void Application::reset(float dtime) {
 	collectedCoins = 0;
 	
 	// alle gesammelten Coins wieder positionieren
-	for(ModelList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
-		Coin* c = (Coin*)(*it);
-		if(c->collected) {
-			c->collected = false;
+	for(NodeList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		if((*it)->isCollected()) {
+			(*it)->setCollected(false);
 			std::cout << "reset" << std::endl;
-			c->update(dtime);
+			Matrix t;
+			
+			(*it)->setLocalTransform(Vector((*it)->getLatestPosition().X, 0, (*it)->getLatestPosition().Z), Vector(0, 1, 0), 0);
 		}
 	}
 	//Figur wieder auf den Startpunkt
