@@ -536,7 +536,8 @@ bool Application::collisionDetection(Tank* model1, Model* model2)
     	vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
 }
 
-/****** Collision with scenenode *********/
+/****** Kollision mit Scenenode *********/
+/* DELTA für Sicherheitsabstand **********/
 bool Application::collisionDetection(Tank* model1, SceneNode* node)
 {
 	Vector vec1 = model1->transform().translation();
@@ -546,12 +547,12 @@ bool Application::collisionDetection(Tank* model1, SceneNode* node)
 	Vector size2 = node->getScaledBoundingBox().size();
 	
 	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
-	return (vec1.X - size1.X/2 < vec2.X + size2.X/2 &&
-			vec2.X - size2.X/2 < vec1.X + size1.X/2 &&
-			vec1.Y - size1.Y/2 < vec2.Y + size2.Y/2 &&
-			vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 &&
-			vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
-			vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
+	return (vec1.X - size1.X/2 < vec2.X + size2.X/2 + DELTA &&
+			vec2.X - size2.X/2 < vec1.X + size1.X/2 + DELTA &&
+			vec1.Y - size1.Y/2 < vec2.Y + size2.Y/2 + DELTA&&
+			vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 + DELTA&&
+			vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 + DELTA&&
+			vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2 + DELTA);
 }
 
 void Application::createScene(){
