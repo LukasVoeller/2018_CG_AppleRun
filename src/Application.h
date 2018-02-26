@@ -27,6 +27,7 @@
 #include "SceneNode.h"
 #include "Game.h"
 #include "Control.h"
+#include "Character.h"
 
 class Application
 {
@@ -77,7 +78,7 @@ protected:
 	int coolDownTimer = 0;
 	
 	// Tank
-	Tank* pTank;
+	Character* pTank;
 	
 	// Obstacle List
 	NodeList pBarriers;

@@ -47,6 +47,7 @@
 		809B2BE1202F14D2005C708C /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BE0202F14D2005C708C /* Scene.cpp */; };
 		809B2BE5202F1F4A005C708C /* SceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BE4202F1F4A005C708C /* SceneNode.cpp */; };
 		80D316F31FEBE8820079DD72 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D316F21FEBE8820079DD72 /* OpenGL.framework */; };
+		80F4B780204479C3005E7DAE /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80F4B77F204479C3005E7DAE /* Character.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -140,6 +141,8 @@
 		80E003971FED3E8300601BEA /* EgoCam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EgoCam.h; path = ../src/EgoCam.h; sourceTree = "<group>"; };
 		80E003981FED411B00601BEA /* DebugRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DebugRender.h; path = ../src/DebugRender.h; sourceTree = "<group>"; };
 		80E003991FED412D00601BEA /* DebugRender.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DebugRender.cpp; path = ../src/DebugRender.cpp; sourceTree = "<group>"; };
+		80F4B77E20447969005E7DAE /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Character.h; path = ../src/Character.h; sourceTree = "<group>"; };
+		80F4B77F204479C3005E7DAE /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Character.cpp; path = ../src/Character.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +302,8 @@
 				80539B4D203B3E3A005D4F35 /* MovingItem.cpp */,
 				80D3168A1FEBE2E10079DD72 /* Tank.h */,
 				80D316A01FEBE2E40079DD72 /* Tank.cpp */,
+				80F4B77E20447969005E7DAE /* Character.h */,
+				80F4B77F204479C3005E7DAE /* Character.cpp */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -410,6 +415,7 @@
 				805A748E200A620D0057761B /* TrianglePlaneModel.cpp in Sources */,
 				805A7490200A620D0057761B /* TriangleSphereModel.cpp in Sources */,
 				805A7492200A620D0057761B /* Model.cpp in Sources */,
+				80F4B780204479C3005E7DAE /* Character.cpp in Sources */,
 				805A7494200A620D0057761B /* LineBoxModel.cpp in Sources */,
 				805A7496200A620D0057761B /* LinePlaneModel.cpp in Sources */,
 				805A7498200A620D0057761B /* ConstantShader.cpp in Sources */,
