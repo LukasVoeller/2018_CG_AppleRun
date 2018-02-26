@@ -142,7 +142,7 @@ void LoadPNG::init(void) {
 	int width, height;
 	bool hasAlpha;
 	char filename[] = "testpng.png";
-	bool success = loadPngImage(filename, width, height, hasAlpha, &textureImage);
+	bool success = loadPNGImage(filename, width, height, hasAlpha, &textureImage);
 	if (!success) {
 		std::cout << "Unable to load png file" << std::endl;
 		return;

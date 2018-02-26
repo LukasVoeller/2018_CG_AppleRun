@@ -41,6 +41,6 @@ private:
 	void mousePassive(int x, int y);
 	void mouseMotion(int x, int y);
 
-}
+};
 
 #endif /* LoadPNG_hpp */
