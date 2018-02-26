@@ -51,12 +51,14 @@ dependencies: \
   thirdparty/assimp/include/assimp/anim.h \
   thirdparty/assimp/include/assimp/metadata.h \
   thirdparty/assimp/include/assimp/postprocess.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/MovingItem.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/SceneNode.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/EgoCam.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/GUIEvents.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Scene.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/SceneNode.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Coin.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/MovingItem.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Game.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Control.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/LinePlaneModel.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/TrianglePlaneModel.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/TriangleSphereModel.h \

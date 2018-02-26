@@ -43,6 +43,8 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/VertexBuffer.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/IndexBuffer.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Texture.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/MovingItem.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/SceneNode.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/PhongShader.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/ShaderLightMapper.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Lights.h \

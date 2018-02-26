@@ -50,7 +50,6 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 
 	pScene = new Scene();
 	pScene->shader(new PhongShader(), true);
-	//pScene->addSceneFile(ASSET_DIRECTORY "scenemodel.osh");
 	pScene->addSceneFile(ASSET_DIRECTORY "testscene.osh");
 	models.push_back(pScene);
 	
@@ -59,7 +58,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pDeathblocks = pScene->getDeathItems();
 	pMovingItems = pScene->getMovingItems();
 
-	//createScene();
+	createScene();
 	//createNormalTestScene();
 	//createShadowTestScene();
 	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -68,6 +67,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	
 	// Create GUI
 	GUIEvents gui = GUIEvents();
+	
 	
 	// Camera
 	egocam.ViewMatrix().identity();
@@ -101,6 +101,12 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	allCoins = ALLCOINS;
 	//allCoins = (unsigned int) pCoins.size();
 	collectedCoins = 0;
+	
+	//GameLogic
+	game = Game();
+	
+	//Character-Control
+	playerControl = Control(pWin);
 }
 
 void Application::start(){
@@ -146,29 +152,61 @@ void Application::getInputPitchRollForward(float& pitch, float& roll, float& for
 void Application::update(float dtime){
 	egocam.update();
 	gui.update(pWindow, &egocam);
-	move();
+	plattformsHover();
+	
+	characterViewMatrix = calcCharacterViewMatrix(pTank);
+	egocam.ViewMatrix() = characterViewMatrix;
 	
 	time+=dtime;
 	
-	// Tank steering
-    double deltaTime = calcDeltaTime();
-    float forwardBackward = getForwardBackward();
-    float leftRight = getLeftRight();
-    
-    // Jump
-	// Blöd, weil man von Blöcken nicht weiterspringen kann...
-    getJump();
-    pTank->steer3d(forwardBackward, leftRight, this->downForce);
-    if(pTank->getLatestPosition().Y <= this->terrainHeight + DELTA){
-        pTank->setIsInAir(false);
-        this->downForce = 0.0f;
-	} else {
-        this->downForce += gravity * 0.1f;
-		std::cout << "DownForce " << downForce << std::endl;
+	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it)
+	{
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
+		}
+		else {
+			if(collisionDetection(pTank, *it)) {
+				std::cout << "collision with palette" << std::endl;
+				coolDownTimer = 10;
+				
+				if(pTank->getPalette() == NULL) {
+					//TODO: Fallunterscheidung, damit man nicht von unten durchfliegt...
+					//if(pTank->getLatestPosition().Y > terrainHeight + DELTA )
+					std::cout << "Oben "<< pTank->getLatestPosition().Y << std::endl;
+					playerControl.setJumpPower(0.0f);
+					pTank->setIsInAir(false);
+					std::cout << "translation " << std::endl;
+					
+					pTank->setHovering(true);
+					pTank->setPalette(*it);
+				}
+				else {
+					std::cout << "Flyyyy "<< pTank->getLatestPosition().Y << std::endl;
+				}
+			}
+			//else if(playerControl.getJumpPower() < -1.5f && pTank->getHovering()) {
+			else if(pTank->getPalette() == *it){
+				//no collision
+				std::cout << "bfdsksd" <<std::endl;
+				pTank->setHovering(false);
+				pTank->setPalette(NULL);
+			}
+		}
 	}
+	
+	//Character steering
+    deltaTime = calcDeltaTime();
+    forwardBackward = playerControl.readForwardBackward();
+    leftRight = playerControl.readLeftRight();
+	
+	downForce = playerControl.readJump(this->pTank);
+	pTank->steer3d(forwardBackward, leftRight, downForce);
+	pTank->setPosZ(0.0f);
+	
+	playerControl.handleJump(pTank);
+	
 
 	// Collision
-	//TODO: Fixen, dass man von unten nicht reinspringen kann!!!
 	int count =0;
 	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
 		//std::cout << "Barrier " << ++count << std::endl;
@@ -182,54 +220,10 @@ void Application::update(float dtime){
 			if(collisionDetection(pTank, *it)){
 				std::cout << "collision with barrier" << std::endl;
                 coolDownTimer = 10;
-                
-                if(pTank->getLatestPosition().Y > terrainHeight + DELTA ) {
-                    std::cout << "Oben "<< pTank->getLatestPosition().Y << std::endl;
-                    this->downForce = 0.0f;
-                    pTank->setIsInAir(false);
-                    
-                }
-                else {
-                    // Zurückschieben auf legale Position
-					Matrix m, t;
-					m = pTank->transform();
-					t = t.translation(-8*forwardBackward*deltaTime, 0, -8*leftRight*deltaTime);
-					pTank->transform(m*t);
-                }
+				collisionHandling(pTank, *it);
 			}
 		}
 	}
-	
-	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it){
-		//(*it)->getModel()->transform((*it)->getLocalTransform());
-		
-		if (coolDownTimer > 0) {
-			coolDownTimer--;
-		}
-		else {
-			if(collisionDetection(pTank, *it)){
-				std::cout << "collision with palette" << std::endl;
-				coolDownTimer = 10;
-				
-				if(pTank->getLatestPosition().Y > terrainHeight + DELTA ) {
-					std::cout << "Oben "<< pTank->getLatestPosition().Y << std::endl;
-					this->downForce = 0.0f;
-					pTank->setIsInAir(false);
-					//Matrix moveMat = (*it)->getLocalTransform();
-					//pTank->transform(pTank->transform()* moveMat);
-					
-				}
-				else {
-					// Zurückschieben auf legale Position
-					Matrix m, t;
-					m = pTank->transform();
-					t = t.translation(-8*forwardBackward*deltaTime, 0, -8*leftRight*deltaTime);
-					pTank->transform(m*t);
-				}
-			}
-		}
-	}
-	
 
 	// Collision
 	count = 0;
@@ -298,7 +292,7 @@ void Application::update(float dtime){
 	
 	// Tank steering
 //	float roll, pitch, forward;
-	Matrix tankMat = pTank->transform();
+//	Matrix tankMat = pTank->transform();
 //	getInputPitchRollForward(pitch, roll, forward);
 //
 //	Matrix rollMat, pitchMat, forwardMat;
@@ -308,58 +302,21 @@ void Application::update(float dtime){
 //	tankMat = tankMat * forwardMat * pitchMat * rollMat;
 //	pTank->transform(tankMat);
 
-	// Version 1: Third person cam based on inverted object matrix
-	Matrix matRotHorizontal;
-	Matrix matRotVertical;
-	Matrix matTransView;
+//	Matrix characterViewMat = calcCharacterViewMatrix(pTank);
+//	egocam.ViewMatrix() = characterViewMat;
+	pTank->update(deltaTime);
+}
+
+// Version 1: Third person cam based on inverted object matrix
+Matrix Application::calcCharacterViewMatrix(Tank* character)
+{
+	Matrix characterMat = character->transform();
+	Matrix matRotHorizontal, matRotVertical, matTransView;
 	matTransView.translation(0, 2.0f, 5);
 	matRotHorizontal.rotationY(toRadApp(-90));
 	matRotVertical.rotationX(toRadApp(-30));
-	Matrix tankViewMatrix = tankMat * matRotHorizontal * matRotVertical * matTransView;
-	tankViewMatrix.invert();
-	egocam.ViewMatrix() = tankViewMatrix;
-	 
-	// Version 2: Third person cam based on lookAt matrix
-	/*
-	Matrix tankViewMat;
-	tankViewMat.lookAt(tankMat.translation() + tankMat.forward(), tankMat.up(), tankMat.translation() + tankMat.up() * 0.5f - tankMat.forward());
-	Matrix tmp = tankViewMat;
-	tmp.invert();
-	Debug.drawMatrix(tmp);
-	Egocam.ViewMatrix() = tankViewMat;
-	 */
-	
-	// Version 3: Interpolated third person cam
-	/*
-	Matrix matRot180;
-	Matrix matTransView;
-	matTransView.translation(0, 0.5f, 1);
-	matRot180.rotationY(toRadApp(180));
-	Matrix matTank = tankMat * matRot180 * matTransView;
-	
-	Matrix viewMat = Egocam.ViewMatrix();
-	viewMat.invert();
-	
-	Vector p = viewMat.translation().lerp(matTank.translation(), 0.1f);
-	Vector f = viewMat.forward().lerp(matTank.forward(), 0.01f);
-	Vector u = viewMat.up().lerp(matTank.up(), 0.01f);
-	f.normalize();
-	u.normalize();
-	
-	Vector r = u.cross(f);
-	r.normalize();
-	u = f.cross(r);
-	
-	viewMat.translation(p);
-	viewMat.up(u);
-	viewMat.forward(f);
-	viewMat.right(r);
-	Debug.drawMatrix(viewMat);
-	viewMat.invert();
-	Egocam.ViewMatrix() = viewMat;
-	 */
-	
-	pTank->update(deltaTime);
+	Matrix tankViewMatrix = characterMat * matRotHorizontal * matRotVertical * matTransView;
+	return tankViewMatrix.invert();
 }
 
 // Elapsed time since last call of the method
@@ -387,9 +344,9 @@ void Application::draw(){
 	gui.draw(&egocam);
 	
 	// Util
-	//shadowGenerator.generate(models);
-	//ShaderLightMapper::instance().activate();
-	//ShaderLightMapper::instance().deactivate();
+	shadowGenerator.generate(models);
+	ShaderLightMapper::instance().activate();
+	ShaderLightMapper::instance().deactivate();
 	
     // Check once per frame for OpenGL errors
     GLenum error = glGetError();
@@ -477,48 +434,6 @@ Vector Application::calc3DRay( float x, float y, Vector& Pos){
 }
  */
 
-float Application::getLeftRight(){
-    float direction = 0.0f;
-    // Strafe right
-	if (glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS){
-		direction -= ROTATIONSPEED;
-	}
-    // Strafe left
-	if (glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS){
-        direction += ROTATIONSPEED;
-	}
-//	std::cout << "getLeftRight " << direction  << std::endl;
-    return direction;
-}
-
-float Application::getForwardBackward()
-{
-	float direction = 0.0f;
-//	float speed = 0.0f;
-	float speed = (glfwGetKey(pWindow, GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS) ? ADDSPEED : 0.0f;
-	
-    // Move forward
-	if (glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS){
-		speed += RUNSPEED;
-        direction += speed;
-	}
-    // Move backward
-	if (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS){
-		speed += RUNSPEED;
-		direction -= speed;
-	}
-    return direction;
-}
-
-void Application::getJump(){
-    if(!pTank->getIsInAir()){
-		if (glfwGetKey(pWindow, GLFW_KEY_SPACE ) == GLFW_PRESS){
-            pTank->setIsInAir(true);
-            this->downForce = pTank->getJumpPower();
-        }
-    }
-}
-
 /******* Old collisionDetection for things not in the scene **/
 bool Application::collisionDetection(Tank* model1, Model* model2)
 {
@@ -548,28 +463,16 @@ bool Application::collisionDetection(Tank* model1, SceneNode* node)
 	Vector size2 = node->getScaledBoundingBox().size();
 	
 	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
-	return (vec1.X - size1.X/2 < vec2.X + size2.X/2 + DELTA &&
-			vec2.X - size2.X/2 < vec1.X + size1.X/2 + DELTA &&
-			vec1.Y - size1.Y/2 < vec2.Y + size2.Y/2 + DELTA&&
-			vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 + DELTA&&
-			vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 + DELTA&&
-			vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2 + DELTA);
+	return (vec1.X - size1.X/2 + DELTA < vec2.X + size2.X/2 &&
+			vec2.X - size2.X/2 + DELTA < vec1.X + size1.X/2 &&
+			vec1.Y - size1.Y/2 + DELTA < vec2.Y + size2.Y/2 &&
+			vec2.Y - size2.Y/2 + DELTA < vec1.Y + size1.Y/2 &&
+			vec1.Z - size1.Z/2 + DELTA < vec2.Z + size2.Z/2 &&
+			vec2.Z - size2.Z/2 + DELTA < vec1.Z + size1.Z/2);
 }
 
 void Application::createScene(){
 	Matrix m;
-	
-	//------------------------------ SCENE ------------------------------
-	pModel = new Model(ASSET_DIRECTORY "skybox.obj", false);
-	pModel->shader(new PhongShader(), true);
-	pModel->shadowCaster(false);
-	models.push_back(pModel);
-	
-	pModel = new Model(ASSET_DIRECTORY "base.dae", false);
-	pModel->shader(new PhongShader(), true);
-	m.translation(30, 0, 0);
-	pModel->transform(m);
-	models.push_back(pModel);
 	
 	//------------------------------ LIGHTS ------------------------------
 	/*
@@ -669,41 +572,28 @@ void Application::createScene(){
 	 sl->direction(Vector(-1, -4, 0));
 	 sl->innerRadius(innerradius);
 	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 */
+	 ShaderLightMapper::instance().addLight(sl); */
+	
 }
 
 void Application::reset(float dtime) {
 	gui.restartGame(); //Startbildschirm aufrufen
 	collectedCoins = 0;
 	
-	// alle gesammelten Coins wieder positionieren
-	for(CoinList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
-		if((*it)->isCollected()) {
-			(*it)->setCollected(false);
-			std::cout << "reset" << std::endl;
-			Matrix t;
-			
-			(*it)->setLocalTransform(Vector((*it)->getLatestPosition().X, 0, (*it)->getLatestPosition().Z), Vector(0, 1, 0), 0);
-		}
-	}
-	//Figur wieder auf den Startpunkt
-	Matrix m;
-	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
-	pTank->transform(m);
+	/*Setzt die Figur auf die Startposition zurück und positioniert alle Coins wieder auf die Startposition */
+	game.start(pTank, pCoins);
+	
 }
 
-void Application::move() {
+void Application::plattformsHover() {
 	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it){
-		Vector t = (*it)->getLocalTransform().translation();
-		//(*it)->getModel()->transform((*it)->getLocalTransform());
-		
+		Vector t = (*it)->getLocalTransform().translation();		
 		float heigth = t.Y;
 		
 		if (heigth > 13.0f) {
 			(*it)->setMoveUp(false);
 		}
-		if(heigth < 0.0f) {
+		if(heigth < 0.8f) {
 			(*it)->setMoveUp(true);
 		}
 		
@@ -712,6 +602,60 @@ void Application::move() {
 		Matrix trans;
 		trans.translation(t.X, heigth, t.Z);
 		(*it)->setLocalTransform(trans);
-		(*it)->getLocalTransform().translation().debugOutput();
+		
+//		//darf nur für die jeweilige Palette aufgerufen werden...
+//		if(pTank->getHovering()) {
+//			//y-Koordinate übernehmen
+//			Vector tTranslat = pTank->transform().translation();
+//			Matrix m;
+//			m.translation(tTranslat.X, trans.translation().Y, tTranslat.Z);
+//
+//			this->pTank->transform(m);
+//		}
+	}
+}
+
+/* Behandlung aller Fälle
+ * a. von Oben auf eine Kiste springen
+ * b. seitlich dagegen springen (also in der Luft)
+ * c. seitlich dagegen fahren (auf dem Boden
+ * d. von unten nach oben dagegen springen */
+void Application::collisionHandling(Tank* model1, SceneNode* model2)
+{
+	Matrix t;
+	Matrix m = model1->transform();
+	
+	Vector pos1 = model1->getLatestPosition();
+	Vector pos2 = model2->getLocalTransform().translation();
+	Vector size2 = model2->getScaledBoundingBox().size();
+	float bMaxY = pos2.Y + 0.5f* model2->getScaledBoundingBox().size().Y;
+	float bMinY = pos2.Y - 0.5f* model2->getScaledBoundingBox().size().Y;
+	float cMinY = pos1.Y - 0.5f* model1->getBoundingBox().size().Y;
+	float cMaxY = pos1.Y + 0.5f* model1->getBoundingBox().size().Y;
+	
+	if(pos1.Y <= TERRAIN_HEIGHT && !model1->getIsInAir()) {
+		std::cout << "seite" << std::endl;
+		t.translation(-6*forwardBackward*deltaTime, 0, -6*leftRight*deltaTime);
+		model1->transform(m*t);
+		return;
+	}
+	
+	// von oben bzw. in der oberen Hälfte
+	else if(bMaxY > cMinY && cMinY > pos2.Y ) {
+		std::cout << "oben" << std::endl;
+		playerControl.setJumpPower(0.0f);
+		pTank->setIsInAir(false);
+		return;
+	}
+	//von unten -> begrenze die Sprunghöhe
+	else if(bMinY < cMaxY  && cMaxY < pos2.Y) {
+		std::cout << "von unten" << std::endl;
+		playerControl.setJumpPower(-3.0f);
+	}
+	// auf der Erde
+	else {
+		std::cout << "seite..." << std::endl;
+		t.translation(-6*forwardBackward*deltaTime, 0, -6*leftRight*deltaTime);
+		model1->transform(m*t);
 	}
 }

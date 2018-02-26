@@ -25,6 +25,8 @@
 #include "GUIEvents.h"
 #include "Scene.h"
 #include "SceneNode.h"
+#include "Game.h"
+#include "Control.h"
 
 class Application
 {
@@ -40,7 +42,7 @@ public:
 	void draw();
 	void end();
 	
-	void move();
+	void plattformsHover();
 	
 protected:
 	EgoCam egocam;
@@ -56,9 +58,11 @@ protected:
 	void createNormalTestScene();
 	void createShadowTestScene();
 	void reset(float dtime);
-	bool collisionDetection(Tank* model, Model* model2);
+	bool collisionDetection(Tank* model, Model* model2); //ggf. löschen
 	bool collisionDetection(Tank* model, SceneNode* model2);
-	void calcLegalPosition(Tank* model, SceneNode* model2);
+	void calcLegalPosition(Tank* model, SceneNode* model2); //ggf. löschen
+	void collisionHandling(Tank* model, SceneNode* model2);
+	Matrix calcCharacterViewMatrix(Tank* character);
 	double calcDeltaTime();
 	Vector calc3DRay( float x, float y, Vector& Pos);
 	
@@ -74,9 +78,6 @@ protected:
 	
 	// Tank
 	Tank* pTank;
-	float getForwardBackward();
-	float getLeftRight();
-	void getJump();
 	
 	// Obstacle List
 	NodeList pBarriers;
@@ -93,6 +94,20 @@ protected:
 	
 	// Testmodel
 	Model* pTest;
+	
+	//GameLogik
+	Game game;
+	
+	//Steuerung des Characters
+	Control playerControl;
+	
+private:
+	float leftRight;
+	float forwardBackward;
+	float deltaTime;
+	
+	Matrix characterViewMatrix;
+
 };
 
 #endif /* Application_hpp */

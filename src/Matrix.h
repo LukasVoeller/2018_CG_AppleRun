@@ -77,8 +77,7 @@ public:
 	Vector transformVec3x3( const Vector& v) const;
 	float determinat();
 	
-	void getMatrix();
-	std::string matrixToString();
+	void matrixOutput();
 };
 
 #endif /* defined(__RealtimeRending__Matrix__) */

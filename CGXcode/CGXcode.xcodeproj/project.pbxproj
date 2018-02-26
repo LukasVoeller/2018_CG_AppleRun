@@ -12,6 +12,8 @@
 		8040FADA1FFF7703004B3A5C /* libfreeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD91FFF7703004B3A5C /* libfreeimage.a */; };
 		80539B4A203B350D005D4F35 /* Coin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80539B49203B350D005D4F35 /* Coin.cpp */; };
 		80539B4E203B3E3A005D4F35 /* MovingItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80539B4D203B3E3A005D4F35 /* MovingItem.cpp */; };
+		80539B51203C346A005D4F35 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80539B50203C346A005D4F35 /* Game.cpp */; };
+		80539B54203C4843005D4F35 /* Control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80539B53203C4843005D4F35 /* Control.cpp */; };
 		805A7472200A620D0057761B /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168C1FEBE2E10079DD72 /* VertexBuffer.cpp */; };
 		805A7474200A620D0057761B /* Framebuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316801FEBE2E00079DD72 /* Framebuffer.cpp */; };
 		805A7476200A620D0057761B /* IndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169A1FEBE2E30079DD72 /* IndexBuffer.cpp */; };
@@ -71,6 +73,10 @@
 		80539B4B203B352C005D4F35 /* Coin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Coin.h; path = ../src/Coin.h; sourceTree = "<group>"; };
 		80539B4C203B3D90005D4F35 /* MovingItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MovingItem.h; path = ../src/MovingItem.h; sourceTree = "<group>"; };
 		80539B4D203B3E3A005D4F35 /* MovingItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MovingItem.cpp; path = ../src/MovingItem.cpp; sourceTree = "<group>"; };
+		80539B4F203C3456005D4F35 /* Game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Game.h; path = ../src/Game.h; sourceTree = "<group>"; };
+		80539B50203C346A005D4F35 /* Game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Game.cpp; path = ../src/Game.cpp; sourceTree = "<group>"; };
+		80539B52203C46E9005D4F35 /* Control.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Control.h; path = ../src/Control.h; sourceTree = "<group>"; };
+		80539B53203C4843005D4F35 /* Control.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Control.cpp; path = ../src/Control.cpp; sourceTree = "<group>"; };
 		808232F42007E72800B3A6A0 /* libglfw.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.dylib; path = thirdparty/glfw/libglfw.3.dylib; sourceTree = "<group>"; };
 		809B2BDC202EC9A3005C708C /* OutlineShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OutlineShader.cpp; path = ../src/OutlineShader.cpp; sourceTree = "<group>"; };
 		809B2BDE202EC9B9005C708C /* OutlineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OutlineShader.h; path = ../src/OutlineShader.h; sourceTree = "<group>"; };
@@ -175,6 +181,10 @@
 				80D316941FEBE2E30079DD72 /* main.cpp */,
 				80D3167A1FEBE2DF0079DD72 /* Application.h */,
 				80D316A21FEBE2E50079DD72 /* Application.cpp */,
+				80539B52203C46E9005D4F35 /* Control.h */,
+				80539B53203C4843005D4F35 /* Control.cpp */,
+				80539B4F203C3456005D4F35 /* Game.h */,
+				80539B50203C346A005D4F35 /* Game.cpp */,
 				80398D6720289B0900010C49 /* GUIEvents.h */,
 				80398D6820289B6300010C49 /* GUIEvents.cpp */,
 				80398D6A20289C1D00010C49 /* Constants.h */,
@@ -396,6 +406,7 @@
 				805A748A200A620D0057761B /* BaseModel.cpp in Sources */,
 				805A748C200A620D0057761B /* TriangleBoxModel.cpp in Sources */,
 				80398D6920289B6300010C49 /* GUIEvents.cpp in Sources */,
+				80539B54203C4843005D4F35 /* Control.cpp in Sources */,
 				805A748E200A620D0057761B /* TrianglePlaneModel.cpp in Sources */,
 				805A7490200A620D0057761B /* TriangleSphereModel.cpp in Sources */,
 				805A7492200A620D0057761B /* Model.cpp in Sources */,
@@ -413,6 +424,7 @@
 				805A74A4200A620D0057761B /* Rgbimage.cpp in Sources */,
 				805A74A5200A620D0057761B /* main.cpp in Sources */,
 				805A74A7200A620D0057761B /* Application.cpp in Sources */,
+				80539B51203C346A005D4F35 /* Game.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
