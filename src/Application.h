@@ -78,7 +78,7 @@ protected:
 	int coolDownTimer = 0;
 	
 	// Tank
-	Character* pTank;
+	Tank* pTank;
 	
 	// Obstacle List
 	NodeList pBarriers;

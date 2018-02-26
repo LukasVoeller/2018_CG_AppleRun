@@ -1,9 +1,8 @@
 //
 //  Character.cpp
-//  CGXcode
-//
-//  Created by Sandra Tieben on 26.02.18.
-//  Copyright © 2018 Philipp Lensing. All rights reserved.
+//	Sandra Tieben
+//	2018
+
 //
 
 #include "Character.h"
@@ -135,3 +134,26 @@ void Character::setJump(float jmp) {
 void Character::setPosZ(float z) {
 	posZ = z;
 }
+
+//void Character::calcBoundingBox(AABB& box){
+//	const AABB& modelBox = this->model->boundingBox();
+//
+//	//box.min.X = std::min(modelBox.min.X);
+//	//box.min.Y = std::min(modelBox.min.Y);
+//	//box.min.Z = std::min(modelBox.min.Z);
+//
+//	//box.max.X = std::max(modelBox.max.X);
+//	//box.max.Y = std::max(modelBox.max.Y);
+//	//box.max.Z = std::max(modelBox.max.Z);
+//
+//	// Verschiebung der BoundingBox
+//	//Box.Min.X = std::min(this->position.X - chassisBox.size().X/2, this->position.X - cannonBox.size().X/2);
+//	//Box.Min.Y = std::min(this->position.Y - chassisBox.size().Y/2, this->position.Y - cannonBox.size().Y/2);
+//	//Box.Min.Z = std::min(this->position.Z - chassisBox.size().Z/2, this->position.Z - cannonBox.size().Z/2);
+//
+//	//Box.Min.X = std::max(this->position.X + chassisBox.size().X/2, this->position.X + cannonBox.size().X/2);
+//	//Box.Min.Y = std::max(this->position.Y + chassisBox.size().Y/2, this->position.Y + cannonBox.size().Y/2);
+//	//Box.Min.Z = std::max(this->position.Z + chassisBox.size().Z/2, this->position.Z + cannonBox.size().Z/2);
+//}
+
+

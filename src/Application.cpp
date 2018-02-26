@@ -78,10 +78,11 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	Matrix m,s,r;
 	
 	// Tank
-	pTank = new Character();
+	//pTank = new Character();
+	pTank = new Tank();
 	pPhongShader = new PhongShader();
 	pTank->shader(pPhongShader, true);
-	//pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
+	pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	pTank->transform(m);
 	
