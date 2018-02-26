@@ -73,16 +73,6 @@ protected:
 	float getLeftRight();
 	void getJump();
 	
-<<<<<<< HEAD
-	// Robot Sphere
-	
-	
-	// Testmodels
-	Model* pBarrier1;
-	Model* pBarrier2;
-	
-=======
->>>>>>> dce9ef01c80c7d3756e97d7bafc3ed8fd011e261
 	// Obstacle List
 	NodeList pBarriers;
 	
