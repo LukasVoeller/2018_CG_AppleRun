@@ -42,4 +42,6 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/VertexBuffer.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/IndexBuffer.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Texture.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/SceneNode.h
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/SceneNode.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Coin.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/MovingItem.h

@@ -25,6 +25,8 @@
 #include "GUIEvents.h"
 #include "Scene.h"
 #include "SceneNode.h"
+#include "Game.h"
+#include "Control.h"
 
 class Application
 {
@@ -32,11 +34,15 @@ public:
 	Application(GLFWwindow* pWin);
 	typedef std::list<BaseModel*> ModelList;
 	typedef std::list<SceneNode*> NodeList;
+	typedef std::list<Coin*> CoinList;
+	typedef std::list<MovingItem*> MovingItemList;
 	void getInputPitchRollForward(float& pitch, float& roll, float& forward);
 	void start();
 	void update(float dtime);
 	void draw();
 	void end();
+	
+	void plattformsHover();
 	
 protected:
 	EgoCam egocam;
@@ -52,8 +58,11 @@ protected:
 	void createNormalTestScene();
 	void createShadowTestScene();
 	void reset(float dtime);
-	bool collisionDetection(Tank* model, Model* model2);
+	bool collisionDetection(Tank* model, Model* model2); //ggf. löschen
 	bool collisionDetection(Tank* model, SceneNode* model2);
+	void calcLegalPosition(Tank* model, SceneNode* model2); //ggf. löschen
+	void collisionHandling(Tank* model, SceneNode* model2);
+	Matrix calcCharacterViewMatrix(Tank* character);
 	double calcDeltaTime();
 	Vector calc3DRay( float x, float y, Vector& Pos);
 	
@@ -69,24 +78,36 @@ protected:
 	
 	// Tank
 	Tank* pTank;
-	float getForwardBackward();
-	float getLeftRight();
-	void getJump();
 	
 	// Obstacle List
 	NodeList pBarriers;
 	
 	// Coins
-	NodeList pCoins;
+	CoinList pCoins;
 	unsigned int allCoins;
 	unsigned int collectedCoins;
 	
 	//DeathBlock
 	NodeList pDeathblocks;
-
+	
+	MovingItemList pMovingItems;
 	
 	// Testmodel
 	Model* pTest;
+	
+	//GameLogik
+	Game game;
+	
+	//Steuerung des Characters
+	Control playerControl;
+	
+private:
+	float leftRight;
+	float forwardBackward;
+	float deltaTime;
+	
+	Matrix characterViewMatrix;
+
 };
 
 #endif /* Application_hpp */
