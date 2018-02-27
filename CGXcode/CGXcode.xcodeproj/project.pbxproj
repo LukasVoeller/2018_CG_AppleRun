@@ -18,7 +18,7 @@
 		805A7472200A620D0057761B /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3168C1FEBE2E10079DD72 /* VertexBuffer.cpp */; };
 		805A7474200A620D0057761B /* Framebuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316801FEBE2E00079DD72 /* Framebuffer.cpp */; };
 		805A7476200A620D0057761B /* IndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3169A1FEBE2E30079DD72 /* IndexBuffer.cpp */; };
-		805A7478200A620D0057761B /* Tank.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A01FEBE2E40079DD72 /* Tank.cpp */; };
+		805A7478200A620D0057761B /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A01FEBE2E40079DD72 /* Character.cpp */; };
 		805A747A200A620D0057761B /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3167F1FEBE2E00079DD72 /* Camera.cpp */; };
 		805A747C200A620D0057761B /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316841FEBE2E00079DD72 /* Texture.cpp */; };
 		805A747E200A620D0057761B /* Aabb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D3167E1FEBE2E00079DD72 /* Aabb.cpp */; };
@@ -50,7 +50,6 @@
 		80B5644820445CE100F539EB /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B5644620445A6200F539EB /* GLUT.framework */; };
 		80B5644E2044620900F539EB /* libSOIL.1.07.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B5644D2044620900F539EB /* libSOIL.1.07.dylib */; };
 		80D316F31FEBE8820079DD72 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D316F21FEBE8820079DD72 /* OpenGL.framework */; };
-		80F4B780204479C3005E7DAE /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80F4B77F204479C3005E7DAE /* Character.cpp */; };
 		80F4B78220448073005E7DAE /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80F4B78120448072005E7DAE /* libSOIL.a */; };
 		80F4B784204480A2005E7DAE /* libSOIL.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 80F4B783204480A2005E7DAE /* libSOIL.1.dylib */; };
 		80F4B78820448335005E7DAE /* libSOIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 80F4B78720448335005E7DAE /* libSOIL.dylib */; };
@@ -118,7 +117,7 @@
 		80D316871FEBE2E10079DD72 /* LinePlaneModel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LinePlaneModel.cpp; path = ../src/LinePlaneModel.cpp; sourceTree = "<group>"; };
 		80D316881FEBE2E10079DD72 /* TriangleBoxModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TriangleBoxModel.h; path = ../src/TriangleBoxModel.h; sourceTree = "<group>"; };
 		80D316891FEBE2E10079DD72 /* PhongShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PhongShader.h; path = ../src/PhongShader.h; sourceTree = "<group>"; };
-		80D3168A1FEBE2E10079DD72 /* Tank.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Tank.h; path = ../src/Tank.h; sourceTree = "<group>"; };
+		80D3168A1FEBE2E10079DD72 /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Character.h; path = ../src/Character.h; sourceTree = "<group>"; };
 		80D3168B1FEBE2E10079DD72 /* TrianglePlaneModel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TrianglePlaneModel.cpp; path = ../src/TrianglePlaneModel.cpp; sourceTree = "<group>"; };
 		80D3168C1FEBE2E10079DD72 /* VertexBuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = VertexBuffer.cpp; path = ../src/VertexBuffer.cpp; sourceTree = "<group>"; };
 		80D3168D1FEBE2E20079DD72 /* VertexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VertexBuffer.h; path = ../src/VertexBuffer.h; sourceTree = "<group>"; };
@@ -140,7 +139,7 @@
 		80D3169D1FEBE2E40079DD72 /* LineBoxModel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LineBoxModel.cpp; path = ../src/LineBoxModel.cpp; sourceTree = "<group>"; };
 		80D3169E1FEBE2E40079DD72 /* Lights.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Lights.cpp; path = ../src/Lights.cpp; sourceTree = "<group>"; };
 		80D3169F1FEBE2E40079DD72 /* Framebuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Framebuffer.h; path = ../src/Framebuffer.h; sourceTree = "<group>"; };
-		80D316A01FEBE2E40079DD72 /* Tank.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Tank.cpp; path = ../src/Tank.cpp; sourceTree = "<group>"; };
+		80D316A01FEBE2E40079DD72 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Character.cpp; path = ../src/Character.cpp; sourceTree = "<group>"; };
 		80D316A11FEBE2E40079DD72 /* ConstantShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConstantShader.h; path = ../src/ConstantShader.h; sourceTree = "<group>"; };
 		80D316A21FEBE2E50079DD72 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../src/Application.cpp; sourceTree = "<group>"; };
 		80D316A31FEBE2E50079DD72 /* IndexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IndexBuffer.h; path = ../src/IndexBuffer.h; sourceTree = "<group>"; };
@@ -151,8 +150,6 @@
 		80E003971FED3E8300601BEA /* EgoCam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EgoCam.h; path = ../src/EgoCam.h; sourceTree = "<group>"; };
 		80E003981FED411B00601BEA /* DebugRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DebugRender.h; path = ../src/DebugRender.h; sourceTree = "<group>"; };
 		80E003991FED412D00601BEA /* DebugRender.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DebugRender.cpp; path = ../src/DebugRender.cpp; sourceTree = "<group>"; };
-		80F4B77E20447969005E7DAE /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Character.h; path = ../src/Character.h; sourceTree = "<group>"; };
-		80F4B77F204479C3005E7DAE /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Character.cpp; path = ../src/Character.cpp; sourceTree = "<group>"; };
 		80F4B78120448072005E7DAE /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSOIL.a; path = thirdparty/soil/lib/libSOIL.a; sourceTree = "<group>"; };
 		80F4B783204480A2005E7DAE /* libSOIL.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSOIL.1.dylib; path = thirdparty/soil/lib/libSOIL.1.dylib; sourceTree = "<group>"; };
 		80F4B78720448335005E7DAE /* libSOIL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSOIL.dylib; path = thirdparty/soil/lib/libSOIL.dylib; sourceTree = "<group>"; };
@@ -325,10 +322,8 @@
 				80539B49203B350D005D4F35 /* Coin.cpp */,
 				80539B4C203B3D90005D4F35 /* MovingItem.h */,
 				80539B4D203B3E3A005D4F35 /* MovingItem.cpp */,
-				80D3168A1FEBE2E10079DD72 /* Tank.h */,
-				80D316A01FEBE2E40079DD72 /* Tank.cpp */,
-				80F4B77E20447969005E7DAE /* Character.h */,
-				80F4B77F204479C3005E7DAE /* Character.cpp */,
+				80D3168A1FEBE2E10079DD72 /* Character.h */,
+				80D316A01FEBE2E40079DD72 /* Character.cpp */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -422,7 +417,7 @@
 				805A7472200A620D0057761B /* VertexBuffer.cpp in Sources */,
 				805A7474200A620D0057761B /* Framebuffer.cpp in Sources */,
 				805A7476200A620D0057761B /* IndexBuffer.cpp in Sources */,
-				805A7478200A620D0057761B /* Tank.cpp in Sources */,
+				805A7478200A620D0057761B /* Character.cpp in Sources */,
 				805A747A200A620D0057761B /* Camera.cpp in Sources */,
 				805A747C200A620D0057761B /* Texture.cpp in Sources */,
 				809B2BE1202F14D2005C708C /* Scene.cpp in Sources */,
@@ -440,7 +435,6 @@
 				805A748E200A620D0057761B /* TrianglePlaneModel.cpp in Sources */,
 				805A7490200A620D0057761B /* TriangleSphereModel.cpp in Sources */,
 				805A7492200A620D0057761B /* Model.cpp in Sources */,
-				80F4B780204479C3005E7DAE /* Character.cpp in Sources */,
 				805A7494200A620D0057761B /* LineBoxModel.cpp in Sources */,
 				805A7496200A620D0057761B /* LinePlaneModel.cpp in Sources */,
 				805A7498200A620D0057761B /* ConstantShader.cpp in Sources */,

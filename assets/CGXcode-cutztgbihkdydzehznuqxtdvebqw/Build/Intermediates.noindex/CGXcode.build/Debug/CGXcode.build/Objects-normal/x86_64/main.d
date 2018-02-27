@@ -20,7 +20,7 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Aabb.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/ShadowMapGenerator.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Framebuffer.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Tank.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Character.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Model.h \
   thirdparty/assimp/include/assimp/cimport.h \
   thirdparty/assimp/include/assimp/types.h \
@@ -59,5 +59,4 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Coin.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Game.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Control.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Character.h \
   thirdparty/freeimage/include/FreeImage.h

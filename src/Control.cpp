@@ -49,7 +49,7 @@ float Control::readLeftRight(){
 	return leftRight;
 }
 
-float Control::readJump(Tank* character) {
+float Control::readJump(Character* character) {
 	if(!character->getIsInAir() && glfwGetKey(pWindow, GLFW_KEY_SPACE ) == GLFW_PRESS){
 		character->setIsInAir(true);
 		jumpPower = JUMPPOWER;
@@ -57,9 +57,9 @@ float Control::readJump(Tank* character) {
 	return jumpPower;
 }
 
-void Control::handleJump(Tank* character)
+void Control::handleJump(Character* character)
 {
-	if(character->getLatestPosition().Y <= TERRAIN_HEIGHT + DELTA || character->getPalette() != NULL){
+	if(character->getLatestPosition().Y <= TERRAIN_HEIGHT || character->getPalette() != NULL){
 		character->setIsInAir(false);
 		jumpPower = 0.0f;
 	} else {

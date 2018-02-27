@@ -16,7 +16,7 @@ Game::~Game() {
 	
 }
 
-bool Game::start(Tank* character, CoinList coins) {
+bool Game::start(Character* character, CoinList coins) {
 	std::cout << "Init Game..." << std::endl;
 	
 	CoinList::iterator it;

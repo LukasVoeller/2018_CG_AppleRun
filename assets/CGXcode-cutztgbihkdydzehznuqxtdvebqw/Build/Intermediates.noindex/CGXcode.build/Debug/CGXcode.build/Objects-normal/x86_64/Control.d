@@ -7,7 +7,7 @@ dependencies: \
   thirdparty/glfw/include/GLFW/glfw3.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Vector.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Matrix.h \
-  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Tank.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Character.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Model.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/BaseModel.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/BaseShader.h \

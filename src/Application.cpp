@@ -50,7 +50,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 
 	pScene = new Scene();
 	pScene->shader(new PhongShader(), true);
-	pScene->addSceneFile(ASSET_DIRECTORY "testscene.osh");
+	pScene->addSceneFile(ASSET_DIRECTORY "scene.osh");
 	models.push_back(pScene);
 	
 	pBarriers = pScene->getObstacles();
@@ -77,25 +77,27 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	//------------------------------ MODELS ------------------------------
 	Matrix m,s,r;
 	
-	// Tank
-	//pTank = new Character();
-	pTank = new Tank();
+	// Robot
+	pCharacter = new Character();
+	float scaling = 0.4f;
 	pPhongShader = new PhongShader();
-	pTank->shader(pPhongShader, true);
-	pTank->loadModels(ASSET_DIRECTORY "tank_bottom.dae", ASSET_DIRECTORY "tank_top.dae");
+	pCharacter->shader(pPhongShader, true);
+	pCharacter->loadModel(ASSET_DIRECTORY "frspbt.dae", scaling);
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
-	pTank->transform(m);
+	s = s.scale(scaling);
+	pCharacter->transform(m*s);
 	
-	models.push_back(pTank);
-	
-//	float baymaxScaling = 0.2;
-//	pTest = new Model(ASSET_DIRECTORY "BaymaxWhiteOBJ/Bigmax_White_OBJ.obj", false, baymaxScaling);
-//	//pTest->shader(pPhongShader, false);
-//	pTest->shader(pOutlineShader, false);
+	models.push_back(pCharacter);
+//
+//	float baymaxScaling = 50.7;
+//	pTest = new Model(ASSET_DIRECTORY "sci_fi_towers_obj/sci_fi_towers_obj.obj", false, baymaxScaling);
+//	pTest->shader(pPhongShader, false);
+//	//pTest->shader(pOutlineShader, false);
 //	s = s.scale(baymaxScaling);
-//	m = m.translation(-4, 0, -4);
-//	pTest->transform(m*s);
-//	Models.push_back(pTest);
+//	r = r.rotationY(0.5f);
+//	m = m.translation(-4, 1, -4);
+//	pTest->transform(m*r*s);
+//	models.push_back(pTest);
 
 	
 	//------------------------------ GAME LOGIC ------------------------------
@@ -155,7 +157,7 @@ void Application::update(float dtime){
 	gui.update(pWindow, &egocam);
 	plattformsHover();
 	
-	characterViewMatrix = calcCharacterViewMatrix(pTank);
+	characterViewMatrix = calcCharacterViewMatrix(pCharacter);
 	egocam.ViewMatrix() = characterViewMatrix;
 	
 	time+=dtime;
@@ -166,31 +168,31 @@ void Application::update(float dtime){
 			coolDownTimer--;
 		}
 		else {
-			if(collisionDetection(pTank, *it)) {
+			if(collisionDetection(pCharacter, *it)) {
 				std::cout << "collision with palette" << std::endl;
 				coolDownTimer = 10;
 				
-				if(pTank->getPalette() == NULL) {
+				if(pCharacter->getPalette() == NULL) {
 					//TODO: Fallunterscheidung, damit man nicht von unten durchfliegt...
 					//if(pTank->getLatestPosition().Y > terrainHeight + DELTA )
-					std::cout << "Oben "<< pTank->getLatestPosition().Y << std::endl;
+					std::cout << "Oben "<< pCharacter->getLatestPosition().Y << std::endl;
 					playerControl.setJumpPower(0.0f);
-					pTank->setIsInAir(false);
+					pCharacter->setIsInAir(false);
 					std::cout << "translation " << std::endl;
 					
-					pTank->setHovering(true);
-					pTank->setPalette(*it);
+					pCharacter->setHovering(true);
+					pCharacter->setPalette(*it);
 				}
 				else {
-					std::cout << "Flyyyy "<< pTank->getLatestPosition().Y << std::endl;
+					std::cout << "Flyyyy "<< pCharacter->getLatestPosition().Y << std::endl;
 				}
 			}
 			//else if(playerControl.getJumpPower() < -1.5f && pTank->getHovering()) {
-			else if(pTank->getPalette() == *it){
+			else if(pCharacter->getPalette() == *it){
 				//no collision
 				std::cout << "bfdsksd" <<std::endl;
-				pTank->setHovering(false);
-				pTank->setPalette(NULL);
+				pCharacter->setHovering(false);
+				pCharacter->setPalette(NULL);
 			}
 		}
 	}
@@ -200,11 +202,11 @@ void Application::update(float dtime){
     forwardBackward = playerControl.readForwardBackward();
     leftRight = playerControl.readLeftRight();
 	
-	downForce = playerControl.readJump(this->pTank);
-	pTank->steer3d(forwardBackward, leftRight, downForce);
-	pTank->setPosZ(0.0f);
+	downForce = playerControl.readJump(this->pCharacter);
+	pCharacter->steer3d(forwardBackward, leftRight, downForce);
+	pCharacter->setPosZ(0.0f);
 	
-	playerControl.handleJump(pTank);
+	playerControl.handleJump(pCharacter);
 	
 
 	// Collision
@@ -218,10 +220,10 @@ void Application::update(float dtime){
 			coolDownTimer--;
 		}
 		else {
-			if(collisionDetection(pTank, *it)){
+			if(collisionDetection(pCharacter, *it)){
 				std::cout << "collision with barrier" << std::endl;
                 coolDownTimer = 10;
-				collisionHandling(pTank, *it);
+				collisionHandling(pCharacter, *it);
 			}
 		}
 	}
@@ -236,7 +238,7 @@ void Application::update(float dtime){
 			coolDownTimer--;
 		}
 		else {
-			if(collisionDetection(pTank, *it)){
+			if(collisionDetection(pCharacter, *it)){
 				std::cout << "death!" << std::endl;
 				coolDownTimer = 10;
 				reset(deltaTime);
@@ -260,7 +262,7 @@ void Application::update(float dtime){
 		if (coolDownTimer > 0) {
 			coolDownTimer--;
 		}
-		else if(collisionDetection(pTank, (*it)) && coolDownTimer == 0 && (*it)->isCollected() == false){
+		else if(collisionDetection(pCharacter, (*it)) && coolDownTimer == 0 && (*it)->isCollected() == false){
 			collectedCoins++;
 			coolDownTimer = 5; //Timer neu setzen
 			std::cout << "found coin " << collectedCoins << std::endl;
@@ -285,35 +287,15 @@ void Application::update(float dtime){
 		gui.wonGame();
 	}
 	
-	// Aiming
-	//double xpos, ypos;
-	//glfwGetCursorPos(pWindow, &xpos, &ypos);
-	//Vector pos = calc3DRay(xpos, ypos, pos);
-	//pTank->aim(pos);
-	
-	// Tank steering
-//	float roll, pitch, forward;
-//	Matrix tankMat = pTank->transform();
-//	getInputPitchRollForward(pitch, roll, forward);
-//
-//	Matrix rollMat, pitchMat, forwardMat;
-//	pitchMat.rotationX(pitch * dtime * 2.0f);
-//	rollMat.rotationZ(roll * dtime * 2.0f);
-//	forwardMat.translation(0, 0, forward * dtime * 2.0f);
-//	tankMat = tankMat * forwardMat * pitchMat * rollMat;
-//	pTank->transform(tankMat);
-
-//	Matrix characterViewMat = calcCharacterViewMatrix(pTank);
-//	egocam.ViewMatrix() = characterViewMat;
-	pTank->update(deltaTime);
+	pCharacter->update(deltaTime);
 }
 
-// Version 1: Third person cam based on inverted object matrix
-Matrix Application::calcCharacterViewMatrix(Tank* character)
+//Third person cam based on inverted object matrix
+Matrix Application::calcCharacterViewMatrix(Character* character)
 {
 	Matrix characterMat = character->transform();
 	Matrix matRotHorizontal, matRotVertical, matTransView;
-	matTransView.translation(0, 2.0f, 5);
+	matTransView.translation(0, 3.0f, 5);
 	matRotHorizontal.rotationY(toRadApp(-90));
 	matRotVertical.rotationX(toRadApp(-30));
 	Matrix tankViewMatrix = characterMat * matRotHorizontal * matRotVertical * matTransView;
@@ -435,32 +417,14 @@ Vector Application::calc3DRay( float x, float y, Vector& Pos){
 }
  */
 
-/******* Old collisionDetection for things not in the scene **/
-bool Application::collisionDetection(Tank* model1, Model* model2)
-{
-	Vector vec1 = model1->transform().translation();
-    Vector vec2 = model2->transform().translation();
-	
-	Vector size1 = model1->getBoundingBox().size();
-	Vector size2 = model2->getScaledBoundingBox().size();
-
-    //Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
-    return (vec1.X - size1.X/2 < vec2.X + size2.X/2 &&
-    	vec2.X - size2.X/2 < vec1.X + size1.X/2 &&
-		vec1.Y - size1.Y/2 < vec2.Y + size2.Y/2 &&
-		vec2.Y - size2.Y/2 < vec1.Y + size1.Y/2 &&
-    	vec1.Z - size1.Z/2 < vec2.Z + size2.Z/2 &&
-    	vec2.Z - size2.Z/2 < vec1.Z + size1.Z/2);
-}
-
 /****** Kollision mit Scenenode *********/
 /* DELTA für Sicherheitsabstand **********/
-bool Application::collisionDetection(Tank* model1, SceneNode* node)
+bool Application::collisionDetection(Character* model1, SceneNode* node)
 {
 	Vector vec1 = model1->transform().translation();
 	Vector vec2 = node->getLocalTransform().translation();
 	
-	Vector size1 = model1->getBoundingBox().size();
+	Vector size1 = model1->getScaledBoundingBox().size();
 	Vector size2 = node->getScaledBoundingBox().size();
 	
 	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
@@ -582,7 +546,7 @@ void Application::reset(float dtime) {
 	collectedCoins = 0;
 	
 	/*Setzt die Figur auf die Startposition zurück und positioniert alle Coins wieder auf die Startposition */
-	game.start(pTank, pCoins);
+	game.start(pCharacter, pCoins);
 	
 }
 
@@ -603,16 +567,6 @@ void Application::plattformsHover() {
 		Matrix trans;
 		trans.translation(t.X, heigth, t.Z);
 		(*it)->setLocalTransform(trans);
-		
-//		//darf nur für die jeweilige Palette aufgerufen werden...
-//		if(pTank->getHovering()) {
-//			//y-Koordinate übernehmen
-//			Vector tTranslat = pTank->transform().translation();
-//			Matrix m;
-//			m.translation(tTranslat.X, trans.translation().Y, tTranslat.Z);
-//
-//			this->pTank->transform(m);
-//		}
 	}
 }
 
@@ -621,7 +575,7 @@ void Application::plattformsHover() {
  * b. seitlich dagegen springen (also in der Luft)
  * c. seitlich dagegen fahren (auf dem Boden
  * d. von unten nach oben dagegen springen */
-void Application::collisionHandling(Tank* model1, SceneNode* model2)
+void Application::collisionHandling(Character* model1, SceneNode* model2)
 {
 	Matrix t;
 	Matrix m = model1->transform();
@@ -645,7 +599,7 @@ void Application::collisionHandling(Tank* model1, SceneNode* model2)
 	else if(bMaxY > cMinY && cMinY > pos2.Y ) {
 		std::cout << "oben" << std::endl;
 		playerControl.setJumpPower(0.0f);
-		pTank->setIsInAir(false);
+		pCharacter->setIsInAir(false);
 		return;
 	}
 	//von unten -> begrenze die Sprunghöhe

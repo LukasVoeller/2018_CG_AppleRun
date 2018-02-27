@@ -203,21 +203,21 @@ void LoadPNG::mouseMotion(int x, int y){
 	glutPostRedisplay();
 }
 
-/*
-int
-main(int argc, char** argv) {
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
-	glutCreateWindow("PNG texture");
-	glutMotionFunc(mouseMotion);
-	glutPassiveMotionFunc(mousePassive);
- 
-	init();
- 
-	glutReshapeFunc(myReshape);
-	glutDisplayFunc(display);
-	std::cout << "Use mouse drag to rotate." << std::endl;
-	glutMainLoop();
-	return 0;
-}
- */
+//int
+//main(int argc, char** argv) {
+//	glutInit(&argc, argv);
+//	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
+//	glutCreateWindow("PNG texture");
+//	glutMotionFunc(mouseMotion);
+//	glutPassiveMotionFunc(mousePassive);
+//	
+//	init();
+//	
+//	glutReshapeFunc(myReshape);
+//	glutDisplayFunc(display);
+//	std::cout << "Use mouse drag to rotate." << std::endl;
+//	glutMainLoop();
+//	return 0;
+//}
+
+

@@ -20,7 +20,7 @@
 #include "IndexBuffer.h"
 #include "BaseModel.h"
 #include "ShadowMapGenerator.h"
-#include "Tank.h"
+#include "Character.h"
 #include "EgoCam.h"
 #include "GUIEvents.h"
 #include "Scene.h"
@@ -59,11 +59,11 @@ protected:
 	void createNormalTestScene();
 	void createShadowTestScene();
 	void reset(float dtime);
-	bool collisionDetection(Tank* model, Model* model2); //ggf. löschen
-	bool collisionDetection(Tank* model, SceneNode* model2);
-	void calcLegalPosition(Tank* model, SceneNode* model2); //ggf. löschen
-	void collisionHandling(Tank* model, SceneNode* model2);
-	Matrix calcCharacterViewMatrix(Tank* character);
+	bool collisionDetection(Character* model, Model* model2); //ggf. löschen
+	bool collisionDetection(Character* model, SceneNode* model2);
+	void calcLegalPosition(Character* model, SceneNode* model2); //ggf. löschen
+	void collisionHandling(Character* model, SceneNode* model2);
+	Matrix calcCharacterViewMatrix(Character* character);
 	double calcDeltaTime();
 	Vector calc3DRay( float x, float y, Vector& Pos);
 	
@@ -78,7 +78,7 @@ protected:
 	int coolDownTimer = 0;
 	
 	// Tank
-	Tank* pTank;
+	Character* pCharacter;
 	
 	// Obstacle List
 	NodeList pBarriers;

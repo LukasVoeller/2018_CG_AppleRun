@@ -10,7 +10,7 @@
 #define Game_h
 
 #include "Constants.h"
-#include "Tank.h"
+#include "Character.h"
 #include "Coin.h"
 
 class Game {
@@ -19,7 +19,7 @@ public:
 	Game();
 	~Game();
 
-	bool start(Tank* character, CoinList coins);
+	bool start(Character* character, CoinList coins);
 private:
 
 	

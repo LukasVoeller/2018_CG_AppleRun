@@ -11,7 +11,7 @@
 
 #include "Constants.h"
 #include "EgoCam.h"
-#include "Tank.h"
+#include "Character.h"
 
 
 class Control {
@@ -24,7 +24,7 @@ public:
 	/* Read keyboardinputs */
 	float readForwardBackward();
 	float readLeftRight();
-	float readJump(Tank* character);
+	float readJump(Character* character);
 	
 	
 	float getForwardBackward() const {return this->forwardBackward; };
@@ -35,7 +35,7 @@ public:
 	void setLeftRight(float lr) { leftRight = lr; };
 	void setJumpPower(float jmp) {jumpPower = jmp; };
 	
-	void handleJump(Tank* character);
+	void handleJump(Character* character);
 private:
 	GLFWwindow* pWindow;
 	

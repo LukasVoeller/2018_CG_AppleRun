@@ -67,6 +67,7 @@ void GUIEvents::draw(EgoCam* egocam) {
 	
 	// Startmenu
 	if (this->startIsActive == true) {
+		//this->drawImage(c);
 		this->startmenu->draw(c);
 		return;
 	}
@@ -198,6 +199,7 @@ GLuint GUIEvents::loadBMP(const char* imagepath){
 void GUIEvents::drawImage() {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, this->image);
+	
 	
 	// Draw a textured quad
 //	glBegin(GL_QUADS);

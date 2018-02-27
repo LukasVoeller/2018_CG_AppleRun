@@ -60,6 +60,7 @@ bool Scene::addSceneFile(const char* Scenefile)
 				parent = &m_Root;
 			}
 			
+			
 //			SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 			
 			//TODO: jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)

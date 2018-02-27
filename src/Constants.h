@@ -24,19 +24,19 @@
 #endif
 
 //Physics
-#define GRAVITY -5.0f
+#define GRAVITY -4.0f
 #define DOWNFORCE 0.0f
-#define TERRAIN_HEIGHT 0.6f
+#define TERRAIN_HEIGHT 0.0f
 
 #define RUNSPEED 6.0f 	//normal speed
 #define	ADDSPEED 4.0 	//additional speed for running
 #define ROTATIONSPEED 2.0f
-#define JUMPPOWER 15.0f
+#define JUMPPOWER 20.0f
 
 #define ALLCOINS 4;
 
 #define START_POS_X 0.0f
-#define START_POS_Y 0.2f
+#define START_POS_Y 0.0f
 #define START_POS_Z 0.0f
 
 #define GAME_TITLE "CG-2018"

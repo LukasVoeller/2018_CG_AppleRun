@@ -1,14 +1,15 @@
 //
-//  Character.h
+//  Character
 //  CGXcode
 //
-//  Created by Sandra Tieben on 26.02.18.
-//  Copyright © 2018 Philipp Lensing. All rights reserved.
+//  Created by Philipp Lensing on 16.11.16.
+//  Copyright © 2016 Philipp Lensing. All rights reserved.
 //
 
-#ifndef Character_h
-#define Character_h
+#ifndef Tank_hpp
+#define Tank_hpp
 
+#include <stdio.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <algorithm>
@@ -21,11 +22,11 @@
 class Character : public Model
 {
 public:
-	Character();
-	Character(const char* ModelFile, bool FitSize=false, float scale=1.0);
-	virtual ~Character();
-	void update(float dtime);
-	//virtual void draw(const BaseCamera& Cam);
+    Character();
+    virtual ~Character();
+    bool loadModel(const char* file, float scaling = 1.0f);
+    void update(float dtime);
+    virtual void draw(const BaseCamera& Cam);
 	
 	/** Steuerung **/
 	void steer( float ForwardBackward, float LeftRight);
@@ -40,34 +41,35 @@ public:
 	void setPosZ (float z);
 	void setIsInAir(bool newIsInAir);
 	void setPalette(MovingItem* p) { palette = p;};
-	
+
 	
 	/** Getter ***/
 	Vector getLatestPosition();
-	bool getIsInAir();
-	float getJumpPower();
+    bool getIsInAir();
+    float getJumpPower();
 	const AABB& getBoundingBox() const { return BoundingBox; };
 	float getForwardBackward() const { return forwardBackward; };
 	float getLeftRight() const { return leftRight; };
 	
 	bool getHovering() const;
 	MovingItem* getPalette() const { return palette; };
-	
+
 	
 	/** Debug **/
 	void printLatestPosition();
 protected:
-	//void calcBoundingBox(AABB& Box);
+	void calcBoundingBox(AABB& Box);
 private:
-	float leftRight = 0;
-	float forwardBackward = 0;
-	float jump = 0;
-	float cannonAngle = 0;
-	float time = 0;
+    Model* character;
+    float leftRight = 0;
+    float forwardBackward = 0;
+    float jump = 0;
+    float cannonAngle = 0;
+    float time = 0;
 	float jumpPower = JUMPPOWER;
-	bool isInAir = false;
-	Vector target;
-	Vector position;
+    bool isInAir = false;
+    Vector target;
+    Vector position;
 	AABB BoundingBox;
 	
 	//für update und so..
@@ -79,4 +81,4 @@ private:
 	
 };
 
-#endif /* Character_h */
+#endif /* Tank_hpp */

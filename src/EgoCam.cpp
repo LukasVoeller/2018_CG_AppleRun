@@ -1,8 +1,6 @@
 //
 //  EgoCam.cpp
 //  CGXcode
-//
-//  Created by Philipp Lensing on 15.11.16.
 //  Copyright © 2016 Philipp Lensing. All rights reserved.
 //
 

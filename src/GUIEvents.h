@@ -11,6 +11,8 @@
 
 #include "Model.h"
 #include "EgoCam.h"
+
+
 class GUIEvents
 {
 public:
