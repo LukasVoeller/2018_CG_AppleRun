@@ -20,6 +20,8 @@ SceneNode::SceneNode(const std::string& Name, const Vector& Translation, const V
 	
 	//da jeder SceneNode individuelle Skalierung besitzt, wird die BoundingBox skaliert
 	this->scaledBoundingBox = this->getModel()->scaleBoundingBox(this->m_Scaling);
+	
+	this->getModel()->transform(this->getLocalTransform());
 }
 
 const Matrix& SceneNode::getLocalTransform() const

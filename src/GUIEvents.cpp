@@ -14,15 +14,15 @@ GUIEvents::GUIEvents(){
 	this->helpIsActive = false;
 	
 	/* HelpMenu - Ein-/Ausblenden mit ESC */
-	this->helpmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.002);
+	this->helpmenu = new Model(ASSET_DIRECTORY "helpmenu/menu.fbx", false, 0.0022);
 	this->helpmenu->shader(new PhongShader(), true);
 	
 	/* Ausblenden mit ENTER */
-	this->startmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.002);
+	this->startmenu = new Model(ASSET_DIRECTORY "startmenu/menu.fbx", false, 0.0022);
 	this->startmenu->shader(new PhongShader(), true);
 	
 	/* Spielende */
-	this->winningmenu = new Model(ASSET_DIRECTORY "menu.fbx", false, 0.002);
+	this->winningmenu = new Model(ASSET_DIRECTORY "winningmenu/menu.fbx", false, 0.0022);
 	this->winningmenu->shader(new PhongShader(), true);
 }
 

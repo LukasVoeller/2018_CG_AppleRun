@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Application.cpp"
-            timestampString = "541441317.092972"
+            timestampString = "541445160.321342"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "83"
@@ -40,11 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Application.cpp"
-            timestampString = "541441317.093152"
+            timestampString = "541445160.322093"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "387"
-            endingLineNumber = "387"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -72,7 +72,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Scene.cpp"
-            timestampString = "541441317.093299"
+            timestampString = "541445160.322724"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
@@ -88,7 +88,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Scene.cpp"
-            timestampString = "541441317.0937999"
+            timestampString = "541445160.322816"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
@@ -104,7 +104,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Application.cpp"
-            timestampString = "541441317.094157"
+            timestampString = "541445160.3228951"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "118"
@@ -120,11 +120,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/SceneNode.cpp"
-            timestampString = "541433717.041366"
+            timestampString = "541445160.323421"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "SceneNode::draw(const BaseCamera&amp; Cam)"
             landmarkType = "7">
          </BreakpointContent>
@@ -136,28 +136,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Application.cpp"
-            timestampString = "541441317.0942971"
+            timestampString = "541445160.323501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "Application::update(float dtime)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../src/Application.cpp"
-            timestampString = "541441317.094386"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "433"
-            endingLineNumber = "433"
-            landmarkName = "Application::collisionDetection(Character* model1, SceneNode* node)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -200,27 +184,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Application.cpp"
-            timestampString = "541441317.094553"
+            timestampString = "541445160.324173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "425"
-            endingLineNumber = "425"
-            landmarkName = "Application::collisionDetection(Character* model1, SceneNode* node)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../src/Application.cpp"
-            timestampString = "541441317.094658"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "592"
-            endingLineNumber = "592"
+            startingLineNumber = "563"
+            endingLineNumber = "563"
             landmarkName = "Application::collisionHandling(Character* model1, SceneNode* model2)"
             landmarkType = "7">
          </BreakpointContent>
@@ -232,11 +200,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Application.cpp"
-            timestampString = "541441317.094752"
+            timestampString = "541445160.324753"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "593"
-            endingLineNumber = "593"
+            startingLineNumber = "564"
+            endingLineNumber = "564"
             landmarkName = "Application::collisionHandling(Character* model1, SceneNode* model2)"
             landmarkType = "7">
          </BreakpointContent>
@@ -248,7 +216,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Control.cpp"
-            timestampString = "541406276.195574"
+            timestampString = "541442660.2758369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "49"
@@ -264,12 +232,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Application.cpp"
-            timestampString = "541441317.094902"
+            timestampString = "541445160.3253649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "Application::update(float dtime)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../src/Application.cpp"
+            timestampString = "541445160.325955"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
+            landmarkName = "Application::collisionDetection(Character* model1, SceneNode* node)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../src/Scene.cpp"
+            timestampString = "541445160.326504"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "Scene::addSceneFile(const char* Scenefile)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../src/Application.cpp"
+            timestampString = "541445160.3266079"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "562"
+            endingLineNumber = "562"
+            landmarkName = "Application::collisionHandling(Character* model1, SceneNode* model2)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -280,44 +296,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../src/Application.cpp"
-            timestampString = "541441317.094991"
+            timestampString = "541445160.327081"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "427"
-            endingLineNumber = "427"
-            landmarkName = "Application::collisionDetection(Character* model1, SceneNode* node)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../src/Character.cpp"
-            timestampString = "541441317.09507"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "Character::loadModel(const char* file, float scaling)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../src/Scene.cpp"
-            timestampString = "541441317.0951329"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "Scene::addSceneFile(const char* Scenefile)"
+            startingLineNumber = "560"
+            endingLineNumber = "560"
+            landmarkName = "Application::collisionHandling(Character* model1, SceneNode* model2)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

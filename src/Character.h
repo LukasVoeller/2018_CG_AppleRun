@@ -19,7 +19,7 @@
 #include "PhongShader.h"
 #include "ConstantShader.h"
 
-class Character : public Model
+class Character : public BaseModel
 {
 public:
     Character();
@@ -29,9 +29,7 @@ public:
     virtual void draw(const BaseCamera& Cam);
 	
 	/** Steuerung **/
-	void steer( float ForwardBackward, float LeftRight);
 	void steer3d(float forwardBackward, float leftRight, float jump);
-	void aim( const Vector& Target );
 	
 	/** Setter **/
 	void setHovering(bool hover);
@@ -53,7 +51,7 @@ public:
 	
 	bool getHovering() const;
 	MovingItem* getPalette() const { return palette; };
-
+	AABB getScaledBoundingBox() const {return this->character->getScaledBoundingBox(); };
 	
 	/** Debug **/
 	void printLatestPosition();
@@ -71,6 +69,7 @@ private:
     Vector target;
     Vector position;
 	AABB BoundingBox;
+	AABB scaledBoundingBox;
 	
 	//für update und so..
 	float posZ = 0;

@@ -122,35 +122,6 @@ void Application::start(){
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-// Andere Bedienung
-void Application::getInputPitchRollForward(float& pitch, float& roll, float& forward){
-	pitch = 0;
-	roll = 0;
-	forward = 0;
-	
-	bool upPressed = glfwGetKey(pWindow, GLFW_KEY_UP ) == GLFW_PRESS;
-	bool downPressed = (glfwGetKey(pWindow, GLFW_KEY_DOWN ) == GLFW_PRESS ||
-						(glfwGetKey(pWindow, GLFW_KEY_Z ) == GLFW_PRESS));
-	bool leftPressed = glfwGetKey(pWindow, GLFW_KEY_LEFT ) == GLFW_PRESS;
-	bool rightPressed = glfwGetKey(pWindow, GLFW_KEY_RIGHT ) == GLFW_PRESS;
-	bool forwardPressed = glfwGetKey(pWindow, GLFW_KEY_W ) == GLFW_PRESS;
-	bool backwardPressed = glfwGetKey(pWindow, GLFW_KEY_S ) == GLFW_PRESS;
-	
-	if(upPressed)
-		pitch = 0;
-	else if(downPressed)
-		pitch = 0;
-	
-	if(leftPressed)
-		roll = 0;
-	else if(rightPressed)
-		roll = 0;
-	
-	if(forwardPressed)
-		forward = 1;
-	else if(backwardPressed)
-		forward = -1;
-}
 
 void Application::update(float dtime){
 	egocam.update();
@@ -239,7 +210,7 @@ void Application::update(float dtime){
 		}
 		else {
 			if(collisionDetection(pCharacter, *it)){
-				std::cout << "death!" << std::endl;
+				std::cout << "You died!" << std::endl;
 				coolDownTimer = 10;
 				reset(deltaTime);
 				//auf start zurücksetzen
@@ -585,8 +556,8 @@ void Application::collisionHandling(Character* model1, SceneNode* model2)
 	Vector size2 = model2->getScaledBoundingBox().size();
 	float bMaxY = pos2.Y + 0.5f* model2->getScaledBoundingBox().size().Y;
 	float bMinY = pos2.Y - 0.5f* model2->getScaledBoundingBox().size().Y;
-	float cMinY = pos1.Y - 0.5f* model1->getBoundingBox().size().Y;
-	float cMaxY = pos1.Y + 0.5f* model1->getBoundingBox().size().Y;
+	float cMinY = pos1.Y - 0.5f* model1->getScaledBoundingBox().size().Y;
+	float cMaxY = pos1.Y + 0.5f* model1->getScaledBoundingBox().size().Y;
 	
 	if(pos1.Y <= TERRAIN_HEIGHT && !model1->getIsInAir()) {
 		std::cout << "seite" << std::endl;

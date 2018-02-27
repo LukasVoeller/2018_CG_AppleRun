@@ -24,38 +24,20 @@ Character::Character():palette(NULL)
 
 Character::~Character()
 {
-
+	delete character;
 }
 
 bool Character::loadModel(const char* file, float scaling)
 {
     this->character = new Model(file, false, scaling);
-
-    
     this->character->shader(this->pShader, false);
-
 	
-	/* unitBox() ist eine sehr schlechte Lösung für die BoundingBox
-	 * Bessere wäre diese zu berechnen (aus Gehäuse und Kanone)
-	 * Aber: Werte für Gehäuse und Kanone falsch (?), zumindest riesig
-	 * daher erstmal die schlechte Lösung */
-//	AABB bb = AABB(Vector(-1.0f, 0, -1.0f), Vector(1.0f, 1.7f, 1.0f));
-//	BoundingBox = bb;
-//	//BoundingBox = AABB::unitBox();
-	calcBoundingBox(this->BoundingBox);
+	this->BoundingBox = this->character->getBoundingBox();
 	
-	Vector scale = Vector(scaling, scaling, scaling);
-	this->character->scaleBoundingBox(scale);
-	
+	this->character->scaleBoundingBox(Vector(scaling, scaling, scaling));
 	this->scaledBoundingBox = this->character->getScaledBoundingBox();
+	
     return true;
-}
-
-//Steuerung
-void Character::steer( float ForwardBackward, float LeftRight)
-{
-    this->forwardBackward = ForwardBackward;
-    this->leftRight = LeftRight;
 }
 
 //Steuerung mit Sprung
@@ -64,15 +46,6 @@ void Character::steer3d( float ForwardBackward, float LeftRight, float Jump)
     this->forwardBackward = ForwardBackward;
     this->leftRight = LeftRight;
     this->jump = Jump;
-}
-
-//Zielen
-void Character::aim(const Vector& Target )
-{
-/*  if (!(this->transform().translation() == Target)) {
-        this->cannonAngle = this->transform().translation().angle(Target);
-    } */
-    this->target = Target;
 }
 
 void Character::update(float dtime)
