@@ -3,8 +3,7 @@
 
 #include <iostream>
 
-class Color
-{
+class Color {
 public:
 	float R;
 	float G;
@@ -16,7 +15,6 @@ public:
 	Color operator*(const float Factor) const;
 	Color operator+(const Color& c) const;
 	Color& operator+=(const Color& c);
-	
 };
 
 #endif /* defined(__SimpleRayTracer__color__) */

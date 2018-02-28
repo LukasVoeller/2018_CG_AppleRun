@@ -109,7 +109,7 @@ bool LoadPNG::loadPNGImage(char *name, int &outWidth, int &outHeight, bool &outH
 	outWidth = width;
 	outHeight = height;
 	
-	unsigned int row_bytes = png_get_rowbytes(png_ptr, info_ptr);
+	unsigned int row_bytes = (int)png_get_rowbytes(png_ptr, info_ptr);
 	*outData = (unsigned char*) malloc(row_bytes * outHeight);
 	
 	png_bytepp row_pointers = png_get_rows(png_ptr, info_ptr);
@@ -178,14 +178,14 @@ void LoadPNG::display(void) {
 	glVertex3f(0.0, -1.0, 0.0);
 	
 	glEnd();
-	glutSwapBuffers();
+	//glutSwapBuffers();
 }
 
 void LoadPNG::myReshape(int w, int h) {
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0, 1.0 * (GLfloat) w / (GLfloat) h, 1.0, 30.0);
+	//gluPerspective(60.0, 1.0 * (GLfloat) w / (GLfloat) h, 1.0, 30.0);
 	glMatrixMode(GL_MODELVIEW);
 }
 
@@ -200,7 +200,7 @@ void LoadPNG::mouseMotion(int x, int y){
 	rotateX += (mouseX-x)/SPEED;
 	rotateY += (mouseY-y)/SPEED;
 	mousePassive(x, y);
-	glutPostRedisplay();
+	//glutPostRedisplay();
 }
 
 //int
