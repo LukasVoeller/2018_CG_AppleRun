@@ -23,10 +23,10 @@ public:
 	const bool isMovingUp() const;
 	
 	/* Setter */
-	void setMoveUp(const bool up); //Paletten
+	void setMoveUp(const bool up); 	// Paletten
 	void setLatestPosition(const Vector& pos);
 private:
-	Vector latestPosition; //Brauch ich das?
+	Vector latestPosition; 			// Brauch ich das?
 	bool moveUp = true;
 };
 

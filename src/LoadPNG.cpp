@@ -98,7 +98,7 @@ bool LoadPNG::loadPNGImage(char *name, int &outWidth, int &outHeight, bool &outH
 	 * PNG_TRANSFORM_STRIP_16 |
 	 * PNG_TRANSFORM_PACKING  forces 8 bit
 	 * PNG_TRANSFORM_EXPAND forces to
-	 *  expand a palette into RGB
+	 *  expand a pallet into RGB
 	 */
 	png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | PNG_TRANSFORM_EXPAND, NULL);
 	

@@ -14,15 +14,15 @@ GUIEvents::GUIEvents(){
 	this->helpIsActive = false;
 	
 	/* HelpMenu - Ein-/Ausblenden mit ESC */
-	this->helpmenu = new Model(ASSET_DIRECTORY "helpmenu/menu.fbx", false, 0.0022);
+	this->helpmenu = new Model(ASSET_DIRECTORY "menu/helpmenu/menu.fbx", false, 0.0022);
 	this->helpmenu->shader(new PhongShader(), true);
 	
 	/* Ausblenden mit ENTER */
-	this->startmenu = new Model(ASSET_DIRECTORY "startmenu/menu.fbx", false, 0.0022);
+	this->startmenu = new Model(ASSET_DIRECTORY "menu/startmenu/menu.fbx", false, 0.0022);
 	this->startmenu->shader(new PhongShader(), true);
 	
 	/* Spielende */
-	this->winningmenu = new Model(ASSET_DIRECTORY "winningmenu/menu.fbx", false, 0.0022);
+	this->winningmenu = new Model(ASSET_DIRECTORY "menu/winningmenu/menu.fbx", false, 0.0022);
 	this->winningmenu->shader(new PhongShader(), true);
 }
 
@@ -106,8 +106,8 @@ void GUIEvents::closeWindow(GLFWwindow* pWindow) {
 	glfwSetWindowShouldClose(pWindow, 1);
 }
 
-GLuint GUIEvents::loadBMP(const char* imagepath){
-	printf("Reading image %s\n", imagepath);
+GLuint GUIEvents::loadBMP(const char* imagepath) {
+	//printf("Reading image %s\n", imagepath);
 	
 	// Data read from the header of the BMP file
 	unsigned char header[54];

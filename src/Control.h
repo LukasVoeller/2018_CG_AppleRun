@@ -13,7 +13,6 @@
 #include "EgoCam.h"
 #include "Character.h"
 
-
 class Control {
 	
 public:
@@ -43,6 +42,5 @@ private:
 	float leftRight = 0.0f;
 	float jumpPower = 0.0f;
 };
-
 
 #endif /* Control_h */

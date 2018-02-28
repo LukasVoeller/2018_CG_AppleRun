@@ -253,7 +253,8 @@ void Model::calcBoundingBox(const aiScene* pScene, AABB& Box)
     }
 }
 
-const AABB& Model::scaleBoundingBox(Vector scale) {
+const AABB& Model::scaleBoundingBox(Vector scale)
+{
 	scaledBoundingBox.Min.X = BoundingBox.Min.X * scale.X;
 	scaledBoundingBox.Min.Y = BoundingBox.Min.Y * scale.Y;
 	scaledBoundingBox.Min.Z = BoundingBox.Min.Z * scale.Z;
@@ -266,7 +267,8 @@ const AABB& Model::scaleBoundingBox(Vector scale) {
 
 }
 
-const AABB& Model::moveScaledBoundingBox() {
+const AABB& Model::moveScaledBoundingBox()
+{
 	float x = std::fabs(scaledBoundingBox.Min.X);
 	float y = std::fabs(scaledBoundingBox.Min.Y);
 	float z = std::fabs(scaledBoundingBox.Min.Z);

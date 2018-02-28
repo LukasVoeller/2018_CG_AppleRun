@@ -12,9 +12,7 @@
 #include "Model.h"
 #include "EgoCam.h"
 
-
-class GUIEvents
-{
+class GUIEvents {
 public:
 	GUIEvents();
 	~GUIEvents();
@@ -37,7 +35,7 @@ protected:
 	
 	// Lukas' Schrottplatz
 	GLuint loadBMP(const char* imagepath);
-	GLuint image = loadBMP("../assets/bricks.bmp");
+	GLuint image; //= loadBMP("../assets/bricks.bmp");
 	void drawImage();
 };
 

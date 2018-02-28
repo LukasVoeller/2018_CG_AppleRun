@@ -7,27 +7,21 @@
 //
 
 #include "Scene.h"
-
+#include "Model.h"
+#include "Coin.h"
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
 
-#include "Model.h"
-#include "Coin.h"
-
-
-Scene::Scene()
-{
+Scene::Scene() {
 	m_Models = std::map<std::string, Model*>();
 	m_Root = SceneNode();
 	m_Root.setName("Root");
 }
 
-Scene::~Scene()
-{
+Scene::~Scene() {
 	// Models löschen (it->first, it->second) = (key,value)
-	for(std::map<std::string, Model*>::iterator it = this->m_Models.begin(); it != this->m_Models.end(); ++it)
-	{
+	for(std::map<std::string, Model*>::iterator it = this->m_Models.begin(); it != this->m_Models.end(); ++it) {
 		delete it->second;
 	}
 	
@@ -35,14 +29,12 @@ Scene::~Scene()
 	deleteNodes(&m_Root);
 }
 
-bool Scene::addSceneFile(const char* Scenefile)
-{
+bool Scene::addSceneFile(const char* Scenefile) {
 	char Line[512];
 	
 	FILE* sceneFile = fopen(Scenefile, "r");
 	while (fgets(Line, sizeof(Line), sceneFile)) {
-		if (strstr(Line, "NODE")) // //NODE nur in "Node"-Lines
-		{
+		if (strstr(Line, "NODE")) { // //NODE nur in "Node"-Lines
 			Vector Pos, Scale, RotAxis;
 			float Angle;
 			char NodeID[256];
@@ -60,11 +52,10 @@ bool Scene::addSceneFile(const char* Scenefile)
 				parent = &m_Root;
 			}
 			
+			//SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 			
-//			SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
-			
-			//TODO: jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)
-			if(strstr(ModelID, "buddha")) {
+			//TODO: Jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)
+			if(strstr(ModelID, "apple")) {
 				Coin* sceneNode = new Coin(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mCoins.push_back(sceneNode);
 			}
@@ -72,23 +63,20 @@ bool Scene::addSceneFile(const char* Scenefile)
 				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mDeathItems.push_back(sceneNode);
 			}
-			else if(strstr(ModelID, "woodcube") || strstr(ModelID, "factory") || strstr(ModelID, "building")) {
+			else if(strstr(ModelID, "woodcube") || strstr(ModelID, "factory")) {
 				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mBarriers.push_back(sceneNode);
 			}
-			else if(strstr(ModelID, "palette")) {
+			else if(strstr(ModelID, "pallet")) {
 				MovingItem* sceneNode = new MovingItem(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mMovingItems.push_back(sceneNode);
 			}
 			else {
 				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 			}
-			
-			
-			
 		}
-		if(strstr(Line, "FILE")) //FILE nur in "Model"-Lines
-		{
+		
+		if(strstr(Line, "FILE")) { //FILE nur in "Model"-Lines
 			char Modelfile[256];
 			char ModelID[256];
 			char ModelType[256];
@@ -110,25 +98,20 @@ bool Scene::addSceneFile(const char* Scenefile)
 	return true;
 }
 
-void Scene::draw(const BaseCamera& Cam)
-{
+void Scene::draw(const BaseCamera& Cam) {
 	m_Root.draw(Cam);
-	
-	
 }
 
-void Scene::draw(SceneNode* pNode)
-{
+void Scene::draw(SceneNode* pNode) {
 //	std::cout << "transform node" << std::endl;
 //	Matrix globalTrans = pNode->getGlobalTransform();
 //	pNode->getModel()->transform(globalTrans);
-	
+//
 //	std::set<SceneNode*>::iterator it;
 //	for (it = pNode->getChildren().begin(); it != pNode->getChildren().end(); ++it)
 //	{
 //		draw(*it);
 //	}
-	
 }
 
 /*
@@ -143,9 +126,10 @@ SceneNode* Scene::findNode(char* parentID, SceneNode* node) {
 	if (strcmp(parentID, node->getName().c_str()) == 0) {
 		return node;
 	}
+	
 	std::set<SceneNode*>::iterator it;
-	for (it = node->getChildren().begin(); it != node->getChildren().end(); ++it)
-	{
+	
+	for (it = node->getChildren().begin(); it != node->getChildren().end(); ++it) {
 		SceneNode* tmp = findNode(parentID, *it);
 		if (tmp != NULL) {
 			return tmp;
@@ -154,11 +138,10 @@ SceneNode* Scene::findNode(char* parentID, SceneNode* node) {
 	return NULL;
 }
 
-SceneNode* Scene::deleteNodes(SceneNode* node)
-{
+SceneNode* Scene::deleteNodes(SceneNode* node) {
 	std::set<SceneNode*>::iterator it;
-	for (it = node->getChildren().begin(); it != node->getChildren().end(); ++it)
-	{
+	
+	for (it = node->getChildren().begin(); it != node->getChildren().end(); ++it) {
 		SceneNode* tmp = deleteNodes(*it);
 		if (tmp != NULL) {
 			delete tmp;
@@ -166,3 +149,4 @@ SceneNode* Scene::deleteNodes(SceneNode* node)
 	}
 	return NULL;
 }
+

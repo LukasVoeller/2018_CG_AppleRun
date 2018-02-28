@@ -29,8 +29,7 @@
 #include "Control.h"
 #include "Character.h"
 
-class Application
-{
+class Application {
 public:
 	Application(GLFWwindow* pWin);
 	typedef std::list<BaseModel*> ModelList;
@@ -108,7 +107,6 @@ private:
 	float deltaTime;
 	
 	Matrix characterViewMatrix;
-
 };
 
 #endif /* Application_hpp */
