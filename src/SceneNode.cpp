@@ -18,7 +18,7 @@ SceneNode::SceneNode(const std::string& Name, const Vector& Translation, const V
 	setLocalTransform(Translation, RotationAxis, RotationAngle);
 	setParent(pParent);
 	
-	//da jeder SceneNode individuelle Skalierung besitzt, wird die BoundingBox skaliert
+	// Da jeder SceneNode individuelle Skalierung besitzt, wird die BoundingBox skaliert
 	this->scaledBoundingBox = this->getModel()->scaleBoundingBox(this->m_Scaling);
 	this->movedScaledBoundingBox = this->getModel()->moveScaledBoundingBox();
 	
@@ -36,7 +36,6 @@ void SceneNode::setLocalTransform(const Vector& Translation, const Vector& Rotat
 	rotation.rotationAxis(RotationAxis, RotationAngle);
 	translation.translation(Translation);
 	this->setLocalTransform(translation * rotation);
-
 }
 
 void SceneNode::setLocalTransform(const Matrix& LocalTransform)
@@ -133,12 +132,10 @@ void SceneNode::draw(const BaseCamera& Cam)
 		m_pModel->draw(Cam);
 	}
 	
-	//Kinder rekursiv zeichnen
+	// Kinder rekursiv zeichnen
 	std::set<SceneNode *>::iterator it;
 	for (it = this->getChildren().begin(); it != this->getChildren().end(); ++it)
 	{
 		(*it)->draw(Cam);
 	}
 }
-
-

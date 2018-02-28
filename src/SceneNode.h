@@ -25,7 +25,7 @@ public:
 	SceneNode();
 	SceneNode( const std::string& Name, const Vector& Translation, const Vector& RotationAxis, const float RotationAngle, const Vector& Scale, SceneNode* pParent, Model* pModel);
 	
-	//getter
+	// Getter
 	const Matrix& getLocalTransform() const;
 	Matrix getGlobalTransform(bool scaling = true) const;
 	const SceneNode* getParent() const;
@@ -35,8 +35,7 @@ public:
 	const AABB& getScaledBoundingBox() const;
 	const AABB& getMovedScaledBoundingBox() const {return movedScaledBoundingBox; };
 
-	
-	//setter
+	// Setter
 	void setLocalTransform( const Vector& Translation, const Vector& RotationAxis, const float RotationAngle );
 	void setLocalTransform( const Matrix& LocalTransform);
 	void setParent( SceneNode* pNode);
