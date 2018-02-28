@@ -79,10 +79,11 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	
 	// Robot
 	pCharacter = new Character();
-	float scaling = 0.4f;
+	float scaling = 1.0f;
 	pPhongShader = new PhongShader();
 	pCharacter->shader(pPhongShader, true);
-	pCharacter->loadModel(ASSET_DIRECTORY "frspbt.dae", scaling);
+//	pCharacter->loadModel(ASSET_DIRECTORY "frspbt.dae", scaling);
+	pCharacter->loadModel(ASSET_DIRECTORY "android/Android.dae", scaling);
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	s = s.scale(scaling);
 	pCharacter->transform(m*s);
@@ -390,21 +391,33 @@ Vector Application::calc3DRay( float x, float y, Vector& Pos){
 
 /****** Kollision mit Scenenode *********/
 /* DELTA für Sicherheitsabstand **********/
+//IDEE: nehme nicht Position und größe, sondern Position und Boundingbox.min bzw. max...
 bool Application::collisionDetection(Character* model1, SceneNode* node)
 {
 	Vector vec1 = model1->transform().translation();
 	Vector vec2 = node->getLocalTransform().translation();
 	
+	AABB bb1 = model1->getScaledBoundingBox();
+	AABB bb2 = node->getScaledBoundingBox();
+	
 	Vector size1 = model1->getScaledBoundingBox().size();
 	Vector size2 = node->getScaledBoundingBox().size();
 	
 	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
-	return (vec1.X - size1.X/2 + DELTA < vec2.X + size2.X/2 &&
-			vec2.X - size2.X/2 + DELTA < vec1.X + size1.X/2 &&
-			vec1.Y - size1.Y/2 + DELTA < vec2.Y + size2.Y/2 &&
-			vec2.Y - size2.Y/2 + DELTA < vec1.Y + size1.Y/2 &&
-			vec1.Z - size1.Z/2 + DELTA < vec2.Z + size2.Z/2 &&
-			vec2.Z - size2.Z/2 + DELTA < vec1.Z + size1.Z/2);
+	return (vec1.X + bb1.Min.X + DELTA < vec2.X + bb2.Max.X &&
+			vec2.X + bb2.Min.X + DELTA < vec1.X + bb1.Max.X &&
+			vec1.Y + bb1.Min.Y + DELTA < vec2.Y + bb2.Max.Y &&
+			vec2.Y + bb2.Min.Y + DELTA < vec1.Y + bb1.Max.Y &&
+			vec1.Z + bb1.Min.Z + DELTA < vec2.Z + bb2.Max.Z &&
+			vec2.Z + bb2.Min.Z + DELTA < vec1.Z + bb1.Max.Z);
+	
+//	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
+//	return (vec1.X - size1.X/2 + DELTA < vec2.X + size2.X/2 &&
+//			vec2.X - size2.X/2 + DELTA < vec1.X + size1.X/2 &&
+//			vec1.Y - size1.Y/2 + DELTA < vec2.Y + size2.Y/2 &&
+//			vec2.Y - size2.Y/2 + DELTA < vec1.Y + size1.Y/2 &&
+//			vec1.Z - size1.Z/2 + DELTA < vec2.Z + size2.Z/2 &&
+//			vec2.Z - size2.Z/2 + DELTA < vec1.Z + size1.Z/2);
 }
 
 void Application::createScene(){
@@ -556,8 +569,8 @@ void Application::collisionHandling(Character* model1, SceneNode* model2)
 	Vector size2 = model2->getScaledBoundingBox().size();
 	float bMaxY = pos2.Y + 0.5f* model2->getScaledBoundingBox().size().Y;
 	float bMinY = pos2.Y - 0.5f* model2->getScaledBoundingBox().size().Y;
-	float cMinY = pos1.Y - 0.5f* model1->getScaledBoundingBox().size().Y;
-	float cMaxY = pos1.Y + 0.5f* model1->getScaledBoundingBox().size().Y;
+	float cMinY = pos1.Y - 0.5f* model1->getMovedScaledBoundingBox().size().Y;
+	float cMaxY = pos1.Y + 0.5f* model1->getMovedScaledBoundingBox().size().Y;
 	
 	if(pos1.Y <= TERRAIN_HEIGHT && !model1->getIsInAir()) {
 		std::cout << "seite" << std::endl;

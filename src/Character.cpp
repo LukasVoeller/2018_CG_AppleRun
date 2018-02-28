@@ -36,6 +36,8 @@ bool Character::loadModel(const char* file, float scaling)
 	
 	this->character->scaleBoundingBox(Vector(scaling, scaling, scaling));
 	this->scaledBoundingBox = this->character->getScaledBoundingBox();
+//	moveBoundingBox(movedScaledBoundingBox);
+	movedScaledBoundingBox = this->character->moveScaledBoundingBox();
 	
     return true;
 }
@@ -141,3 +143,13 @@ void Character::setJump(float jmp) {
 void Character::setPosZ(float z) {
 	posZ = z;
 }
+
+//void Character::moveBoundingBox(AABB& box) {
+//	box = scaledBoundingBox;
+//	float y = std::fabs(scaledBoundingBox.Min.Y);
+//	box.Min.Y = 0;
+//	//box.Max.Y += 0.3f*y;
+//	box.Min = Vector(-1.0f, 0.0f, -1.0f);
+//	box.Max = Vector(1.0f, 2.0f, 1.0f);
+//}
+

@@ -27,7 +27,10 @@ public:
 	void setBoundingBox(const AABB& box) {BoundingBox = box; }
 
 	const AABB& getScaledBoundingBox() const { return scaledBoundingBox; }
+	const AABB& getMovedScaledBoundingBox() const { return movedScaledBoundingBox; }
+	
 	const AABB& scaleBoundingBox(Vector scale);
+	const AABB& moveScaledBoundingBox();
 
 protected:
     struct Mesh
@@ -79,6 +82,7 @@ protected:
     unsigned int MaterialCount;
     AABB BoundingBox;
 	AABB scaledBoundingBox;
+	AABB movedScaledBoundingBox;
 
     std::string Filepath;
 	std::string Path;

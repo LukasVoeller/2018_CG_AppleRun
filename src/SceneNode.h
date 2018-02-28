@@ -33,8 +33,8 @@ public:
 	const std::string& getName() const;
 	const Vector& getScaling() const;
 	const AABB& getScaledBoundingBox() const;
-//	const Vector& getLatestPosition() const; //für Coins
-//	const bool isMovingUp() const;
+	const AABB& getMovedScaledBoundingBox() const {return movedScaledBoundingBox; };
+
 	
 	//setter
 	void setLocalTransform( const Vector& Translation, const Vector& RotationAxis, const float RotationAngle );
@@ -58,6 +58,7 @@ protected:
 	Vector m_Scaling;
 	
 	AABB scaledBoundingBox;
+	AABB movedScaledBoundingBox;
 };
 
 #endif /* SceneNode_h */
