@@ -7,11 +7,6 @@
 //
 
 #include "Scene.h"
-#include "Model.h"
-#include "Coin.h"
-#include <string.h>
-#include <assert.h>
-#include <stdio.h>
 
 Scene::Scene() {
 	m_Models = std::map<std::string, Model*>();
@@ -54,7 +49,7 @@ bool Scene::addSceneFile(const char* Scenefile) {
 			
 			//SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 			
-			//TODO: Jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)
+			//Jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)
 			if(strstr(ModelID, "apple")) {
 				Coin* sceneNode = new Coin(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mCoins.push_back(sceneNode);
@@ -70,6 +65,18 @@ bool Scene::addSceneFile(const char* Scenefile) {
 			else if(strstr(ModelID, "pallet")) {
 				MovingItem* sceneNode = new MovingItem(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mMovingItems.push_back(sceneNode);
+			}
+			else if(strstr(ModelID, "streetlamp")) {
+				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
+				
+				SpotLight* sl = new SpotLight();
+				sl->position(Vector(Pos.X, 5.0f, Pos.Z));
+				sl->color(Color(1.0, 0.7, 1.0f));
+				sl->direction(Vector(-1, -4, 0));
+				sl->innerRadius(45.0f);
+				sl->outerRadius(60.0f);
+				ShaderLightMapper::instance().addLight(sl);
+
 			}
 			else {
 				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
@@ -90,6 +97,10 @@ bool Scene::addSceneFile(const char* Scenefile) {
 			Model* m;
 			m = new Model(Modelfile);
 			m->shader(this->shader());
+			if(strstr(ModelID, "apple")) {
+				m->shader(new OutlineShader());
+			}
+			
 	
 			m_Models.insert(std::pair<std::string, Model*>(ModelID, m));
 		}

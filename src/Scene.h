@@ -11,12 +11,17 @@
 
 #include <map>
 #include <list>
+#include <string.h>
+#include <assert.h>
+
 #include "BaseModel.h"
-#include "Model.h"
 
 #include "SceneNode.h"
 #include "Coin.h"
 #include "MovingItem.h"
+
+#include "OutlineShader.h"
+#include "ShaderLightMapper.h"
 
 class Scene : public BaseModel
 {
@@ -41,6 +46,7 @@ protected:
 	NodeList mBarriers;
 	NodeList mDeathItems;
 	MovingItemList mMovingItems;
+	
 private:
 	SceneNode* findNode(char* parentID, SceneNode *node); //helper
 	SceneNode* deleteNodes(SceneNode* parent);

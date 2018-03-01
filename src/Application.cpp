@@ -52,7 +52,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pScene->shader(new PhongShader(), true);
 	pScene->addSceneFile(ASSET_DIRECTORY "scene.osh");
 	models.push_back(pScene);
-	
+
 	pBarriers = pScene->getObstacles();
 	pCoins = pScene->getCoins();
 	pDeathblocks = pScene->getDeathItems();
@@ -61,12 +61,12 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	createScene();
 	//createNormalTestScene();
 	//createShadowTestScene();
-	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	//OutlineShader* pOutlineShader = new OutlineShader();
 	
 	// Create GUI
 	GUIEvents gui = GUIEvents();
+	glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	// Camera
 	egocam.ViewMatrix().identity();
@@ -81,7 +81,6 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	float scaling = 1.0f;
 	pPhongShader = new PhongShader();
 	pCharacter->shader(pPhongShader, true);
-//	pCharacter->loadModel(ASSET_DIRECTORY "frspbt.dae", scaling);
 	pCharacter->loadModel(ASSET_DIRECTORY "android/Android.dae", scaling);
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	s = s.scale(scaling);
@@ -321,7 +320,7 @@ void Application::createShadowTestScene(){
 	pModel->shader(new PhongShader(), true);
 	models.push_back(pModel);
 
-	pModel = new Model(ASSET_DIRECTORY "bunny.dae", false);
+	pModel = new Model(ASSET_DIRECTORY "bunny/bunny.dae", false);
 	pModel->shader(new PhongShader(), true);
 	models.push_back(pModel);
 	
@@ -387,9 +386,6 @@ bool Application::collisionDetection(Character* model1, SceneNode* node) {
 	AABB bb1 = model1->getScaledBoundingBox();
 	AABB bb2 = node->getScaledBoundingBox();
 	
-	Vector size1 = model1->getScaledBoundingBox().size();
-	Vector size2 = node->getScaledBoundingBox().size();
-	
 	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
 	return (vec1.X + bb1.Min.X + DELTA < vec2.X + bb2.Max.X &&
 			vec2.X + bb2.Min.X + DELTA < vec1.X + bb1.Max.X &&
@@ -397,21 +393,13 @@ bool Application::collisionDetection(Character* model1, SceneNode* node) {
 			vec2.Y + bb2.Min.Y + DELTA < vec1.Y + bb1.Max.Y &&
 			vec1.Z + bb1.Min.Z + DELTA < vec2.Z + bb2.Max.Z &&
 			vec2.Z + bb2.Min.Z + DELTA < vec1.Z + bb1.Max.Z);
-	
-//	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
-//	return (vec1.X - size1.X/2 + DELTA < vec2.X + size2.X/2 &&
-//			vec2.X - size2.X/2 + DELTA < vec1.X + size1.X/2 &&
-//			vec1.Y - size1.Y/2 + DELTA < vec2.Y + size2.Y/2 &&
-//			vec2.Y - size2.Y/2 + DELTA < vec1.Y + size1.Y/2 &&
-//			vec1.Z - size1.Z/2 + DELTA < vec2.Z + size2.Z/2 &&
-//			vec2.Z - size2.Z/2 + DELTA < vec1.Z + size1.Z/2);
 }
 
 void Application::createScene() {
 	Matrix m;
 	
 	//------------------------------ LIGHTS ------------------------------
-	/*
+
 	 Color c = Color(1.0f, 0.7f, 1.0f);
 	 Vector a = Vector(1, 0, 0.1f);
 	 float innerradius = 45;
@@ -420,95 +408,95 @@ void Application::createScene() {
 	 // Directional lights
 	 DirectionalLight* dl = new DirectionalLight();
 	 dl->direction(Vector(0.2f, -1, 1));
-	 dl->color(Color(0.25, 0.25, 0.5));
+	 dl->color(Color(0.55, 0.55, 0.55));
 	 dl->castShadows(true);
 	 ShaderLightMapper::instance().addLight(dl);
 	 
-	 // Point lights
-	 PointLight* pl = new PointLight();
-	 pl->position(Vector(-1.5, 3, 10));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 pl = new PointLight();
-	 pl->position(Vector(5.0f, 3, 10));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 pl = new PointLight();
-	 pl->position(Vector(-1.5, 3, 28));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 pl = new PointLight();
-	 pl->position(Vector(5.0f, 3, 28));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 pl = new PointLight();
-	 pl->position(Vector(-1.5, 3, -8));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 pl = new PointLight();
-	 pl->position(Vector(5.0f, 3, -8));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 // Spot lights
-	 SpotLight* sl = new SpotLight();
-	 sl->position(Vector(-1.5, 3, 10));
-	 sl->color(c);
-	 sl->direction(Vector(1,-4,0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 
-	 sl = new SpotLight();
-	 sl->position(Vector(5.0f, 3, 10));
-	 sl->color(c);
-	 sl->direction(Vector(-1, -4, 0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 
-	 sl = new SpotLight();
-	 sl->position(Vector(-1.5, 3, 28));
-	 sl->color(c);
-	 sl->direction(Vector(1, -4, 0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 
-	 sl = new SpotLight();
-	 sl->position(Vector(5.0f, 3, 28));
-	 sl->color(c);
-	 sl->direction(Vector(-1, -4, 0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 
-	 sl = new SpotLight();
-	 sl->position(Vector(-1.5, 3, -8));
-	 sl->color(c);
-	 sl->direction(Vector(1, -4, 0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 
-	 sl = new SpotLight();
-	 sl->position(Vector(5.0f, 3, -8));
-	 sl->color(c);
-	 sl->direction(Vector(-1, -4, 0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl); */
+//	 // Point lights
+//	 PointLight* pl = new PointLight();
+//	 pl->position(Vector(-1.5, 3, 10));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 pl = new PointLight();
+//	 pl->position(Vector(15.0f, 3, 10));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 pl = new PointLight();
+//	 pl->position(Vector(-1.5, 3, 28));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 pl = new PointLight();
+//	 pl->position(Vector(15.0f, 3, 28));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 pl = new PointLight();
+//	 pl->position(Vector(-1.5, 3, -8));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 pl = new PointLight();
+//	 pl->position(Vector(5.0f, 3, -8));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 // Spot lights
+//	 SpotLight* sl = new SpotLight();
+//	 sl->position(Vector(-1.5, 3, 10));
+//	 sl->color(c);
+//	 sl->direction(Vector(1,-4,0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
+//
+//	 sl = new SpotLight();
+//	 sl->position(Vector(5.0f, 3, 10));
+//	 sl->color(c);
+//	 sl->direction(Vector(-1, -4, 0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
+//
+//	 sl = new SpotLight();
+//	 sl->position(Vector(-1.5, 3, 28));
+//	 sl->color(c);
+//	 sl->direction(Vector(1, -4, 0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
+//
+//	 sl = new SpotLight();
+//	 sl->position(Vector(5.0f, 3, 28));
+//	 sl->color(c);
+//	 sl->direction(Vector(-1, -4, 0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
+//
+//	 sl = new SpotLight();
+//	 sl->position(Vector(-1.5, 3, -8));
+//	 sl->color(c);
+//	 sl->direction(Vector(1, -4, 0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
+//
+//	 sl = new SpotLight();
+//	 sl->position(Vector(5.0f, 3, -8));
+//	 sl->color(c);
+//	 sl->direction(Vector(-1, -4, 0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
 	
 }
 
@@ -555,8 +543,8 @@ void Application::collisionHandling(Character* model1, SceneNode* model2) {
 	Vector size2 = model2->getScaledBoundingBox().size();
 	float bMaxY = pos2.Y + 0.5f* model2->getScaledBoundingBox().size().Y;
 	float bMinY = pos2.Y - 0.5f* model2->getScaledBoundingBox().size().Y;
-	float cMinY = pos1.Y - 0.5f* model1->getMovedScaledBoundingBox().size().Y;
-	float cMaxY = pos1.Y + 0.5f* model1->getMovedScaledBoundingBox().size().Y;
+	float cMinY = pos1.Y - 0.5f* model1->getScaledBoundingBox().size().Y;
+	float cMaxY = pos1.Y + 0.5f* model1->getScaledBoundingBox().size().Y;
 	
 	if(pos1.Y <= TERRAIN_HEIGHT && !model1->getIsInAir()) {
 		std::cout << "seite" << std::endl;
