@@ -408,95 +408,95 @@ void Application::createScene() {
 	 // Directional lights
 	 DirectionalLight* dl = new DirectionalLight();
 	 dl->direction(Vector(0.2f, -1, 1));
-	 dl->color(Color(0.25, 0.25, 0.5));
+	 dl->color(Color(0.55, 0.55, 0.55));
 	 dl->castShadows(true);
 	 ShaderLightMapper::instance().addLight(dl);
 	 
-	 // Point lights
-	 PointLight* pl = new PointLight();
-	 pl->position(Vector(-1.5, 3, 10));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 pl = new PointLight();
-	 pl->position(Vector(15.0f, 3, 10));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 pl = new PointLight();
-	 pl->position(Vector(-1.5, 3, 28));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 pl = new PointLight();
-	 pl->position(Vector(15.0f, 3, 28));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 pl = new PointLight();
-	 pl->position(Vector(-1.5, 3, -8));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 pl = new PointLight();
-	 pl->position(Vector(5.0f, 3, -8));
-	 pl->color(c);
-	 pl->attenuation(a);
-	 ShaderLightMapper::instance().addLight(pl);
-	 
-	 // Spot lights
-	 SpotLight* sl = new SpotLight();
-	 sl->position(Vector(-1.5, 3, 10));
-	 sl->color(c);
-	 sl->direction(Vector(1,-4,0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 
-	 sl = new SpotLight();
-	 sl->position(Vector(5.0f, 3, 10));
-	 sl->color(c);
-	 sl->direction(Vector(-1, -4, 0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 
-	 sl = new SpotLight();
-	 sl->position(Vector(-1.5, 3, 28));
-	 sl->color(c);
-	 sl->direction(Vector(1, -4, 0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 
-	 sl = new SpotLight();
-	 sl->position(Vector(5.0f, 3, 28));
-	 sl->color(c);
-	 sl->direction(Vector(-1, -4, 0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 
-	 sl = new SpotLight();
-	 sl->position(Vector(-1.5, 3, -8));
-	 sl->color(c);
-	 sl->direction(Vector(1, -4, 0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
-	 
-	 sl = new SpotLight();
-	 sl->position(Vector(5.0f, 3, -8));
-	 sl->color(c);
-	 sl->direction(Vector(-1, -4, 0));
-	 sl->innerRadius(innerradius);
-	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl);
+//	 // Point lights
+//	 PointLight* pl = new PointLight();
+//	 pl->position(Vector(-1.5, 3, 10));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 pl = new PointLight();
+//	 pl->position(Vector(15.0f, 3, 10));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 pl = new PointLight();
+//	 pl->position(Vector(-1.5, 3, 28));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 pl = new PointLight();
+//	 pl->position(Vector(15.0f, 3, 28));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 pl = new PointLight();
+//	 pl->position(Vector(-1.5, 3, -8));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 pl = new PointLight();
+//	 pl->position(Vector(5.0f, 3, -8));
+//	 pl->color(c);
+//	 pl->attenuation(a);
+//	 ShaderLightMapper::instance().addLight(pl);
+//
+//	 // Spot lights
+//	 SpotLight* sl = new SpotLight();
+//	 sl->position(Vector(-1.5, 3, 10));
+//	 sl->color(c);
+//	 sl->direction(Vector(1,-4,0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
+//
+//	 sl = new SpotLight();
+//	 sl->position(Vector(5.0f, 3, 10));
+//	 sl->color(c);
+//	 sl->direction(Vector(-1, -4, 0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
+//
+//	 sl = new SpotLight();
+//	 sl->position(Vector(-1.5, 3, 28));
+//	 sl->color(c);
+//	 sl->direction(Vector(1, -4, 0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
+//
+//	 sl = new SpotLight();
+//	 sl->position(Vector(5.0f, 3, 28));
+//	 sl->color(c);
+//	 sl->direction(Vector(-1, -4, 0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
+//
+//	 sl = new SpotLight();
+//	 sl->position(Vector(-1.5, 3, -8));
+//	 sl->color(c);
+//	 sl->direction(Vector(1, -4, 0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
+//
+//	 sl = new SpotLight();
+//	 sl->position(Vector(5.0f, 3, -8));
+//	 sl->color(c);
+//	 sl->direction(Vector(-1, -4, 0));
+//	 sl->innerRadius(innerradius);
+//	 sl->outerRadius(outerradius);
+//	 ShaderLightMapper::instance().addLight(sl);
 	
 }
 
