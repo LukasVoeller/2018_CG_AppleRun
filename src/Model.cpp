@@ -264,7 +264,6 @@ const AABB& Model::scaleBoundingBox(Vector scale)
 	scaledBoundingBox.Max.Z = BoundingBox.Max.Z * scale.Z;
 	
 	return scaledBoundingBox;
-
 }
 
 const AABB& Model::moveScaledBoundingBox()
