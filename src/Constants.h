@@ -41,7 +41,7 @@
 #define RUNSPEED 50.0f 		// Normal speed
 #define	ADDSPEED 5.0 		// Additional speed for running
 #define ROTATIONSPEED 5.0f
-#define JUMPPOWER 60.0f
+#define JUMPPOWER 100.0f
 
 #define ALLCOINS 1;
 
