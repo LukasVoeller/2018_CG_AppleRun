@@ -38,7 +38,7 @@ public:
 	void setJump(float jmp);
 	void setPosZ (float z);
 	void setIsInAir(bool newIsInAir);
-	void setPalette(MovingItem* p) { palette = p;};
+	void setPallet(MovingItem* p) { pallet = p;};
 
 	
 	/** Getter ***/
@@ -50,7 +50,7 @@ public:
 	float getLeftRight() const { return leftRight; };
 	
 	bool getHovering() const;
-	MovingItem* getPalette() const { return palette; };
+	MovingItem* getPallet() const { return pallet; };
 	AABB getScaledBoundingBox() const {return this->character->getScaledBoundingBox(); };
 	
 	/** Debug **/
@@ -75,8 +75,8 @@ private:
 	float posZ = 0;
 	
 	//für Hovering
-	bool isHovering = false; //für Palette
-	MovingItem* palette;
+	bool isHovering = false; 	// Für Palette
+	MovingItem* pallet;
 	
 };
 

@@ -2,46 +2,40 @@
 #include "Color.h"
 #include "assert.h"
 
-RGBImage::RGBImage( unsigned int Width, unsigned int Height)
-{
+RGBImage::RGBImage( unsigned int Width, unsigned int Height) {
 	m_Width = Width;
 	m_Height = Height;
 	
 	m_Image = new Color[m_Height*m_Width];
 }
 
-RGBImage::~RGBImage()
-{
+RGBImage::~RGBImage() {
 	//delete m_Image;
 }
 
-void RGBImage::setPixelColor( unsigned int x, unsigned int y, const Color& c)
-{
-	if(x < this->width() && y < this->height()){
+void RGBImage::setPixelColor( unsigned int x, unsigned int y, const Color& c) {
+	if(x < this->width() && y < this->height()) {
 		m_Image[x + this->width()*y] = c;
 	}
 }
 
-const Color& RGBImage::getPixelColor( unsigned int x, unsigned int y) const
-{
-	if(x < this->width() && y < this->height()){
+const Color& RGBImage::getPixelColor( unsigned int x, unsigned int y) const {
+	if(x < this->width() && y < this->height()) {
 		return m_Image[x + this->width()*y];
-	}else
+	} else {
 		return Color();
+	}
 }
 
-unsigned int RGBImage::width() const
-{
+unsigned int RGBImage::width() const {
 	return this->m_Width;
 }
 
-unsigned int RGBImage::height() const
-{
+unsigned int RGBImage::height() const {
 	return this->m_Height;
 }
 
-unsigned char RGBImage::convertColorChannel( float v)
-{
+unsigned char RGBImage::convertColorChannel( float v) {
 	if(v<=0.0f){
 		return 0;
 	}
@@ -55,8 +49,7 @@ unsigned char RGBImage::convertColorChannel( float v)
 // Save as 24bit-rgb-bmp (windows bitmap)
 // Bmp is composed of a bitmapfileheader (14 byte), a bitmapinfoheader (40 byte) and imagedata (24 bit * size = 3 byte * size)
 // Order: blue, green, red */
-bool RGBImage::saveToDisk( const char* Filename)
-{
+bool RGBImage::saveToDisk( const char* Filename) {
 	// TODO: fopen, fwrite, fclose
 	FILE * file;
 	unsigned int w = width();

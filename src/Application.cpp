@@ -34,7 +34,7 @@
 
 float toRadApp(float deg){ return deg*M_PI/180.0f; }
 
-Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin), pModel(NULL), shadowGenerator(2048, 2048){
+Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin), pModel(NULL), shadowGenerator(2048, 2048) {
 	BaseModel* pModel;
 	ConstantShader* pConstShader;
 	PhongShader* pPhongShader = new PhongShader();
@@ -52,7 +52,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pScene->shader(new PhongShader(), true);
 	pScene->addSceneFile(ASSET_DIRECTORY "scene.osh");
 	models.push_back(pScene);
-	
+
 	pBarriers = pScene->getObstacles();
 	pCoins = pScene->getCoins();
 	pDeathblocks = pScene->getDeathItems();
@@ -61,13 +61,12 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	createScene();
 	//createNormalTestScene();
 	//createShadowTestScene();
-	//glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	//OutlineShader* pOutlineShader = new OutlineShader();
 	
 	// Create GUI
 	GUIEvents gui = GUIEvents();
-	
+	glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	// Camera
 	egocam.ViewMatrix().identity();
@@ -79,7 +78,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	
 	// Robot
 	pCharacter = new Character();
-	float scaling = 0.5f;
+	float scaling = 1.0f;
 	pPhongShader = new PhongShader();
 	pCharacter->shader(pPhongShader, true);
 	pCharacter->loadModel(ASSET_DIRECTORY "android/Android.dae", scaling);
@@ -88,7 +87,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pCharacter->transform(m*s);
 	
 	models.push_back(pCharacter);
-//
+
 //	float baymaxScaling = 50.7;
 //	pTest = new Model(ASSET_DIRECTORY "sci_fi_towers_obj/sci_fi_towers_obj.obj", false, baymaxScaling);
 //	pTest->shader(pPhongShader, false);
@@ -98,7 +97,6 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 //	m = m.translation(-4, 1, -4);
 //	pTest->transform(m*r*s);
 //	models.push_back(pTest);
-
 	
 	//------------------------------ GAME LOGIC ------------------------------
 	allCoins = ALLCOINS;
@@ -122,7 +120,6 @@ void Application::start(){
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-
 void Application::update(float dtime){
 	egocam.update();
 	gui.update(pWindow, &egocam);
@@ -133,17 +130,15 @@ void Application::update(float dtime){
 	
 	time+=dtime;
 	
-	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it)
-	{
+	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it) {
 		if (coolDownTimer > 0) {
 			coolDownTimer--;
-		}
-		else {
+		} else {
 			if(collisionDetection(pCharacter, *it)) {
-				std::cout << "collision with palette" << std::endl;
+				std::cout << "collision with pallet" << std::endl;
 				coolDownTimer = 10;
 				
-				if(pCharacter->getPalette() == NULL) {
+				if(pCharacter->getPallet() == NULL) {
 					//TODO: Fallunterscheidung, damit man nicht von unten durchfliegt...
 					//if(pTank->getLatestPosition().Y > terrainHeight + DELTA )
 					std::cout << "Oben "<< pCharacter->getLatestPosition().Y << std::endl;
@@ -152,34 +147,30 @@ void Application::update(float dtime){
 					std::cout << "translation " << std::endl;
 					
 					pCharacter->setHovering(true);
-					pCharacter->setPalette(*it);
-				}
-				else {
+					pCharacter->setPallet(*it);
+				} else {
 					std::cout << "Flyyyy "<< pCharacter->getLatestPosition().Y << std::endl;
 				}
 			}
 			//else if(playerControl.getJumpPower() < -1.5f && pTank->getHovering()) {
-			else if(pCharacter->getPalette() == *it){
+			else if(pCharacter->getPallet() == *it){
 				//no collision
 				std::cout << "bfdsksd" <<std::endl;
 				pCharacter->setHovering(false);
-				pCharacter->setPalette(NULL);
+				pCharacter->setPallet(NULL);
 			}
 		}
 	}
 	
-	//Character steering
+	// Character steering
     deltaTime = calcDeltaTime();
     forwardBackward = playerControl.readForwardBackward();
     leftRight = playerControl.readLeftRight();
-	
 	downForce = playerControl.readJump(this->pCharacter);
 	pCharacter->steer3d(forwardBackward, leftRight, downForce);
 	pCharacter->setPosZ(0.0f);
-	
 	playerControl.handleJump(pCharacter);
 	
-
 	// Collision
 	int count =0;
 	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
@@ -189,8 +180,7 @@ void Application::update(float dtime){
 		
 		if (coolDownTimer > 0) {
 			coolDownTimer--;
-		}
-		else {
+		} else {
 			if(collisionDetection(pCharacter, *it)){
 				std::cout << "collision with barrier" << std::endl;
                 coolDownTimer = 10;
@@ -207,8 +197,7 @@ void Application::update(float dtime){
 
 		if (coolDownTimer > 0) {
 			coolDownTimer--;
-		}
-		else {
+		} else {
 			if(collisionDetection(pCharacter, *it)){
 				std::cout << "You died!" << std::endl;
 				coolDownTimer = 10;
@@ -227,13 +216,11 @@ void Application::update(float dtime){
 		//Besser iwo anders hin damit... eigentlich hier falsch
 		if(!(*it)->isCollected()) {
 			(*it)->getModel()->transform((*it)->getLocalTransform());
-
 		}
 
 		if (coolDownTimer > 0) {
 			coolDownTimer--;
-		}
-		else if(collisionDetection(pCharacter, (*it)) && coolDownTimer == 0 && (*it)->isCollected() == false){
+		} else if(collisionDetection(pCharacter, (*it)) && coolDownTimer == 0 && (*it)->isCollected() == false) {
 			collectedCoins++;
 			coolDownTimer = 5; //Timer neu setzen
 			std::cout << "found coin " << collectedCoins << std::endl;
@@ -241,8 +228,8 @@ void Application::update(float dtime){
 
 			trans.translation(0, 2.5f, 0);
 			(*it)->setLocalTransform((*it)->getLocalTransform()*trans);
-			
 		}
+		
 		if((*it)->isCollected() &&  pCoinMat->translation().Y > -6.0f) {
 			Matrix t;
 			std::cout << "update coin" << (*it)->getLocalTransform().translation().Y << std::endl;
@@ -261,30 +248,31 @@ void Application::update(float dtime){
 	pCharacter->update(deltaTime);
 }
 
-//Third person cam based on inverted object matrix
-Matrix Application::calcCharacterViewMatrix(Character* character)
-{
+// Third person cam based on inverted object matrix
+Matrix Application::calcCharacterViewMatrix(Character* character) {
 	Matrix characterMat = character->transform();
 	Matrix matRotHorizontal, matRotVertical, matTransView;
-	matTransView.translation(0, 3.0f, 5);
+	matTransView.translation(0, 5, 15);
 	matRotHorizontal.rotationY(toRadApp(-90));
-	matRotVertical.rotationX(toRadApp(-30));
+	matRotVertical.rotationX(toRadApp(-20));
 	Matrix tankViewMatrix = characterMat * matRotHorizontal * matRotVertical * matTransView;
 	return tankViewMatrix.invert();
 }
 
 // Elapsed time since last call of the method
-double Application::calcDeltaTime(){
+double Application::calcDeltaTime() {
     double now = glfwGetTime();
     double deltaTime = (now - this->oldTime);
     this->oldTime = now;
+	
     if (this->oldTime == 0){
         return 1/60;	// 1/60 = 60 frames per second
     }
+	
     return deltaTime;
 }
 
-void Application::draw(){
+void Application::draw() {
 	GLint vp[4];
 	glGetIntegerv(GL_VIEWPORT, vp);
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -307,8 +295,8 @@ void Application::draw(){
     assert(error==0);
 }
 
-void Application::end(){
-	for( ModelList::iterator it = models.begin(); it != models.end(); ++it ){
+void Application::end() {
+	for( ModelList::iterator it = models.begin(); it != models.end(); ++it ) {
         delete *it;
 	}
     models.clear();
@@ -332,7 +320,7 @@ void Application::createShadowTestScene(){
 	pModel->shader(new PhongShader(), true);
 	models.push_back(pModel);
 
-	pModel = new Model(ASSET_DIRECTORY "bunny.dae", false);
+	pModel = new Model(ASSET_DIRECTORY "bunny/bunny.dae", false);
 	pModel->shader(new PhongShader(), true);
 	models.push_back(pModel);
 	
@@ -391,16 +379,12 @@ Vector Application::calc3DRay( float x, float y, Vector& Pos){
 /****** Kollision mit Scenenode *********/
 /* DELTA für Sicherheitsabstand **********/
 //IDEE: nehme nicht Position und größe, sondern Position und Boundingbox.min bzw. max...
-bool Application::collisionDetection(Character* model1, SceneNode* node)
-{
+bool Application::collisionDetection(Character* model1, SceneNode* node) {
 	Vector vec1 = model1->transform().translation();
 	Vector vec2 = node->getLocalTransform().translation();
 	
 	AABB bb1 = model1->getScaledBoundingBox();
 	AABB bb2 = node->getScaledBoundingBox();
-	
-	Vector size1 = model1->getScaledBoundingBox().size();
-	Vector size2 = node->getScaledBoundingBox().size();
 	
 	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
 	return (vec1.X + bb1.Min.X + DELTA < vec2.X + bb2.Max.X &&
@@ -409,24 +393,16 @@ bool Application::collisionDetection(Character* model1, SceneNode* node)
 			vec2.Y + bb2.Min.Y + DELTA < vec1.Y + bb1.Max.Y &&
 			vec1.Z + bb1.Min.Z + DELTA < vec2.Z + bb2.Max.Z &&
 			vec2.Z + bb2.Min.Z + DELTA < vec1.Z + bb1.Max.Z);
-	
-//	//Ähnlich von hier https://www.spieleprogrammierer.de/wiki/2D-Kollisionserkennung
-//	return (vec1.X - size1.X/2 + DELTA < vec2.X + size2.X/2 &&
-//			vec2.X - size2.X/2 + DELTA < vec1.X + size1.X/2 &&
-//			vec1.Y - size1.Y/2 + DELTA < vec2.Y + size2.Y/2 &&
-//			vec2.Y - size2.Y/2 + DELTA < vec1.Y + size1.Y/2 &&
-//			vec1.Z - size1.Z/2 + DELTA < vec2.Z + size2.Z/2 &&
-//			vec2.Z - size2.Z/2 + DELTA < vec1.Z + size1.Z/2);
 }
 
-void Application::createScene(){
+void Application::createScene() {
 	Matrix m;
 	
 	//------------------------------ LIGHTS ------------------------------
-	/*
+
 	 Color c = Color(1.0f, 0.7f, 1.0f);
 	 Vector a = Vector(1, 0, 0.1f);
-	 float innerradius = 45;
+	 float innerradius = 5;
 	 float outerradius = 60;
 	 
 	 // Directional lights
@@ -444,7 +420,7 @@ void Application::createScene(){
 	 ShaderLightMapper::instance().addLight(pl);
 	 
 	 pl = new PointLight();
-	 pl->position(Vector(5.0f, 3, 10));
+	 pl->position(Vector(15.0f, 3, 10));
 	 pl->color(c);
 	 pl->attenuation(a);
 	 ShaderLightMapper::instance().addLight(pl);
@@ -456,7 +432,7 @@ void Application::createScene(){
 	 ShaderLightMapper::instance().addLight(pl);
 	 
 	 pl = new PointLight();
-	 pl->position(Vector(5.0f, 3, 28));
+	 pl->position(Vector(15.0f, 3, 28));
 	 pl->color(c);
 	 pl->attenuation(a);
 	 ShaderLightMapper::instance().addLight(pl);
@@ -520,7 +496,7 @@ void Application::createScene(){
 	 sl->direction(Vector(-1, -4, 0));
 	 sl->innerRadius(innerradius);
 	 sl->outerRadius(outerradius);
-	 ShaderLightMapper::instance().addLight(sl); */
+	 ShaderLightMapper::instance().addLight(sl);
 	
 }
 
@@ -558,8 +534,7 @@ void Application::plattformsHover() {
  * b. seitlich dagegen springen (also in der Luft)
  * c. seitlich dagegen fahren (auf dem Boden
  * d. von unten nach oben dagegen springen */
-void Application::collisionHandling(Character* model1, SceneNode* model2)
-{
+void Application::collisionHandling(Character* model1, SceneNode* model2) {
 	Matrix t;
 	Matrix m = model1->transform();
 	
@@ -578,19 +553,21 @@ void Application::collisionHandling(Character* model1, SceneNode* model2)
 		return;
 	}
 	
-	// von oben bzw. in der oberen Hälfte
+	// Von oben bzw. in der oberen Hälfte
 	else if(bMaxY > cMinY && cMinY > pos2.Y ) {
 		std::cout << "oben" << std::endl;
 		playerControl.setJumpPower(0.0f);
 		pCharacter->setIsInAir(false);
 		return;
 	}
-	//von unten -> begrenze die Sprunghöhe
+	
+	// Von unten -> begrenze die Sprunghöhe
 	else if(bMinY < cMaxY  && cMaxY < pos2.Y) {
 		std::cout << "von unten" << std::endl;
 		playerControl.setJumpPower(-3.0f);
 	}
-	// auf der Erde
+	
+	// Auf der Erde
 	else {
 		std::cout << "seite..." << std::endl;
 		t.translation(-6*forwardBackward*deltaTime, 0, -6*leftRight*deltaTime);

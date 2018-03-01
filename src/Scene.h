@@ -11,12 +11,16 @@
 
 #include <map>
 #include <list>
+#include <string.h>
+#include <assert.h>
+
 #include "BaseModel.h"
-#include "Model.h"
 
 #include "SceneNode.h"
 #include "Coin.h"
 #include "MovingItem.h"
+
+#include "OutlineShader.h"
 
 class Scene : public BaseModel
 {

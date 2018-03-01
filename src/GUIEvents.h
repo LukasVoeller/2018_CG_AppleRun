@@ -12,9 +12,7 @@
 #include "Model.h"
 #include "EgoCam.h"
 
-
-class GUIEvents
-{
+class GUIEvents {
 public:
 	GUIEvents();
 	~GUIEvents();
@@ -35,10 +33,10 @@ protected:
 	int coolDownTimer = 0;		// Timer for actions
 	void closeWindow(GLFWwindow* pWindow);
 	
-	// Lukas' Schrottplatz
-	GLuint loadBMP(const char* imagepath);
-	GLuint image = loadBMP("../assets/bricks.bmp");
-	void drawImage();
+//	// Lukas' Schrottplatz
+//	GLuint loadBMP(const char* imagepath);
+//	GLuint image; //= loadBMP("../assets/bricks.bmp");
+//	void drawImage();
 };
 
 #endif /* GUIEvents_h */

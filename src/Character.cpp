@@ -17,7 +17,7 @@
 #include "PhongShader.h"
 #include "ConstantShader.h"
 
-Character::Character():palette(NULL)
+Character::Character():pallet(NULL)
 {
 
 }
@@ -60,11 +60,11 @@ void Character::update(float dtime)
 	float translatZ = this->posZ * dtime;
 	
 	
-	if(palette != NULL) {
-		//Höhe abhängig von der Palette
+	if(pallet != NULL) {
+		// Höhe abhängig von der Palette
 		int additionalJumpFactor = 5;
 		jpFactor *= additionalJumpFactor;
-		hoverMat = palette->getLocalTransform();
+		hoverMat = pallet->getLocalTransform();
 		steeringMat.rotationY(TankMat.left().Z+lrFactor);
 		forwardMat = forwardMat.translation(TankMat.translation().X+fbFactor, hoverMat.translation().Y+jpFactor, TankMat.translation().Z+translatZ);
 		TankMat = forwardMat * steeringMat;

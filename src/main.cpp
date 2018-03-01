@@ -14,7 +14,7 @@
 void PrintOpenGLVersion();
 void getResolution(int* width, int* height);
 
-int main (){
+int main () {
 	FreeImage_Initialise();
 	// Start GL context and O/S window using the GLFW helper library
 	if (!glfwInit ()){
@@ -77,7 +77,7 @@ int main (){
 	return 0;
 }
 
-void PrintOpenGLVersion(){
+void PrintOpenGLVersion() {
 	const GLubyte* renderer = glGetString (GL_RENDERER);
 	const GLubyte* version = glGetString (GL_VERSION);
 	printf ("Renderer: %s\n", renderer);

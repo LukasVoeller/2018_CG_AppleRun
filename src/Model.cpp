@@ -253,7 +253,8 @@ void Model::calcBoundingBox(const aiScene* pScene, AABB& Box)
     }
 }
 
-const AABB& Model::scaleBoundingBox(Vector scale) {
+const AABB& Model::scaleBoundingBox(Vector scale)
+{
 	scaledBoundingBox.Min.X = BoundingBox.Min.X * scale.X;
 	scaledBoundingBox.Min.Y = BoundingBox.Min.Y * scale.Y;
 	scaledBoundingBox.Min.Z = BoundingBox.Min.Z * scale.Z;
@@ -304,7 +305,6 @@ void Model::applyMaterial( unsigned int index)
 	
 	PhongShader* pPhong = dynamic_cast<PhongShader*>(shader());
 	if(!pPhong) {
-		std::cout << "Model::applyMaterial(): WARNING Invalid shader-type. Please apply PhongShader for rendering models.\n";
 		return;
 	}
 	

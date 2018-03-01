@@ -22,8 +22,6 @@ public:
 	bool start(Character* character, CoinList coins);
 private:
 
-	
-	
 };
 
 #endif /* Game_h */
