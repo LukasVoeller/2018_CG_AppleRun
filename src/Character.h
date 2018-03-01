@@ -52,13 +52,11 @@ public:
 	bool getHovering() const;
 	MovingItem* getPalette() const { return palette; };
 	AABB getScaledBoundingBox() const {return this->character->getScaledBoundingBox(); };
-	AABB getMovedScaledBoundingBox() const {return movedScaledBoundingBox; };
 	
 	/** Debug **/
 	void printLatestPosition();
 protected:
 	void calcBoundingBox(AABB& box);
-	//void moveBoundingBox(AABB& box);
 private:
     Model* character;
     float leftRight = 0;
@@ -72,7 +70,6 @@ private:
     Vector position;
 	AABB BoundingBox;
 	AABB scaledBoundingBox;
-	AABB movedScaledBoundingBox;
 	
 	//für update und so..
 	float posZ = 0;

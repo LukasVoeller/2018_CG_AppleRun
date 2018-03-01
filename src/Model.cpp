@@ -266,18 +266,6 @@ const AABB& Model::scaleBoundingBox(Vector scale) {
 
 }
 
-const AABB& Model::moveScaledBoundingBox() {
-	float x = std::fabs(scaledBoundingBox.Min.X);
-	float y = std::fabs(scaledBoundingBox.Min.Y);
-	float z = std::fabs(scaledBoundingBox.Min.Z);
-	
-	Vector min = Vector(0.0f, 0.0f, 0.0f);
-	Vector max = Vector(scaledBoundingBox.Max.X + x, scaledBoundingBox.Max.Y +y, scaledBoundingBox.Max.Z + z );
-	movedScaledBoundingBox = AABB(min, max);
-	
-	return movedScaledBoundingBox;
-}
-
 void Model::loadNodes(const aiScene* pScene)
 {
     deleteNodes(&RootNode);

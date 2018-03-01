@@ -79,10 +79,9 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	
 	// Robot
 	pCharacter = new Character();
-	float scaling = 1.0f;
+	float scaling = 0.5f;
 	pPhongShader = new PhongShader();
 	pCharacter->shader(pPhongShader, true);
-//	pCharacter->loadModel(ASSET_DIRECTORY "frspbt.dae", scaling);
 	pCharacter->loadModel(ASSET_DIRECTORY "android/Android.dae", scaling);
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	s = s.scale(scaling);
@@ -569,8 +568,8 @@ void Application::collisionHandling(Character* model1, SceneNode* model2)
 	Vector size2 = model2->getScaledBoundingBox().size();
 	float bMaxY = pos2.Y + 0.5f* model2->getScaledBoundingBox().size().Y;
 	float bMinY = pos2.Y - 0.5f* model2->getScaledBoundingBox().size().Y;
-	float cMinY = pos1.Y - 0.5f* model1->getMovedScaledBoundingBox().size().Y;
-	float cMaxY = pos1.Y + 0.5f* model1->getMovedScaledBoundingBox().size().Y;
+	float cMinY = pos1.Y - 0.5f* model1->getScaledBoundingBox().size().Y;
+	float cMaxY = pos1.Y + 0.5f* model1->getScaledBoundingBox().size().Y;
 	
 	if(pos1.Y <= TERRAIN_HEIGHT && !model1->getIsInAir()) {
 		std::cout << "seite" << std::endl;

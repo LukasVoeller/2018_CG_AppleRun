@@ -33,7 +33,6 @@ public:
 	const std::string& getName() const;
 	const Vector& getScaling() const;
 	const AABB& getScaledBoundingBox() const;
-	const AABB& getMovedScaledBoundingBox() const {return movedScaledBoundingBox; };
 
 	
 	//setter
@@ -58,7 +57,6 @@ protected:
 	Vector m_Scaling;
 	
 	AABB scaledBoundingBox;
-	AABB movedScaledBoundingBox;
 };
 
 #endif /* SceneNode_h */
