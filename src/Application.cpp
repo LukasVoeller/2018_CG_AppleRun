@@ -402,7 +402,7 @@ void Application::createScene() {
 
 	 Color c = Color(1.0f, 0.7f, 1.0f);
 	 Vector a = Vector(1, 0, 0.1f);
-	 float innerradius = 5;
+	 float innerradius = 45;
 	 float outerradius = 60;
 	 
 	 // Directional lights

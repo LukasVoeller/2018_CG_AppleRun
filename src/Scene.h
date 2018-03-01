@@ -21,6 +21,7 @@
 #include "MovingItem.h"
 
 #include "OutlineShader.h"
+#include "ShaderLightMapper.h"
 
 class Scene : public BaseModel
 {
@@ -45,6 +46,7 @@ protected:
 	NodeList mBarriers;
 	NodeList mDeathItems;
 	MovingItemList mMovingItems;
+	
 private:
 	SceneNode* findNode(char* parentID, SceneNode *node); //helper
 	SceneNode* deleteNodes(SceneNode* parent);

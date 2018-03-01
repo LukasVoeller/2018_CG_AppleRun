@@ -36,6 +36,7 @@ public:
 	typedef std::list<SceneNode*> NodeList;
 	typedef std::list<Coin*> CoinList;
 	typedef std::list<MovingItem*> MovingItemList;
+	typedef std::list<Vector> LightPosList;
 	void getInputPitchRollForward(float& pitch, float& roll, float& forward);
 	void start();
 	void update(float dtime);
