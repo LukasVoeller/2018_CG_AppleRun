@@ -47,6 +47,8 @@ protected:
 	NodeList mDeathItems;
 	MovingItemList mMovingItems;
 	
+	SpotLight* sl;
+	
 private:
 	SceneNode* findNode(char* parentID, SceneNode *node); //helper
 	SceneNode* deleteNodes(SceneNode* parent);

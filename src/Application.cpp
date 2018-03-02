@@ -58,7 +58,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pDeathblocks = pScene->getDeathItems();
 	pMovingItems = pScene->getMovingItems();
 
-	createScene();
+	//createScene();
 	//createNormalTestScene();
 	//createShadowTestScene();
 	
@@ -87,16 +87,6 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pCharacter->transform(m*s);
 	
 	models.push_back(pCharacter);
-
-//	float baymaxScaling = 50.7;
-//	pTest = new Model(ASSET_DIRECTORY "sci_fi_towers_obj/sci_fi_towers_obj.obj", false, baymaxScaling);
-//	pTest->shader(pPhongShader, false);
-//	//pTest->shader(pOutlineShader, false);
-//	s = s.scale(baymaxScaling);
-//	r = r.rotationY(0.5f);
-//	m = m.translation(-4, 1, -4);
-//	pTest->transform(m*r*s);
-//	models.push_back(pTest);
 	
 	//------------------------------ GAME LOGIC ------------------------------
 	allCoins = ALLCOINS;
@@ -133,32 +123,19 @@ void Application::update(float dtime){
 	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it) {
 		if (coolDownTimer > 0) {
 			coolDownTimer--;
-		} else {
-			if(collisionDetection(pCharacter, *it)) {
-				std::cout << "collision with pallet" << std::endl;
-				coolDownTimer = 10;
-				
-				if(pCharacter->getPallet() == NULL) {
-					//TODO: Fallunterscheidung, damit man nicht von unten durchfliegt...
-					//if(pTank->getLatestPosition().Y > terrainHeight + DELTA )
-					std::cout << "Oben "<< pCharacter->getLatestPosition().Y << std::endl;
-					playerControl.setJumpPower(0.0f);
-					pCharacter->setIsInAir(false);
-					std::cout << "translation " << std::endl;
-					
-					pCharacter->setHovering(true);
-					pCharacter->setPallet(*it);
-				} else {
-					std::cout << "Flyyyy "<< pCharacter->getLatestPosition().Y << std::endl;
-				}
-			}
-			//else if(playerControl.getJumpPower() < -1.5f && pTank->getHovering()) {
-			else if(pCharacter->getPallet() == *it){
-				//no collision
-				std::cout << "bfdsksd" <<std::endl;
-				pCharacter->setHovering(false);
-				pCharacter->setPallet(NULL);
-			}
+			continue;
+		}
+		if(collisionDetection(pCharacter, *it)) {
+			std::cout << "collision with palette" << std::endl;
+			coolDownTimer = 10;
+			palletCollisionHandling(pCharacter, *it);
+		}
+		else if(pCharacter->getPallet() == *it)
+		{
+			//no collision
+			std::cout << "Fall" <<std::endl;
+			pCharacter->setHovering(false);
+			pCharacter->setPallet(NULL);
 		}
 	}
 	
@@ -572,5 +549,46 @@ void Application::collisionHandling(Character* model1, SceneNode* model2) {
 		std::cout << "seite..." << std::endl;
 		t.translation(-6*forwardBackward*deltaTime, 0, -6*leftRight*deltaTime);
 		model1->transform(m*t);
+	}
+}
+
+void Application::palletCollisionHandling(Character* model1, MovingItem* model2) {
+	Matrix t;
+	Matrix m = model1->transform();
+	
+	Vector pos1 = model1->getLatestPosition();
+	Vector pos2 = model2->getLocalTransform().translation();
+	Vector size2 = model2->getScaledBoundingBox().size();
+	float bMaxY = pos2.Y + 0.5f* model2->getScaledBoundingBox().size().Y;
+	float bMinY = pos2.Y - 0.5f* model2->getScaledBoundingBox().size().Y;
+	float cMinY = pos1.Y - 0.5f* model1->getScaledBoundingBox().size().Y;
+	float cMaxY = pos1.Y + 0.5f* model1->getScaledBoundingBox().size().Y;
+	
+	if(pCharacter->getPallet() == NULL) {
+		// Von oben bzw. in der oberen Hälfte
+		if(bMaxY > cMinY && cMinY > pos2.Y) {
+			std::cout << "oben" << std::endl;
+			playerControl.setJumpPower(0.0f);
+			pCharacter->setIsInAir(false);
+			pCharacter->setHovering(true);
+			pCharacter->setPallet(model2);
+			return;
+		}
+		
+		// Von unten -> begrenze die Sprunghöhe
+		else if(bMinY < cMaxY  && cMaxY < pos2.Y) {
+			std::cout << "von unten" << std::endl;
+			playerControl.setJumpPower(-3.0f);
+		}
+		
+		// Auf der Erde
+		else {
+			std::cout << "seite..." << std::endl;
+			t.translation(-6*forwardBackward*deltaTime, 0, -6*leftRight*deltaTime);
+			model1->transform(m*t);
+		}
+	}
+	else {
+		std::cout << "Flyyyy "<< pCharacter->getLatestPosition().Y << std::endl;
 	}
 }

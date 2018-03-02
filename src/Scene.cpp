@@ -22,6 +22,8 @@ Scene::~Scene() {
 	
 	//Scene nodes löschen
 	deleteNodes(&m_Root);
+	
+	delete sl;
 }
 
 bool Scene::addSceneFile(const char* Scenefile) {
@@ -69,7 +71,7 @@ bool Scene::addSceneFile(const char* Scenefile) {
 			else if(strstr(ModelID, "streetlamp")) {
 				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				
-				SpotLight* sl = new SpotLight();
+				sl = new SpotLight();
 				sl->position(Vector(Pos.X, 5.0f, Pos.Z));
 				sl->color(Color(1.0, 0.7, 1.0f));
 				sl->direction(Vector(-1, -4, 0));

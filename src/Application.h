@@ -63,6 +63,7 @@ protected:
 	bool collisionDetection(Character* model, SceneNode* model2);
 	void calcLegalPosition(Character* model, SceneNode* model2); //ggf. löschen
 	void collisionHandling(Character* model, SceneNode* model2);
+	void palletCollisionHandling(Character* model, MovingItem* model2);
 	Matrix calcCharacterViewMatrix(Character* character);
 	double calcDeltaTime();
 	Vector calc3DRay( float x, float y, Vector& Pos);
