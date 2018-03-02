@@ -6,7 +6,7 @@ newmtl Limestone
 Ka 0.000000 0.000000 0.000000
 Kd 0.941176 0.874510 0.749020
 Ks 0.330000 0.330000 0.330000
-map_Kd texture/Limestone.jpg
+map_Kd Limestone.jpg
 
 newmtl FrontColor
 Ka 0.000000 0.000000 0.000000
@@ -17,17 +17,17 @@ newmtl building_texture1
 Ka 0.000000 0.000000 0.000000
 Kd 0.501961 0.501961 0.501961
 Ks 0.000000 0.000000 0.000000
-map_Kd texture/building_texture1.jpg
+map_Kd building_texture1.jpg
 
 newmtl Doors
 Ka 0.000000 0.000000 0.000000
 Kd 0.501961 0.501961 0.501961
 Ks 0.000000 0.000000 0.000000
-map_Kd texture/Doors.png
+map_Kd Doors.png
 
 newmtl png_window_4_by_paradise234_d5i7f6m
 Ka 0.000000 0.000000 0.000000
 Kd 0.501961 0.501961 0.501961
 Ks 0.000000 0.000000 0.000000
-map_Kd texture/png_window_4_by_paradise234_d5i7f6m.png
+map_Kd png_window_4_by_paradise234_d5i7f6m.png
 
