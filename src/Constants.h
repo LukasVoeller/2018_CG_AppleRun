@@ -24,6 +24,9 @@
 #endif
 
 //Physics Sandra's
+<<<<<<< HEAD
+//#define GRAVITY -4.0f
+=======
 #define GRAVITY -4.0f
 #define DOWNFORCE 0.0f
 #define TERRAIN_HEIGHT 0.0f
@@ -35,13 +38,24 @@
 
 // Physics Lukas'
 //#define GRAVITY -15.0f
+>>>>>>> dd20e377c9b42cf38b20a5ec7f099243fe314833
 //#define DOWNFORCE 0.0f
 //#define TERRAIN_HEIGHT 0.0f
 //
-//#define RUNSPEED 50.0f 		// Normal speed
-//#define	ADDSPEED 5.0 		// Additional speed for running
-//#define ROTATIONSPEED 5.0f
-//#define JUMPPOWER 60.0f
+//#define RUNSPEED 6.0f 			// Normal speed
+//#define	ADDSPEED 4.0 			// Additional speed for running
+//#define ROTATIONSPEED 2.0f
+//#define JUMPPOWER 20.0f
+
+// Physics Lukas'
+#define GRAVITY -15.0f
+#define DOWNFORCE 0.0f
+#define TERRAIN_HEIGHT 0.0f
+
+#define RUNSPEED 50.0f 		// Normal speed
+#define	ADDSPEED 5.0 		// Additional speed for running
+#define ROTATIONSPEED 5.0f
+#define JUMPPOWER 100.0f
 
 #define ALLCOINS 3;
 
