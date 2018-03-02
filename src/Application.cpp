@@ -374,7 +374,7 @@ Vector Application::calc3DRay( float x, float y, Vector& Pos){
     
     return Pos + (direction * s);
 }
- */
+*/
 
 /****** Kollision mit Scenenode *********/
 /* DELTA für Sicherheitsabstand **********/
@@ -399,20 +399,19 @@ void Application::createScene() {
 	Matrix m;
 	
 	//------------------------------ LIGHTS ------------------------------
-
 	 Color c = Color(1.0f, 0.7f, 1.0f);
 	 Vector a = Vector(1, 0, 0.1f);
 	 float innerradius = 45;
 	 float outerradius = 60;
 	 
 	 // Directional lights
-	 DirectionalLight* dl = new DirectionalLight();
-	 dl->direction(Vector(0.2f, -1, 1));
-	 dl->color(Color(0.55, 0.55, 0.55));
-	 dl->castShadows(true);
-	 ShaderLightMapper::instance().addLight(dl);
+//	 DirectionalLight* dl = new DirectionalLight();
+//	 dl->direction(Vector(0.2f, -1, 1));
+//	 dl->color(Color(0.55, 0.55, 0.55));
+//	 dl->castShadows(true);
+//	 ShaderLightMapper::instance().addLight(dl);
 	 
-//	 // Point lights
+	 // Point lights
 //	 PointLight* pl = new PointLight();
 //	 pl->position(Vector(-1.5, 3, 10));
 //	 pl->color(c);
@@ -449,7 +448,7 @@ void Application::createScene() {
 //	 pl->attenuation(a);
 //	 ShaderLightMapper::instance().addLight(pl);
 //
-//	 // Spot lights
+	 // Spot lights
 //	 SpotLight* sl = new SpotLight();
 //	 sl->position(Vector(-1.5, 3, 10));
 //	 sl->color(c);
@@ -497,7 +496,6 @@ void Application::createScene() {
 //	 sl->innerRadius(innerradius);
 //	 sl->outerRadius(outerradius);
 //	 ShaderLightMapper::instance().addLight(sl);
-	
 }
 
 void Application::reset(float dtime) {
@@ -506,7 +504,6 @@ void Application::reset(float dtime) {
 	
 	/*Setzt die Figur auf die Startposition zurück und positioniert alle Coins wieder auf die Startposition */
 	game.start(pCharacter, pCoins);
-	
 }
 
 void Application::plattformsHover() {
