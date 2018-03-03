@@ -28,8 +28,8 @@
 #define DOWNFORCE 0.0f
 #define TERRAIN_HEIGHT 0.0f
 
-#define RUNSPEED 10.0f 			// Normal speed
-#define	ADDSPEED 5.0 			// Additional speed for running
+#define RUNSPEED 15.0f 				// Normal speed
+#define ADDSPEED 5.0 				// Additional speed for running
 #define ROTATIONSPEED 4.0f
 #define JUMPPOWER 20.0f
 
@@ -38,9 +38,10 @@
 //#define DOWNFORCE 0.0f
 //#define TERRAIN_HEIGHT 0.0f
 //
-//#define RUNSPEED 10.0f 			// Normal speed
-//#define	ADDSPEED 5.0 			// Additional speed for running
-//#define ROTATIONSPEED 4.0f
+//#define RUNSPEED 50.0f 				// Normal speed
+//#define	ADDSPEED 5.0 				// Additional speed for running
+//#define ROTATIONSPEED 5.0f
+//#define JUMPPOWER 50.0f
 
 #define ALLCOINS 2;
 
