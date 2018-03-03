@@ -10,7 +10,6 @@
 		80398D6920289B6300010C49 /* GUIEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80398D6820289B6300010C49 /* GUIEvents.cpp */; };
 		8040FAD81FFF76FA004B3A5C /* libassimp.4.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */; };
 		8040FADA1FFF7703004B3A5C /* libfreeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FAD91FFF7703004B3A5C /* libfreeimage.a */; };
-		8044688F203B492D00D3D8C0 /* LoadPNG.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8044688D203B492D00D3D8C0 /* LoadPNG.cpp */; };
 		80539B4A203B350D005D4F35 /* Coin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80539B49203B350D005D4F35 /* Coin.cpp */; };
 		80539B4E203B3E3A005D4F35 /* MovingItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80539B4D203B3E3A005D4F35 /* MovingItem.cpp */; };
 		80539B51203C346A005D4F35 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80539B50203C346A005D4F35 /* Game.cpp */; };
@@ -76,8 +75,6 @@
 		8040FAD71FFF76FA004B3A5C /* libassimp.4.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.1.0.dylib; path = thirdparty/assimp/libassimp.4.1.0.dylib; sourceTree = "<group>"; };
 		8040FAD91FFF7703004B3A5C /* libfreeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreeimage.a; path = thirdparty/freeimage/libfreeimage.a; sourceTree = "<group>"; };
 		8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = thirdparty/glfw/libglfw.3.3.dylib; sourceTree = "<group>"; };
-		8044688D203B492D00D3D8C0 /* LoadPNG.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LoadPNG.cpp; path = ../src/LoadPNG.cpp; sourceTree = "<group>"; };
-		80446890203B495900D3D8C0 /* LoadPNG.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoadPNG.h; path = ../src/LoadPNG.h; sourceTree = "<group>"; };
 		80539B49203B350D005D4F35 /* Coin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Coin.cpp; path = ../src/Coin.cpp; sourceTree = "<group>"; };
 		80539B4B203B352C005D4F35 /* Coin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Coin.h; path = ../src/Coin.h; sourceTree = "<group>"; };
 		80539B4C203B3D90005D4F35 /* MovingItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MovingItem.h; path = ../src/MovingItem.h; sourceTree = "<group>"; };
@@ -210,8 +207,6 @@
 				80539B50203C346A005D4F35 /* Game.cpp */,
 				80398D6720289B0900010C49 /* GUIEvents.h */,
 				80398D6820289B6300010C49 /* GUIEvents.cpp */,
-				80446890203B495900D3D8C0 /* LoadPNG.h */,
-				8044688D203B492D00D3D8C0 /* LoadPNG.cpp */,
 				80398D6A20289C1D00010C49 /* Constants.h */,
 			);
 			name = CGXcode;
@@ -450,7 +445,6 @@
 				80539B4E203B3E3A005D4F35 /* MovingItem.cpp in Sources */,
 				809B2BDD202EC9A3005C708C /* OutlineShader.cpp in Sources */,
 				809B2BE5202F1F4A005C708C /* SceneNode.cpp in Sources */,
-				8044688F203B492D00D3D8C0 /* LoadPNG.cpp in Sources */,
 				805A74A0200A620D0057761B /* ShadowMapGenerator.cpp in Sources */,
 				805A74A2200A620D0057761B /* Color.cpp in Sources */,
 				805A74A4200A620D0057761B /* Rgbimage.cpp in Sources */,

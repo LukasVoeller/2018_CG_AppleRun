@@ -19,7 +19,7 @@
 
 Character::Character():pallet(NULL)
 {
-
+	position = Vector(0.0, 0.0, 0.0);
 }
 
 Character::~Character()
@@ -50,7 +50,7 @@ void Character::steer3d( float ForwardBackward, float LeftRight, float Jump)
 
 void Character::update(float dtime)
 {
-	Matrix TankMat = this->transform();
+	Matrix CharacMat = this->transform();
 	Matrix forwardMat, steeringMat, hoverMat;
 	
 	//Panzerbewegung berechnen
@@ -65,23 +65,33 @@ void Character::update(float dtime)
 		int additionalJumpFactor = 5;
 		jpFactor *= additionalJumpFactor;
 		hoverMat = pallet->getLocalTransform();
-		steeringMat.rotationY(TankMat.left().Z+lrFactor);
-		forwardMat = forwardMat.translation(TankMat.translation().X+fbFactor, hoverMat.translation().Y+jpFactor, TankMat.translation().Z+translatZ);
-		TankMat = forwardMat * steeringMat;
+		steeringMat.rotationY(CharacMat.left().Z+lrFactor);
+		forwardMat = forwardMat.translation(CharacMat.translation().X+fbFactor, hoverMat.translation().Y+jpFactor, CharacMat.translation().Z+translatZ);
+		CharacMat = forwardMat * steeringMat;
 	}
 	else {
 		forwardMat.translation(fbFactor, jpFactor, translatZ);
 		steeringMat.rotationY(lrFactor);
-		TankMat = TankMat * forwardMat * steeringMat;
+		CharacMat = CharacMat * forwardMat * steeringMat;
 	}
 	
-	//Aktuelle Position in Vektor speichern
-	this->position.X = TankMat.m[12];
-	this->position.Y = std::max(TankMat.m[13], TERRAIN_HEIGHT);
-	this->position.Z = TankMat.m[14];
+	float xmin = BORDER_MIN_X;
+	float xmax = BORDER_MAX_X;
+	float zmin = BORDER_MIN_Z;
+	float zmax = BORDER_MAX_Z;
+	
+	position.debugOutput();
 
-	this->character->transform(TankMat);
-	this->transform(TankMat);
+	if(position.X < xmax && position.X > xmin && position.Z < zmax && position.Z > zmin) {
+		//Aktuelle Position in Vektor speichern
+		this->position.X = CharacMat.m[12];
+		this->position.Y = std::max(CharacMat.m[13], TERRAIN_HEIGHT);
+		this->position.Z = CharacMat.m[14];
+		
+		this->character->transform(CharacMat);
+		this->transform(CharacMat);
+	}
+	
 }
 
 void Character::draw(const BaseCamera& Cam)

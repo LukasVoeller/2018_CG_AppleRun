@@ -32,11 +32,7 @@ protected:
 	bool winningMenuIsActive = false;
 	int coolDownTimer = 0;		// Timer for actions
 	void closeWindow(GLFWwindow* pWindow);
-	
-//	// Lukas' Schrottplatz
-//	GLuint loadBMP(const char* imagepath);
-//	GLuint image; //= loadBMP("../assets/bricks.bmp");
-//	void drawImage();
+
 };
 
 #endif /* GUIEvents_h */
