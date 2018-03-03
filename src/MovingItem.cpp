@@ -17,10 +17,38 @@ MovingItem::MovingItem():SceneNode()
 MovingItem::MovingItem(const std::string& Name, const Vector& Translation, const Vector& RotationAxis, const float RotationAngle, const Vector& Scale, SceneNode* pParent, Model* pModel):SceneNode(Name, Translation, RotationAxis, RotationAngle, Scale, pParent, pModel)
 {
 	setLatestPosition(this->getLocalTransform().translation());
+	
 }
 
 MovingItem::~MovingItem() {
 	
+}
+
+void MovingItem::movingUp() {
+	Vector t = this->getLocalTransform().translation();
+	this->setMoveUp(true);
+	
+	Matrix trans;
+	trans.translation(t.X, t.Y + 0.05, t.Z);
+	this->setLocalTransform(trans);
+}
+
+void MovingItem::moving() {
+	Vector t = this->getLocalTransform().translation();
+	float heigth = t.Y;
+	
+	if (heigth > 13.0f) {
+		this->setMoveUp(false);
+	}
+	if(heigth < 1.5f) {
+		this->setMoveUp(true);
+	}
+	
+	heigth = this->isMovingUp() ? heigth + 0.05 : heigth - 0.05;
+	
+	Matrix trans;
+	trans.translation(t.X, heigth, t.Z);
+	this->setLocalTransform(trans);
 }
 
 const Vector& MovingItem::getLatestPosition() const
@@ -41,5 +69,6 @@ void MovingItem::setMoveUp(const bool up)
 {
 	moveUp = up;
 }
+
 
 

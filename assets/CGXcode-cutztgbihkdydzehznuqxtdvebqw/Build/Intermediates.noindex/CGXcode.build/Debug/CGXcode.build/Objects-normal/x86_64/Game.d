@@ -50,4 +50,5 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/ShaderLightMapper.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Lights.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/ConstantShader.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/CollisionHandler.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Coin.h

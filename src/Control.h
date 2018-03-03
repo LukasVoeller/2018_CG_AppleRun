@@ -21,11 +21,8 @@ public:
 	~Control();
 	
 	/* Read keyboardinputs */
-	float readForwardBackward();
-	float readLeftRight();
-	float readJump(Character* character);
-	
-	
+	void readInputs(Character* c);
+
 	float getForwardBackward() const {return this->forwardBackward; };
 	float getLeftRight()  const { return this->leftRight; };
 	float getJumpPower() const { return this->jumpPower; };
@@ -41,6 +38,11 @@ private:
 	float forwardBackward = 0.0f;
 	float leftRight = 0.0f;
 	float jumpPower = 0.0f;
+	
+	/* Read keyboardinputs */
+	float readForwardBackward();
+	float readLeftRight();
+	float readJump(Character* character);
 };
 
 #endif /* Control_h */

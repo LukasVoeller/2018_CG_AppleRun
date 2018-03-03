@@ -58,5 +58,6 @@ dependencies: \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Scene.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Coin.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Game.h \
+  /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/CollisionHandler.h \
   /Users/sandratieben/Desktop/CG_2017_Abschlussarbeit/src/Control.h \
   thirdparty/freeimage/include/FreeImage.h

@@ -18,6 +18,9 @@ public:
 	MovingItem(const std::string& Name, const Vector& Translation, const Vector& RotationAxis, const float RotationAngle, const Vector& Scale, SceneNode* pParent, Model* pModel);
 	~MovingItem();
 	
+	void moving();
+	void movingUp();
+	
 	/* Getter */
 	const Vector& getLatestPosition() const;
 	const bool isMovingUp() const;
