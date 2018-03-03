@@ -30,7 +30,7 @@ bool Scene::addSceneFile(const char* Scenefile) {
 	
 	FILE* sceneFile = fopen(Scenefile, "r");
 	while (fgets(Line, sizeof(Line), sceneFile)) {
-		if (strstr(Line, "NODE")) { // //NODE nur in "Node"-Lines
+		if (strstr(Line, "NODE")) { 	// NODE nur in "Node"-Lines
 			Vector Pos, Scale, RotAxis;
 			float Angle;
 			char NodeID[256];
