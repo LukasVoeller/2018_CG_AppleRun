@@ -36,14 +36,16 @@ public:
 	typedef std::list<SceneNode*> NodeList;
 	typedef std::list<Coin*> CoinList;
 	typedef std::list<MovingItem*> MovingItemList;
-	typedef std::list<Vector> LightPosList;
-	void getInputPitchRollForward(float& pitch, float& roll, float& forward);
 	void start();
 	void update(float dtime);
 	void draw();
 	void end();
 	
 	void plattformsHover();
+	void updateCharacter(Character* c, Matrix m, float jumppower, bool hovering);
+	
+	float getDeltaTime() {return deltaTime;};
+
 	
 protected:
 	EgoCam egocam;
@@ -56,11 +58,7 @@ protected:
 	ShadowMapGenerator shadowGenerator;
 	
 	void createScene();
-	void createNormalTestScene();
 	void createShadowTestScene();
-	void reset(float dtime);
-	bool collisionDetection(Character* model, Model* model2); //ggf. löschen
-	bool collisionDetection(Character* model, SceneNode* model2);
 	void calcLegalPosition(Character* model, SceneNode* model2); //ggf. löschen
 	void collisionHandling(Character* model, SceneNode* model2);
 	void palletCollisionHandling(Character* model, MovingItem* model2);
@@ -68,47 +66,31 @@ protected:
 	double calcDeltaTime();
 	Vector calc3DRay( float x, float y, Vector& Pos);
 	
-	// Game Variables
-	float gravity = GRAVITY;
-	float downForce = DOWNFORCE;
-	float terrainHeight = TERRAIN_HEIGHT;
-	
 	// Time
 	double oldTime = 0;
 	float time;
 	int coolDownTimer = 0;
 	
-	// Tank
+	// Character
 	Character* pCharacter;
 	
 	// Obstacle List
 	NodeList pBarriers;
 	
-	// Coins
+	// Different objects
 	CoinList pCoins;
-	unsigned int allCoins;
-	unsigned int collectedCoins;
-	
-	//DeathBlock
 	NodeList pDeathblocks;
-	
 	MovingItemList pMovingItems;
-	
-	// Testmodel
-	Model* pTest;
-	
-	//GameLogik
+
+	//GameLogic
 	Game game;
 	
 	//Steuerung des Characters
 	Control playerControl;
 	
 private:
-	float leftRight;
-	float forwardBackward;
 	float deltaTime;
-	
-	Matrix characterViewMatrix;
+
 };
 
 #endif /* Application_hpp */

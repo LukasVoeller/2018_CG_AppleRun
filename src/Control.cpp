@@ -20,6 +20,12 @@ Control::~Control() {
 	
 }
 
+void Control::readInputs(Character* c) {
+	readForwardBackward();
+	readLeftRight();
+	readJump(c);
+}
+
 float Control::readForwardBackward() {
 	forwardBackward = 0.0f;
 	float speed = (glfwGetKey(pWindow, GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS) ? ADDSPEED : 0.0f;

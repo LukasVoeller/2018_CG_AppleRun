@@ -43,6 +43,7 @@
 		805A74A4200A620D0057761B /* Rgbimage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316741FEBE2DF0079DD72 /* Rgbimage.cpp */; };
 		805A74A5200A620D0057761B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316941FEBE2E30079DD72 /* main.cpp */; };
 		805A74A7200A620D0057761B /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80D316A21FEBE2E50079DD72 /* Application.cpp */; };
+		807F0F392049BC58000ED407 /* CollisionHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 807F0F382049BC58000ED407 /* CollisionHandler.cpp */; };
 		808232FC2007EE6F00B3A6A0 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8040FADB1FFF770C004B3A5C /* libglfw.3.3.dylib */; };
 		809B2BDD202EC9A3005C708C /* OutlineShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BDC202EC9A3005C708C /* OutlineShader.cpp */; };
 		809B2BE1202F14D2005C708C /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 809B2BE0202F14D2005C708C /* Scene.cpp */; };
@@ -85,6 +86,8 @@
 		80539B50203C346A005D4F35 /* Game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Game.cpp; path = ../src/Game.cpp; sourceTree = "<group>"; };
 		80539B52203C46E9005D4F35 /* Control.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Control.h; path = ../src/Control.h; sourceTree = "<group>"; };
 		80539B53203C4843005D4F35 /* Control.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Control.cpp; path = ../src/Control.cpp; sourceTree = "<group>"; };
+		807F0F382049BC58000ED407 /* CollisionHandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CollisionHandler.cpp; path = ../src/CollisionHandler.cpp; sourceTree = "<group>"; };
+		807F0F3A2049BC76000ED407 /* CollisionHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CollisionHandler.h; path = ../src/CollisionHandler.h; sourceTree = "<group>"; };
 		808232F42007E72800B3A6A0 /* libglfw.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.dylib; path = thirdparty/glfw/libglfw.3.dylib; sourceTree = "<group>"; };
 		809B2BDC202EC9A3005C708C /* OutlineShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OutlineShader.cpp; path = ../src/OutlineShader.cpp; sourceTree = "<group>"; };
 		809B2BDE202EC9B9005C708C /* OutlineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OutlineShader.h; path = ../src/OutlineShader.h; sourceTree = "<group>"; };
@@ -199,6 +202,8 @@
 				80D316941FEBE2E30079DD72 /* main.cpp */,
 				80D3167A1FEBE2DF0079DD72 /* Application.h */,
 				80D316A21FEBE2E50079DD72 /* Application.cpp */,
+				807F0F3A2049BC76000ED407 /* CollisionHandler.h */,
+				807F0F382049BC58000ED407 /* CollisionHandler.cpp */,
 				80539B52203C46E9005D4F35 /* Control.h */,
 				80539B53203C4843005D4F35 /* Control.cpp */,
 				80539B4F203C3456005D4F35 /* Game.h */,
@@ -414,6 +419,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				807F0F392049BC58000ED407 /* CollisionHandler.cpp in Sources */,
 				805A7472200A620D0057761B /* VertexBuffer.cpp in Sources */,
 				805A7474200A620D0057761B /* Framebuffer.cpp in Sources */,
 				805A7476200A620D0057761B /* IndexBuffer.cpp in Sources */,

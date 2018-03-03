@@ -24,26 +24,25 @@
 #endif
 
 //Physics Sandra's
-//#define GRAVITY -4.0f
+#define GRAVITY -4.0f
+#define DOWNFORCE 0.0f
+#define TERRAIN_HEIGHT 0.0f
+
+#define RUNSPEED 10.0f 			// Normal speed
+#define	ADDSPEED 5.0 			// Additional speed for running
+#define ROTATIONSPEED 4.0f
+#define JUMPPOWER 20.0f
+
+// Physics Lukas'
+//#define GRAVITY -15.0f
 //#define DOWNFORCE 0.0f
 //#define TERRAIN_HEIGHT 0.0f
 //
 //#define RUNSPEED 10.0f 			// Normal speed
 //#define	ADDSPEED 5.0 			// Additional speed for running
 //#define ROTATIONSPEED 4.0f
-//#define JUMPPOWER 20.0f
 
-// Physics Lukas'
-#define GRAVITY -15.0f
-#define DOWNFORCE 0.0f
-#define TERRAIN_HEIGHT 0.0f
-
-#define RUNSPEED 50.0f 			// Normal speed
-#define	ADDSPEED 4.0 			// Additional speed for running
-#define ROTATIONSPEED 5.0f
-#define JUMPPOWER 70.0f
-
-#define ALLCOINS 3;
+#define ALLCOINS 2;
 
 #define START_POS_X 0.0f
 #define START_POS_Y 0.0f

@@ -9,7 +9,7 @@
 #include "Game.h"
 
 Game::Game() {
-	
+	collHandler = CollisionHandler();
 }
 
 Game::~Game() {
@@ -37,6 +37,8 @@ bool Game::start(Character* character, CoinList coins) {
 	character->transform(m);
 	character->setHovering(false);
 	character->setIsInAir(false);
+	
+	collectedCoins = 0;
 	
 	return true;
 }

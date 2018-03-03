@@ -48,7 +48,6 @@ public:
 	const AABB& getBoundingBox() const { return BoundingBox; };
 	float getForwardBackward() const { return forwardBackward; };
 	float getLeftRight() const { return leftRight; };
-	
 	bool getHovering() const;
 	MovingItem* getPallet() const { return pallet; };
 	AABB getScaledBoundingBox() const {return this->character->getScaledBoundingBox(); };
@@ -59,6 +58,7 @@ protected:
 	void calcBoundingBox(AABB& box);
 private:
     Model* character;
+	
     float leftRight = 0;
     float forwardBackward = 0;
     float jump = 0;
@@ -68,6 +68,9 @@ private:
     bool isInAir = false;
     Vector target;
     Vector position;
+	
+	Vector positionBeforeCollision;
+	
 	AABB BoundingBox;
 	AABB scaledBoundingBox;
 	
@@ -76,6 +79,7 @@ private:
 	
 	//für Hovering
 	bool isHovering = false; 	// Für Palette
+	
 	MovingItem* pallet;
 	
 };
