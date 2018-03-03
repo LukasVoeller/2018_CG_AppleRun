@@ -68,7 +68,7 @@ void GUIEvents::draw(EgoCam* egocam) {
 	// Startmenu
 	if (this->startIsActive == true) {
 		//this->drawImage(c);
-		this->startmenu->draw(c);
+		//this->startmenu->draw(c);
 		return;
 	}
 	

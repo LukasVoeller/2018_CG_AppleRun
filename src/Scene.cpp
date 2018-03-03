@@ -22,7 +22,6 @@ Scene::~Scene() {
 	
 	//Scene nodes löschen
 	deleteNodes(&m_Root);
-	
 	delete sl;
 }
 
@@ -31,7 +30,7 @@ bool Scene::addSceneFile(const char* Scenefile) {
 	
 	FILE* sceneFile = fopen(Scenefile, "r");
 	while (fgets(Line, sizeof(Line), sceneFile)) {
-		if (strstr(Line, "NODE")) { // //NODE nur in "Node"-Lines
+		if (strstr(Line, "NODE")) { 	// NODE nur in "Node"-Lines
 			Vector Pos, Scale, RotAxis;
 			float Angle;
 			char NodeID[256];
@@ -78,7 +77,6 @@ bool Scene::addSceneFile(const char* Scenefile) {
 				sl->innerRadius(45.0f);
 				sl->outerRadius(60.0f);
 				ShaderLightMapper::instance().addLight(sl);
-
 			}
 			else {
 				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
@@ -103,7 +101,6 @@ bool Scene::addSceneFile(const char* Scenefile) {
 				m->shader(new OutlineShader());
 			}
 			
-	
 			m_Models.insert(std::pair<std::string, Model*>(ModelID, m));
 		}
 	}

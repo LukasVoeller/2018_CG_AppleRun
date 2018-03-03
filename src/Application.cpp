@@ -323,7 +323,7 @@ Vector Application::calc3DRay( float x, float y, Vector& Pos){
     
     return Pos + (direction * s);
 }
- */
+*/
 
 void Application::createScene() {
 	Matrix m;
@@ -340,8 +340,9 @@ void Application::createScene() {
 //	 dl->color(Color(0.55, 0.55, 0.55));
 //	 dl->castShadows(true);
 //	 ShaderLightMapper::instance().addLight(dl);
-	
 //	 // Point lights
+	 
+	 // Point lights
 //	 PointLight* pl = new PointLight();
 //	 pl->position(Vector(-1.5, 3, 10));
 //	 pl->color(c);
@@ -354,7 +355,9 @@ void Application::createScene() {
 //	 pl->attenuation(a);
 //	 ShaderLightMapper::instance().addLight(pl);
 //
-//	 // Spot lights
+//
+	 // Spot lights
+
 //	 SpotLight* sl = new SpotLight();
 //	 sl->position(Vector(-1.5, 3, 10));
 //	 sl->color(c);

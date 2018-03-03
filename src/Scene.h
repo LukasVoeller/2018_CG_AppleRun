@@ -13,13 +13,10 @@
 #include <list>
 #include <string.h>
 #include <assert.h>
-
 #include "BaseModel.h"
-
 #include "SceneNode.h"
 #include "Coin.h"
 #include "MovingItem.h"
-
 #include "OutlineShader.h"
 #include "ShaderLightMapper.h"
 
@@ -41,13 +38,11 @@ protected:
 	void draw(SceneNode* pNode); // brauch ich das?//einzelner Knoten
 	SceneNode m_Root;
 	std::map<std::string, Model*> m_Models;
-	
+	SpotLight* sl;
 	CoinList mCoins;
 	NodeList mBarriers;
 	NodeList mDeathItems;
 	MovingItemList mMovingItems;
-	
-	SpotLight* sl;
 	
 private:
 	SceneNode* findNode(char* parentID, SceneNode *node); //helper
