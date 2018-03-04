@@ -59,8 +59,8 @@
 // Helper
 #define DELTA 0.001
 
-#define BORDER_MIN_X -80.0f
-#define BORDER_MAX_X 80.0f
+#define BORDER_MIN_X -40.0f
+#define BORDER_MAX_X 40.0f
 #define BORDER_MIN_Z -120.0f
 #define BORDER_MAX_Z 80.0f
 

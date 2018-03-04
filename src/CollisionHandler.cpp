@@ -95,3 +95,19 @@ void CollisionHandler::handleCoinMoving(Coin* c) {
 	c->setLocalTransform(t);
 	c->setLatestPosition(coinMat.translation());
 }
+
+bool CollisionHandler::collisionWithBorder(Character* c) {
+	Vector pos = c->transform().translation();
+	bool nearBorder = false;
+	float x = 0; float z = 0;
+	if(pos.X <= BORDER_MIN_X + DELTA) {x = 1.0f; nearBorder = true;};
+	if(pos.X >= BORDER_MAX_X - DELTA) {x = -1.0f; nearBorder = true;};
+	if(pos.X <= BORDER_MIN_Z + DELTA) {z = 1.0f; nearBorder = true;};
+	if(pos.X >= BORDER_MAX_Z - DELTA) {z = -1.0f; nearBorder = true;};
+	if(nearBorder) {
+		Matrix t;
+		t.translation(x, 0.0f, z);
+		c->transform(c->transform()*t);
+	}
+	return nearBorder;
+}

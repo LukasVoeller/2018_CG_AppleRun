@@ -111,7 +111,11 @@ void Application::update(float dtime){
 	plattformsHover();
 	
 	egocam.ViewMatrix() = calcCharacterViewMatrix(pCharacter);
-	
+
+	if(game.getCollisionHandler().collisionWithBorder(pCharacter)) {
+		pCharacter->update(deltaTime);
+		return;
+	}
 	
 	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it) {
 		if (coolDownTimer > 0) {
@@ -461,7 +465,6 @@ void Application::collisionHandling(Character* model1, SceneNode* model2) {
 		model1->transform(t*r);
 
 		std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
-//
 //		t.translation(-6*playerControl.getForwardBackward()*deltaTime, 0, -6*playerControl.getLeftRight()*deltaTime);
 //		model1->transform(m*t);
 	}

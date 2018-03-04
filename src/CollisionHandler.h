@@ -23,6 +23,8 @@ public:
 	
 	void handleCollisionWithCoin(Coin* c2);
 	void handleCoinMoving(Coin* c);
+	
+	bool collisionWithBorder(Character* c);
 };
 
 #endif /* Collision_h */
