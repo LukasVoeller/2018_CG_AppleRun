@@ -24,24 +24,24 @@
 #endif
 
 //Physics Sandra's
-#define GRAVITY -4.0f
-#define DOWNFORCE 0.0f
-#define TERRAIN_HEIGHT 0.0f
-
-#define RUNSPEED 15.0f 				// Normal speed
-#define ADDSPEED 5.0 				// Additional speed for running
-#define ROTATIONSPEED 4.0f
-#define JUMPPOWER 20.0f
-
-// Physics Lukas'
-//#define GRAVITY -15.0f
+//#define GRAVITY -4.0f
 //#define DOWNFORCE 0.0f
 //#define TERRAIN_HEIGHT 0.0f
 //
-//#define RUNSPEED 50.0f 				// Normal speed
-//#define	ADDSPEED 5.0 				// Additional speed for running
-//#define ROTATIONSPEED 5.0f
-//#define JUMPPOWER 50.0f
+//#define RUNSPEED 15.0f 				// Normal speed
+//#define ADDSPEED 5.0 				// Additional speed for running
+//#define ROTATIONSPEED 4.0f
+//#define JUMPPOWER 20.0f
+
+// Physics Lukas'
+#define GRAVITY -5.0f
+#define DOWNFORCE 0.0f
+#define TERRAIN_HEIGHT 0.0f
+
+#define RUNSPEED 40.0f 				// Normal speed
+#define ADDSPEED 5.0 				// Additional speed for running
+#define ROTATIONSPEED 4.0f
+#define JUMPPOWER 30.0f
 
 #define ALLCOINS 2;
 
@@ -59,10 +59,10 @@
 // Helper
 #define DELTA 0.001
 
-#define BORDER_MIN_X -80.0f
-#define BORDER_MAX_X 80.0f
+#define BORDER_MIN_X -120.0f
+#define BORDER_MAX_X 120.0f
 #define BORDER_MIN_Z -120.0f
-#define BORDER_MAX_Z 80.0f
+#define BORDER_MAX_Z 120.0f
 
 //View Controls
 #define CAMERA_OFFSET_X 0.0f

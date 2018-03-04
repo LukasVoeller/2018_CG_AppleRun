@@ -287,41 +287,6 @@ void Application::createShadowTestScene(){
 	ShaderLightMapper::instance().addLight(sl);
 }
 
-// Berechnung eines 3D-Strahls aus 2D-Mauskoordinaten
-// Input: 	Fenster-Pixelkoordinaten des Mauszeigers, Ray Origin
-// Output:	Ray Direction
-/*
-Vector Application::calc3DRay( float x, float y, Vector& Pos){
-    // 1. Normalisieren zwischen (-1,1)
-    int windowWidth, windowHeight;
-    glfwGetWindowSize(this->pWindow, &windowWidth, &windowHeight);
-    
-    float xNormal = 2.0f * x / (float) windowWidth - 1.0f;
-    float yNormal = 1.0f - 2.0f * y / (float) windowHeight;
-    
-    // 2. Richtungsvektor in KAMERA-KOORDINATE erzeugen
-    // (Projektionsmatrix invers auf normalisierte Koordinaten anwenden)
-    Vector direction(xNormal, yNormal, 0);
-    Matrix projection = Cam.getProjectionMatrix();
-    direction = projection.invert() * direction;
-    direction.normalize();
-    
-    // 3. Umrechnung von Kamera- zu Weltkoordinaten (Richtung anpassen)
-    // Ursprung des Strahls ist Kameraposition (aus Cam.getViewMatrix())
-    Matrix view = Cam.getViewMatrix();
-    view.invert();
-    
-    Pos = view.translation(); //translation() gibt Vector(m03, m13, m23) zurück
-    direction = view.transformVec3x3(direction);
-    
-    // 4. Schnittpunkt mit der Ebene Y=0 berechnen (Raytracing-Verfahren)
-    Vector ny(0,1,0), y0(0,0,0);
-    float s = (ny.dot(y0) - ny.dot(Pos)) / ny.dot(direction);
-    
-    return Pos + (direction * s);
-}
-*/
-
 void Application::createScene() {
 	Matrix m;
 	
@@ -461,7 +426,7 @@ void Application::collisionHandling(Character* model1, SceneNode* model2) {
 		model1->transform(t*r);
 
 		std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
-//
+		
 //		t.translation(-6*playerControl.getForwardBackward()*deltaTime, 0, -6*playerControl.getLeftRight()*deltaTime);
 //		model1->transform(m*t);
 	}
@@ -508,3 +473,40 @@ void Application::palletCollisionHandling(Character* model1, MovingItem* model2)
 		std::cout << "Flyyyy "<< pCharacter->getLatestPosition().Y << std::endl;
 	}
 }
+
+
+// Berechnung eines 3D-Strahls aus 2D-Mauskoordinaten
+// Input: 	Fenster-Pixelkoordinaten des Mauszeigers, Ray Origin
+// Output:	Ray Direction
+/*
+ Vector Application::calc3DRay( float x, float y, Vector& Pos){
+ // 1. Normalisieren zwischen (-1,1)
+ int windowWidth, windowHeight;
+ glfwGetWindowSize(this->pWindow, &windowWidth, &windowHeight);
+ 
+ float xNormal = 2.0f * x / (float) windowWidth - 1.0f;
+ float yNormal = 1.0f - 2.0f * y / (float) windowHeight;
+ 
+ // 2. Richtungsvektor in KAMERA-KOORDINATE erzeugen
+ // (Projektionsmatrix invers auf normalisierte Koordinaten anwenden)
+ Vector direction(xNormal, yNormal, 0);
+ Matrix projection = Cam.getProjectionMatrix();
+ direction = projection.invert() * direction;
+ direction.normalize();
+ 
+ // 3. Umrechnung von Kamera- zu Weltkoordinaten (Richtung anpassen)
+ // Ursprung des Strahls ist Kameraposition (aus Cam.getViewMatrix())
+ Matrix view = Cam.getViewMatrix();
+ view.invert();
+ 
+ Pos = view.translation(); //translation() gibt Vector(m03, m13, m23) zurück
+ direction = view.transformVec3x3(direction);
+ 
+ // 4. Schnittpunkt mit der Ebene Y=0 berechnen (Raytracing-Verfahren)
+ Vector ny(0,1,0), y0(0,0,0);
+ float s = (ny.dot(y0) - ny.dot(Pos)) / ny.dot(direction);
+ 
+ return Pos + (direction * s);
+ }
+ */
+
