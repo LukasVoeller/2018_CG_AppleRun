@@ -59,9 +59,9 @@ protected:
 	
 	void createScene();
 	void createShadowTestScene();
-	void calcLegalPosition(Character* model, SceneNode* model2); //ggf. löschen
-	void collisionHandling(Character* model, SceneNode* model2);
-	void palletCollisionHandling(Character* model, MovingItem* model2);
+//	//void calcLegalPosition(Character* model, SceneNode* model2); //ggf. löschen
+//	//void collisionHandling(Character* model, SceneNode* model2, float delta);
+//	void palletCollisionHandling(Character* model, MovingItem* model2);
 	Matrix calcCharacterViewMatrix(Character* character);
 	double calcDeltaTime();
 	Vector calc3DRay( float x, float y, Vector& Pos);
@@ -84,12 +84,15 @@ protected:
 
 	//GameLogic
 	Game game;
-	
-	//Steuerung des Characters
-	Control playerControl;
+
 	
 private:
 	float deltaTime;
+	
+	void collisionWithBarrier();
+	void collisionWithBarrel();
+	void collisionWithCoin();
+	void collisionWithPallet();
 
 };
 

@@ -10,8 +10,10 @@
 #define Collision_h
 
 #include "Character.h"
-#include "SceneNode.h"
 #include "Coin.h"
+#include "Control.h"
+#include "MovingItem.h"
+#include "SceneNode.h"
 
 class CollisionHandler {
 public:
@@ -19,12 +21,15 @@ public:
 	~CollisionHandler();
 	
 	bool collisionDetection(Character* c, SceneNode* n, float delta);
-	void handleCollisionWithBarrier(Character* c, SceneNode* n);
+	void handleCollisionWithBarrier(Character* c, SceneNode* n, float delta, Control* control);
+	void handleCollisionWithPalette(Character* c, MovingItem* n, float delta, Control* control);
 	
 	void handleCollisionWithCoin(Coin* c2);
 	void handleCoinMoving(Coin* c);
 	
 	bool collisionWithBorder(Character* c);
+
+
 };
 
 #endif /* Collision_h */

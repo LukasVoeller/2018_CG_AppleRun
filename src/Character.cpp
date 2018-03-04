@@ -17,7 +17,7 @@
 #include "PhongShader.h"
 #include "ConstantShader.h"
 
-Character::Character():pallet(NULL), standOn(NULL)
+Character::Character():pallet(NULL)
 {
 	position = Vector(0.0, 0.0, 0.0);
 }

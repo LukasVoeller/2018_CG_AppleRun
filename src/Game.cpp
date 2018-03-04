@@ -7,13 +7,18 @@
 //
 
 #include "Game.h"
+#include "PhongShader.h"
 
-Game::Game() {
-	collHandler = CollisionHandler();
+Game::Game():pWindow(NULL), pCharacter(NULL), playerControl(NULL) {
+	
+}
+
+Game::Game(GLFWwindow* pwin):pCharacter(NULL), pWindow(pwin), playerControl(NULL) {
+	collHandler = new CollisionHandler();
 }
 
 Game::~Game() {
-	
+	delete collHandler;
 }
 
 bool Game::start(Character* character, CoinList coins) {

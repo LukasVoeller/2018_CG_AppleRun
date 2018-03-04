@@ -11,6 +11,7 @@
 
 #include "Constants.h"
 #include "Character.h"
+#include "Control.h"
 #include "CollisionHandler.h"
 #include "Coin.h"
 
@@ -18,22 +19,32 @@ class Game {
 public:
 	typedef std::list<Coin*> CoinList;
 	Game();
+	Game(GLFWwindow* pWindow);
 	~Game();
 
 	bool start(Character* character, CoinList coins);
 	
 	/* Getter */
-	CollisionHandler getCollisionHandler() {return collHandler;};
+	CollisionHandler* getCollisionHandler() {return collHandler; };
+	Control* getControl() {return playerControl;};
+	Character* getCharacter() { return pCharacter; };
 	
 	int getCollectedCoins() const {return collectedCoins; };
 	
 	/* Setter */
 	void setCollectedCoins(unsigned int c) {collectedCoins = c; };
+	void setControl(Control* c) {playerControl = c;}
 	void foundCoin() { collectedCoins++; };
+	
+	void setCharacter(Character* c) {pCharacter = c; };
+	//void setWindow(GLFWwindow* pW) {pWindow = pW; }
 	
 
 private:
-	CollisionHandler collHandler;
+	GLFWwindow* pWindow;
+	Character* pCharacter;
+	Control* playerControl;
+	CollisionHandler* collHandler;
 	
 	unsigned int allCoins = ALLCOINS;
 	unsigned int collectedCoins = 0;
