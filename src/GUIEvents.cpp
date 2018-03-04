@@ -47,7 +47,7 @@ void GUIEvents::update(GLFWwindow* pWindow, EgoCam* egocam) {
 		this->helpIsActive = !this->helpIsActive;
 	}
 	
-	if(helpIsActive && glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_PRESS) {
+	if(glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_PRESS) {
 		// Close Game
 		this->closeWindow(pWindow);
 	}

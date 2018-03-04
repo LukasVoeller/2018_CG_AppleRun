@@ -40,7 +40,7 @@ void main()
     //FragColor.a = 1;
     
     //Textur
-    FragColor.rgb = pow(cosAngle, 1.2) * ((DiffuseComponent + AmbientColor) * DiffTex.rgb + SpecularComponent);
+    FragColor.rgb = pow(cosAngle, 0.8) * ((DiffuseComponent + AmbientColor) * DiffTex.rgb + SpecularComponent);
     FragColor.a = DiffTex.a;
 
 }

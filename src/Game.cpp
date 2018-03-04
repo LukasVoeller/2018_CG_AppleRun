@@ -18,7 +18,8 @@ Game::Game(GLFWwindow* pwin):pCharacter(NULL), pWindow(pwin), playerControl(NULL
 }
 
 Game::~Game() {
-	delete collHandler;
+//	delete collHandler;
+//	collHandler = NULL;
 }
 
 bool Game::start(Character* character, CoinList coins) {

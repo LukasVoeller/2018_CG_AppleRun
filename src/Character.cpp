@@ -37,6 +37,8 @@ bool Character::loadModel(const char* file, float scaling)
 	this->character->scaleBoundingBox(Vector(scaling, scaling, scaling));
 	this->scaledBoundingBox = this->character->getScaledBoundingBox();
 	
+	this->scaledBoundingBox.Max.Y = 4.85f;
+	
     return true;
 }
 
@@ -60,12 +62,15 @@ void Character::update(float dtime)
 	float translatZ = this->posZ * dtime;
 	
 	if(pallet != NULL) {
+		Matrix r;
+		float angle = (CharacMat.m00 > 0.2 || CharacMat.m00 < -0.2f) ? acos(CharacMat.m00) : asin(CharacMat.m02);
 		// Höhe abhängig von der Palette
 		int additionalJumpFactor = 5;
 		jpFactor *= additionalJumpFactor;
 		hoverMat = pallet->getLocalTransform();
-		steeringMat.rotationY(CharacMat.left().Z+lrFactor);
-		forwardMat = forwardMat.translation(CharacMat.translation().X+fbFactor, hoverMat.translation().Y+jpFactor, CharacMat.translation().Z+translatZ);
+		steeringMat.rotationY(angle);
+		//r.rotationY(lrFactor);
+		forwardMat = forwardMat.translation(CharacMat.translation().X-fbFactor, hoverMat.translation().Y+jpFactor, CharacMat.translation().Z+translatZ);
 		CharacMat = forwardMat * steeringMat;
 	}
 	else {

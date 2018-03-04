@@ -39,6 +39,7 @@ protected:
 	SceneNode m_Root;
 	std::map<std::string, Model*> m_Models;
 	SpotLight* sl;
+	
 	CoinList mCoins;
 	NodeList mBarriers;
 	NodeList mDeathItems;

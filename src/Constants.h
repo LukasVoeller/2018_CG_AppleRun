@@ -54,7 +54,7 @@
 // Window
 #define WINDOW_HEIGHT 600
 #define WINDOW_WIDTH 800
-#define FULLSCREEN false
+#define FULLSCREEN true
 
 // Helper
 #define DELTA 0.001
