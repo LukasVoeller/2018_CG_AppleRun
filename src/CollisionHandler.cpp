@@ -173,7 +173,7 @@ void CollisionHandler::handleCollisionWithCoin(Coin* coin) {
 void CollisionHandler::handleCoinMoving(Coin* c) {
 	Matrix coinMat = c->getLocalTransform();
 	Matrix t;
-	float newHeight = coinMat.translation().Y - 0.25f;
+	float newHeight = coinMat.translation().Y - 0.5f;
 	
 	t.translation(coinMat.translation().X, newHeight, coinMat.translation().Z);
 	c->setLocalTransform(t);

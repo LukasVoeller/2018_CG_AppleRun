@@ -67,7 +67,7 @@ void Control::handleJump(Character* character) {
 		character->setIsInAir(false);
 		jumpPower = 0.0f;
 	} else {
-		jumpPower += GRAVITY * 0.1f;
+		jumpPower += std::max(GRAVITY * 0.1f, -40.0f);
 		std::cout << "DownForce " << jumpPower << std::endl;
 	}
 }

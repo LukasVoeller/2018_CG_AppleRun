@@ -27,7 +27,7 @@
 #define DOWNFORCE 0.0f
 #define TERRAIN_HEIGHT 0.0f
 
-#define RUNSPEED 20.0f 				// Normal speed
+#define RUNSPEED 15.0f 				// Normal speed
 #define ADDSPEED 5.0 				// Additional speed for running
 #define ROTATIONSPEED 4.0f
 #define JUMPPOWER 30.0f
@@ -43,7 +43,7 @@
 // Window
 #define WINDOW_HEIGHT 600
 #define WINDOW_WIDTH 800
-#define FULLSCREEN false
+#define FULLSCREEN true
 
 // Helper
 #define DELTA 0.001

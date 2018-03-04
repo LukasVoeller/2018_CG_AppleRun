@@ -222,14 +222,13 @@ void Application::createScene() {
 //	 float innerradius = 45;
 //	 float outerradius = 60;
 //
-//	 // Directional lights
-//	 DirectionalLight* dl = new DirectionalLight();
-//	 dl->direction(Vector(0.2f, -1, 1));
-//	 dl->color(Color(0.55, 0.55, 0.55));
-//	 dl->castShadows(true);
-//	 ShaderLightMapper::instance().addLight(dl);
-//	 // Point lights
-	 
+	 // Directional lights
+	 DirectionalLight* dl = new DirectionalLight();
+	 dl->direction(Vector(0.2f, -1, 1));
+	 dl->color(Color(0.55, 0.55, 0.55));
+	 dl->castShadows(true);
+	 ShaderLightMapper::instance().addLight(dl);
+	
 	 // Point lights
 //	 PointLight* pl = new PointLight();
 //	 pl->position(Vector(-1.5, 3, 10));
@@ -298,6 +297,7 @@ void Application::collisionWithBarrel() {
 void Application::collisionWithCoin() {
 	for(CoinList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
 		const Matrix* pCoinMat = &(*it)->getLocalTransform();
+		Vector coin = (*it)->getLocalTransform().translation();
 		Matrix trans;
 		
 		if (coolDownTimer > 0) {
@@ -305,13 +305,15 @@ void Application::collisionWithCoin() {
 			continue;
 		}
 		if(game.getCollisionHandler()->collisionDetection(pCharacter, (*it), DELTA) && (*it)->isCollected() == false) {
+			trans.translation(coin.X, coin.Y + 5.0f, coin.Z);
+			(*it)->setLocalTransform(trans);
 			game.foundCoin();
 			coolDownTimer = 5; //Timer neu setzen
 			std::cout << "found coin " << game.getCollectedCoins() << std::endl;
 			game.getCollisionHandler()->handleCollisionWithCoin(*it);
 		}
 		
-		if((*it)->isCollected() &&  pCoinMat->translation().Y > -6.0f) {
+		if((*it)->isCollected() &&  pCoinMat->translation().Y > -20.0f) {
 			game.getCollisionHandler()->handleCoinMoving(*it);
 		}
 	}
