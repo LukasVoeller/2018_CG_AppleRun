@@ -72,9 +72,9 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	egocam.ViewMatrix().identity();
 	egocam.ProjMatrix().perspective((float)M_PI*65.0f/180.0f, WINDOW_WIDTH/WINDOW_HEIGHT, 0.045f, 1000.0f);
 	
-	//------------------------------ MODELS ------------------------------
+	//-------------------------- CHARACTER AND GAME LOGIC ------------------------------
 	Matrix m;
-	
+
 	// Robot
 	pCharacter = new Character();
 	pPhongShader = new PhongShader();
@@ -82,13 +82,13 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	pCharacter->loadModel(ASSET_DIRECTORY "android/Android.dae", 1.0f);
 	m = m.translation(START_POS_X, START_POS_Y, START_POS_Z);
 	pCharacter->transform(m);
+
+	game = Game(pWin);
+	game.setCharacter(pCharacter);
+	game.setControl(new Control(pWin));
+	//game.getCollisionHandler()->setControl(game.getControl());
 	
 	models.push_back(pCharacter);
-	
-	//------------------------------ GAME LOGIC ------------------------------
-	//GameLogic
-	game = Game();
-	playerControl = Control(pWin);
 }
 
 void Application::start(){
@@ -110,98 +110,23 @@ void Application::update(float dtime){
 	plattformsHover();
 	
 	egocam.ViewMatrix() = calcCharacterViewMatrix(pCharacter);
-	
-	
-	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it) {
-		if (coolDownTimer > 0) {
-			coolDownTimer--;
-			continue;
-		}
-		if(game.getCollisionHandler().collisionDetection(pCharacter, *it, 0.01)) {
-			std::cout << "collision with palette" << std::endl;
-			coolDownTimer = 10;
-			palletCollisionHandling(pCharacter, *it);
-		}
-		else if(pCharacter->getPallet() == *it)
-		{
-			std::cout << "Fall" <<std::endl;
-			pCharacter->setHovering(false);
-			pCharacter->setPallet(NULL);
-		}
+
+	if(game.getCollisionHandler()->collisionWithBorder(pCharacter)) {
+		pCharacter->update(deltaTime);
+		return;
 	}
+	collisionWithPallet();
 	
 	// Character steering
-	playerControl.readInputs(this->pCharacter);
-	pCharacter->steer3d(playerControl.getForwardBackward(), playerControl.getLeftRight(), playerControl.getJumpPower());
+	game.getControl()->readInputs(this->pCharacter);
+	pCharacter->steer3d(game.getControl()->getForwardBackward(), game.getControl()->getLeftRight(), game.getControl()->getJumpPower());
 	pCharacter->setPosZ(0.0f);
-	playerControl.handleJump(pCharacter);
+	game.getControl()->handleJump(pCharacter);
 	
-	// Collision
-	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
-		//gehört hier eigt nicht hin
-		//(*it)->getModel()->transform((*it)->getLocalTransform());
-		
-		if (coolDownTimer > 0) {
-			coolDownTimer--;
-			continue;
-		}
-		if(game.getCollisionHandler().collisionDetection(pCharacter, *it, 0.1)) {
-			std::cout << "collision with barrier" << std::endl;
-			coolDownTimer = 10;
-			collisionHandling(pCharacter, *it);
-
-		}
-	}
-
-	// Collision
-	for(NodeList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
-		//Muss eigt woanders hin?
-		//(*it)->getModel()->transform((*it)->getLocalTransform());
-		if (coolDownTimer > 0) {
-			coolDownTimer--;
-			continue;
-		}
-		if(game.getCollisionHandler().collisionDetection(pCharacter, *it, DELTA)){
-			std::cout << "You died!" << std::endl;
-			coolDownTimer = 10;
-			gui.restartGame(); //Startbildschirm aufrufen
-			game.setCollectedCoins(0);
-			
-			/*Setzt die Figur auf die Startposition zurück und positioniert alle Coins wieder auf die Startposition */
-			game.start(pCharacter, pCoins);
-			break;
-		}
-	}
-	
-	for(CoinList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
-		const Matrix* pCoinMat = &(*it)->getLocalTransform();
-		
-		Matrix trans;
-		//Besser iwo anders hin damit... eigentlich hier falsch
-//		if(!(*it)->isCollected()) {
-//			(*it)->getModel()->transform((*it)->getLocalTransform());
-//		}
-
-		if (coolDownTimer > 0) {
-			coolDownTimer--;
-			continue;
-		}
-		if(game.getCollisionHandler().collisionDetection(pCharacter, (*it), DELTA) && (*it)->isCollected() == false) {
-			game.foundCoin();
-			coolDownTimer = 5; //Timer neu setzen
-			std::cout << "found coin " << game.getCollectedCoins() << std::endl;
-			game.getCollisionHandler().handleCollisionWithCoin(*it);
-		}
-		
-		if((*it)->isCollected() &&  pCoinMat->translation().Y > -6.0f) {
-			game.getCollisionHandler().handleCoinMoving(*it);
-		}
-	}
-	
-	int allCoins = ALLCOINS;
-	if(game.getCollectedCoins() == allCoins) {
-		gui.wonGame();
-	}
+	// CollisionDetections
+	collisionWithBarrier();
+	collisionWithBarrel();
+	collisionWithCoin();
 	
 	pCharacter->update(deltaTime);
 }
@@ -318,7 +243,6 @@ void Application::createScene() {
 //
 //
 	 // Spot lights
-
 //	 SpotLight* sl = new SpotLight();
 //	 sl->position(Vector(-1.5, 3, 10));
 //	 sl->color(c);
@@ -342,137 +266,87 @@ void Application::plattformsHover() {
 	}
 }
 
-/* Behandlung aller Fälle
- * a. von Oben auf eine Kiste springen
- * b. seitlich dagegen springen (also in der Luft)
- * c. seitlich dagegen fahren (auf dem Boden
- * d. von unten nach oben dagegen springen */
-void Application::collisionHandling(Character* model1, SceneNode* model2) {
-	Matrix t;
-	Matrix m = model1->transform();
-	
-	Vector pos1 = model1->getLatestPosition();
-	Vector pos2 = model2->getLocalTransform().translation();
-	
-	AABB bb1 = model1->getScaledBoundingBox();
-	AABB bb2 = model2->getScaledBoundingBox();
-	
-	float x = m.translation().X;
-	float z = m.translation().Z;
-	float d = 0.8f;
-//	if(pos1.Y <= TERRAIN_HEIGHT && !model1->getIsInAir()) {
-//		if(pos1.X < pos2.X + bb2.Min.X) {
-//			x = pos2.X + bb2.Min.X - bb2.Max.X - d;
-//		}
-//		if(pos1.X > pos2.X + bb2.Max.X) {
-//			x = pos2.X + bb2.Max.X - bb2.Min.X + d;
-//		}
-//		if(pos1.Z < pos2.Z + bb2.Min.Z) {
-//			z = pos2.Z + bb2.Min.Z - bb2.Max.Z - d;
-//		}
-//		if(pos1.Z > pos2.Z + bb2.Max.Z) {
-//			z = pos2.Z + bb2.Max.Z - bb2.Min.Z + d;
-//		}
-//
-//		float angle = (m.m00 > 0.2 || m.m00 < -0.2f) ? acos(m.m00) : asin(m.m02);
-//
-//		playerControl.setLeftRight(0.0f);
-//		playerControl.setForwardBackward(0.0f);
-//		t.translation(x, 0.0f, z);
-//		Matrix r;
-//		r.rotationY(angle);
-//		model1->transform(t*r);
-//		return;
-//	}
-	
-	// Von oben bzw. in der oberen Hälfte
-	//if(model1->getIsInAir() && pos2.Y + bb2.Max.Y > pos1.Y + bb1.Min.Y && pos1.Y + bb1.Min.Y > pos2.Y ) {
-	if(model1->getIsInAir() && pos1.Y > pos2.Y + bb2.Max.Y) {
-		std::cout << "oben" << std::endl;
-		playerControl.setJumpPower(0.0f);
-		model1->setIsInAir(false);
-		model1->standOn = model2;
-	}
-	
-	// Von unten -> begrenze die Sprunghöhe
-	else if(!model1->getIsInAir() && pos2.Y + bb2.Min.Y < pos1.Y + bb1.Max.Y  && pos1.Y + bb1.Max.Y < pos2.Y) {
-		std::cout << "von unten" << std::endl;
-		playerControl.setJumpPower(-3.0f);
-	}
-	
-	// Auf der Erde
-	else {
-		if(pos1.X < pos2.X + bb2.Min.X) {
-			x = pos2.X + bb2.Min.X - bb2.Max.X - d;
+void Application::collisionWithBarrier() {
+	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
+			continue;
 		}
-		if(pos1.X > pos2.X + bb2.Max.X) {
-			x = pos2.X + bb2.Max.X - bb2.Min.X + d;
+		if(game.getCollisionHandler()->collisionDetection(pCharacter, *it, 0.001)) {
+			std::cout << "collision with barrier" << std::endl;
+			coolDownTimer = 10;
+			game.getCollisionHandler()->handleCollisionWithBarrier(pCharacter, *it, 0.001, game.getControl());
+			break;
 		}
-		if(pos1.Z < pos2.Z + bb2.Min.Z) {
-			z = pos2.Z + bb2.Min.Z - bb2.Max.Z - d;
-		}
-		if(pos1.Z > pos2.Z + bb2.Max.Z) {
-			z = pos2.Z + bb2.Max.Z - bb2.Min.Z + d;
-		}
-		
-		float angle = (m.m00 > 0.2 || m.m00 < -0.2f) ? acos(m.m00) : asin(m.m02);
-		
-		playerControl.setLeftRight(0.0f);
-		playerControl.setForwardBackward(0.0f);
-		t.translation(x, 0.0f, z);
-		Matrix r;
-		r.rotationY(angle);
-		model1->transform(t*r);
-
-		std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
-		
-//		t.translation(-6*playerControl.getForwardBackward()*deltaTime, 0, -6*playerControl.getLeftRight()*deltaTime);
-//		model1->transform(m*t);
 	}
 }
 
-void Application::palletCollisionHandling(Character* model1, MovingItem* model2) {
-	Matrix t;
-	Matrix m = model1->transform();
-	
-	Vector pos1 = model1->getLatestPosition();
-	Vector pos2 = model2->getLocalTransform().translation();
-	Vector size2 = model2->getScaledBoundingBox().size();
-	float bMaxY = pos2.Y + 0.5f* model2->getScaledBoundingBox().size().Y;
-	float bMinY = pos2.Y - 0.5f* model2->getScaledBoundingBox().size().Y;
-	float cMinY = pos1.Y - 0.5f* model1->getScaledBoundingBox().size().Y;
-	float cMaxY = pos1.Y + 0.5f* model1->getScaledBoundingBox().size().Y;
-	
-	if(pCharacter->getPallet() == NULL) {
-		// Von oben bzw. in der oberen Hälfte
-		if(bMaxY > cMinY && cMinY > pos2.Y) {
-			std::cout << "oben" << std::endl;
-			playerControl.setJumpPower(0.0f);
-			model1->setIsInAir(false);
-			model1->setHovering(true);
-			model1->setPallet(model2);
-			return;
-		}
+void Application::collisionWithBarrel() {
+	for(NodeList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
 		
-		// Von unten -> begrenze die Sprunghöhe
-		else if(pCharacter->getIsInAir()) { //&& bMinY < cMaxY  && cMaxY < pos2.Y) {
-			std::cout << "von unten" << std::endl;
-			model2->movingUp();
-			playerControl.setJumpPower(-6.0f);
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
+			continue;
+		}
+		if(game.getCollisionHandler()->collisionDetection(pCharacter, *it, DELTA)){
+			std::cout << "You died!" << std::endl;
+			coolDownTimer = 10;
+			gui.restartGame(); //Startbildschirm aufrufen
+			game.setCollectedCoins(0);
 			
+			/*Setzt die Figur auf die Startposition zurück und positioniert alle Coins wieder auf die Startposition */
+			game.start(pCharacter, pCoins);
+			break;
 		}
-		// Auf der Erde
-		else {
-			std::cout << "seite..." << std::endl;
-			t.translation(-6*playerControl.getForwardBackward()*deltaTime, 0, -6*playerControl.getLeftRight()*deltaTime);
-			model1->transform(m*t);
-		}
-	}
-	else {
-		std::cout << "Flyyyy "<< pCharacter->getLatestPosition().Y << std::endl;
 	}
 }
 
+void Application::collisionWithCoin() {
+	for(CoinList::iterator it = pCoins.begin(); it != pCoins.end(); ++it){
+		const Matrix* pCoinMat = &(*it)->getLocalTransform();
+		Matrix trans;
+		
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
+			continue;
+		}
+		if(game.getCollisionHandler()->collisionDetection(pCharacter, (*it), DELTA) && (*it)->isCollected() == false) {
+			game.foundCoin();
+			coolDownTimer = 5; //Timer neu setzen
+			std::cout << "found coin " << game.getCollectedCoins() << std::endl;
+			game.getCollisionHandler()->handleCollisionWithCoin(*it);
+		}
+		
+		if((*it)->isCollected() &&  pCoinMat->translation().Y > -6.0f) {
+			game.getCollisionHandler()->handleCoinMoving(*it);
+		}
+	}
+	
+	int allCoins = ALLCOINS;
+	if(game.getCollectedCoins() == allCoins) {
+		gui.wonGame();
+	}
+}
+
+void Application::collisionWithPallet() {
+	for(MovingItemList::iterator it = pMovingItems.begin(); it != pMovingItems.end(); ++it) {
+		if (coolDownTimer > 0) {
+			coolDownTimer--;
+			continue;
+		}
+		if(game.getCollisionHandler()->collisionDetection(pCharacter, *it, 0.01)) {
+			std::cout << "collision with palette" << std::endl;
+			coolDownTimer = 10;
+			game.getCollisionHandler()->handleCollisionWithPalette(pCharacter, *it, 0.01, game.getControl());
+		}
+		else if(pCharacter->getPallet() == *it)
+		{
+			std::cout << "Fall" <<std::endl;
+			pCharacter->setHovering(false);
+			pCharacter->setPallet(NULL);
+		}
+	}
+}
 
 // Berechnung eines 3D-Strahls aus 2D-Mauskoordinaten
 // Input: 	Fenster-Pixelkoordinaten des Mauszeigers, Ray Origin
@@ -508,4 +382,3 @@ void Application::palletCollisionHandling(Character* model1, MovingItem* model2)
  return Pos + (direction * s);
  }
  */
-

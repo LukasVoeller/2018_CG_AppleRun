@@ -17,7 +17,7 @@
 #include "PhongShader.h"
 #include "ConstantShader.h"
 
-Character::Character():pallet(NULL), standOn(NULL)
+Character::Character():pallet(NULL)
 {
 	position = Vector(0.0, 0.0, 0.0);
 }
@@ -74,21 +74,13 @@ void Character::update(float dtime)
 		CharacMat = CharacMat * forwardMat * steeringMat;
 	}
 	
-	float xmin = BORDER_MIN_X;
-	float xmax = BORDER_MAX_X;
-	float zmin = BORDER_MIN_Z;
-	float zmax = BORDER_MAX_Z;
-
-	//TODO
-	if(position.X < xmax && position.X > xmin && position.Z < zmax && position.Z > zmin) {
-		//Aktuelle Position in Vektor speichern
-		this->position.X = CharacMat.m[12];
-		this->position.Y = std::max(CharacMat.m[13], TERRAIN_HEIGHT);
-		this->position.Z = CharacMat.m[14];
-		
-		this->character->transform(CharacMat);
-		this->transform(CharacMat);
-	}
+	//Aktuelle Position in Vektor speichern
+	this->position.X = CharacMat.m[12];
+	this->position.Y = std::max(CharacMat.m[13], TERRAIN_HEIGHT);
+	this->position.Z = CharacMat.m[14];
+	
+	this->character->transform(CharacMat);
+	this->transform(CharacMat);
 	
 }
 
