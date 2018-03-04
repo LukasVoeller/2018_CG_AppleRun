@@ -69,9 +69,9 @@ void Character::update(float dtime)
 		jpFactor *= additionalJumpFactor;
 		hoverMat = pallet->getLocalTransform();
 		steeringMat.rotationY(angle);
-		r.rotationY(lrFactor);
+		//r.rotationY(lrFactor);
 		forwardMat = forwardMat.translation(CharacMat.translation().X-fbFactor, hoverMat.translation().Y+jpFactor, CharacMat.translation().Z+translatZ);
-		CharacMat = forwardMat * r * steeringMat;
+		CharacMat = forwardMat * steeringMat;
 	}
 	else {
 		forwardMat.translation(fbFactor, jpFactor, translatZ);
