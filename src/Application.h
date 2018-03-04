@@ -58,13 +58,9 @@ protected:
 	ShadowMapGenerator shadowGenerator;
 	
 	void createScene();
-	void createShadowTestScene();
-//	//void calcLegalPosition(Character* model, SceneNode* model2); //ggf. löschen
-//	//void collisionHandling(Character* model, SceneNode* model2, float delta);
-//	void palletCollisionHandling(Character* model, MovingItem* model2);
+	//void createShadowTestScene();
 	Matrix calcCharacterViewMatrix(Character* character);
 	double calcDeltaTime();
-	Vector calc3DRay( float x, float y, Vector& Pos);
 	
 	// Time
 	double oldTime = 0;
@@ -73,6 +69,7 @@ protected:
 	
 	// Character
 	Character* pCharacter;
+	PhongShader* pPhongShader;
 	
 	// Obstacle List
 	NodeList pBarriers;
