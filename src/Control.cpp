@@ -63,11 +63,11 @@ float Control::readJump(Character* character) {
 }
 
 void Control::handleJump(Character* character) {
-	if(character->getLatestPosition().Y <= TERRAIN_HEIGHT || character->getPallet() != NULL || character->getUnderground() != NULL ) {
+	if(character->getLatestPosition().Y <= 1.0f || character->getPallet() != NULL || character->getUnderground() != NULL ) {
 		character->setIsInAir(false);
 		jumpPower = 0.0f;
 	} else {
-		jumpPower += std::max(GRAVITY * 0.1f, -40.0f);
+		jumpPower += std::max(GRAVITY * 0.1f, -15.0f);
 		std::cout << "DownForce " << jumpPower << std::endl;
 	}
 }
