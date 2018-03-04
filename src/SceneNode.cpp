@@ -7,6 +7,7 @@
 //
 
 #include "SceneNode.h"
+#include <string>
 
 SceneNode::SceneNode() : m_Name(""), m_Scaling(1, 1, 1), m_pParent(NULL), m_pModel(NULL)
 {

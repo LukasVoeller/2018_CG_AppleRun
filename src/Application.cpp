@@ -76,7 +76,6 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	//-------------------------- CHARACTER AND GAME LOGIC ------------------------------
 	Matrix m;
 
-	// Robot
 	pCharacter = new Character();
 	pPhongShader = new PhongShader();
 	pCharacter->shader(pPhongShader, true);
@@ -87,9 +86,14 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	game = Game(pWin);
 	game.setCharacter(pCharacter);
 	game.setControl(new Control(pWin));
-	//game.getCollisionHandler()->setControl(game.getControl());
 	
 	models.push_back(pCharacter);
+	
+	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
+		AABB bbNEU = (*it)->getScaledBoundingBox();
+		bbNEU.Max.Y = 0.7*bbNEU.Max.Y;
+		(*it)->setScaledBoundingBox(bbNEU);
+	}
 }
 
 void Application::start(){
@@ -116,19 +120,19 @@ void Application::update(float dtime){
 		pCharacter->update(deltaTime);
 		return;
 	}
-	collisionWithPallet();
 	
 	// Character steering
 	game.getControl()->readInputs(this->pCharacter);
 	pCharacter->steer3d(game.getControl()->getForwardBackward(), game.getControl()->getLeftRight(), game.getControl()->getJumpPower());
 	pCharacter->setPosZ(0.0f);
-	game.getControl()->handleJump(pCharacter);
 	
 	// CollisionDetections
 	collisionWithBarrier();
 	collisionWithBarrel();
 	collisionWithCoin();
+	collisionWithPallet();
 	
+	game.getControl()->handleJump(pCharacter);
 	pCharacter->update(deltaTime);
 }
 
@@ -148,11 +152,9 @@ double Application::calcDeltaTime() {
     double now = glfwGetTime();
     double deltaTime = (now - this->oldTime);
     this->oldTime = now;
-	
     if (this->oldTime == 0){
         return 1/60;	// 1/60 = 60 frames per second
     }
-	
     return deltaTime;
 }
 
@@ -308,11 +310,16 @@ void Application::collisionWithBarrier() {
 			coolDownTimer--;
 			continue;
 		}
-		if(game.getCollisionHandler()->collisionDetection(pCharacter, *it, 0.001)) {
+		if(game.getCollisionHandler()->collisionDetection(pCharacter, *it, 0)) {
 			std::cout << "collision with barrier" << std::endl;
 			coolDownTimer = 10;
-			game.getCollisionHandler()->handleCollisionWithBarrier(pCharacter, *it, 0.001, game.getControl());
+			game.getCollisionHandler()->handleCollisionWithBarrier(pCharacter, *it, 0, game.getControl());
 			break;
+		}
+		else if(pCharacter->getUnderground() == *it)
+		{
+			std::cout << "Fall" <<std::endl;
+			pCharacter->setUnderground(NULL);
 		}
 	}
 }
@@ -371,7 +378,6 @@ void Application::collisionWithPallet() {
 			continue;
 		}
 		if(game.getCollisionHandler()->collisionDetection(pCharacter, *it, 0.01)) {
-			std::cout << "collision with palette" << std::endl;
 			coolDownTimer = 10;
 			game.getCollisionHandler()->handleCollisionWithPalette(pCharacter, *it, 0.01, game.getControl());
 		}
@@ -383,5 +389,3 @@ void Application::collisionWithPallet() {
 		}
 	}
 }
-
-

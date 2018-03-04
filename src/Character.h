@@ -39,7 +39,7 @@ public:
 	void setPosZ (float z);
 	void setIsInAir(bool newIsInAir);
 	void setPallet(MovingItem* p) { pallet = p;};
-
+	void setUnderground(SceneNode* p) { standOn = p;};
 	
 	/** Getter ***/
 	Vector getLatestPosition();
@@ -50,7 +50,8 @@ public:
 	float getLeftRight() const { return leftRight; };
 	bool getHovering() const;
 	MovingItem* getPallet() const { return pallet; };
-	AABB getScaledBoundingBox() const {return this->character->getScaledBoundingBox(); };
+	SceneNode* getUnderground() const { return standOn; };
+	AABB getScaledBoundingBox() const {return this->scaledBoundingBox; }; //this->character->getScaledBoundingBox(); };
 	
 	/** Debug **/
 	void printLatestPosition();
@@ -62,17 +63,14 @@ private:
     float leftRight = 0;
     float forwardBackward = 0;
     float jump = 0;
-    float cannonAngle = 0;
     float time = 0;
 	float jumpPower = JUMPPOWER;
     bool isInAir = false;
-    Vector target;
     Vector position;
-	
-	Vector positionBeforeCollision;
 	
 	AABB BoundingBox;
 	AABB scaledBoundingBox;
+	AABB movedBoundingBox;
 	
 	//für update und so..
 	float posZ = 0;
@@ -81,9 +79,7 @@ private:
 	bool isHovering = false; 	// Für Palette
 	
 	MovingItem* pallet;
-public:
-	SceneNode* standOn;
-	
+	SceneNode* standOn = NULL;
 };
 
 #endif /* Tank_hpp */

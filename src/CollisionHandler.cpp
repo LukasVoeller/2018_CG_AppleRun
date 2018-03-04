@@ -55,88 +55,26 @@ void CollisionHandler::handleCollisionWithBarrier(Character* model1, SceneNode* 
 	float x = m.translation().X;
 	float z = m.translation().Z;
 	float d = 0.8f;
+	
 
-	// Von oben bzw. in der oberen Hälfte
-	//if(pos2.Y + bb2.Max.Y + delta > pos1.Y + bb1.Min.Y && pos1.Y + bb1.Min.Y + delta > pos2.Y ) {
-	if(pos1.Y + delta > pos2.Y + bb2.Max.Y) {
-		std::cout << "oben" << std::endl;
-		playerControl->setJumpPower(0.0f);
-		model1->setIsInAir(false);
-	}
-	
-	// Von unten -> begrenze die Sprunghöhe
-	//else if(model1->getIsInAir() && pos2.Y + bb2.Min.Y < pos1.Y + bb1.Max.Y + delta && pos1.Y + bb1.Max.Y < pos2.Y + delta) {
-	else if(model1->getIsInAir() && pos2.Y + bb2.Min.Y + delta > pos1.Y) {
-		std::cout << "von unten" << std::endl;
-		playerControl->setJumpPower(-5.0f);
-	}
-	
-	// Auf der Erde
-	else {
-		if(pos1.X < pos2.X + bb2.Min.X) {
-			x = pos2.X + bb2.Min.X - bb2.Max.X - d;
-		}
-		if(pos1.X > pos2.X + bb2.Max.X) {
-			x = pos2.X + bb2.Max.X - bb2.Min.X + d;
-		}
-		if(pos1.Z < pos2.Z + bb2.Min.Z) {
-			z = pos2.Z + bb2.Min.Z - bb2.Max.Z - d;
-		}
-		if(pos1.Z > pos2.Z + bb2.Max.Z) {
-			z = pos2.Z + bb2.Max.Z - bb2.Min.Z + d;
-		}
-		
-		float angle = (m.m00 > 0.2 || m.m00 < -0.2f) ? acos(m.m00) : asin(m.m02);
-		
-		playerControl->setLeftRight(0.0f);
-		playerControl->setForwardBackward(0.0f);
-		t.translation(x, 0.0f, z);
-		Matrix r;
-		r.rotationY(angle);
-		model1->transform(t*r);
-		
-		std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
-		//	t.translation(-6*playerControl.getForwardBackward()*deltaTime, 0, -6*playerControl.getLeftRight()*deltaTime);
-		//	model1->transform(m*t);
-	}
-}
-
-void CollisionHandler::handleCollisionWithPalette(Character* model1, MovingItem* model2, float delta, Control* control) {
-	Matrix t;
-	Matrix m = model1->transform();
-	
-	Vector pos1 = model1->getLatestPosition();
-	Vector pos2 = model2->getLocalTransform().translation();
-	
-	AABB bb1 = model1->getScaledBoundingBox();
-	AABB bb2 = model2->getScaledBoundingBox();
-	
-	float x = m.translation().X;
-	float z = m.translation().Z;
-	float d = 0.8f;
-	
-	Vector size2 = model2->getScaledBoundingBox().size();
-	float bMaxY = pos2.Y + 0.5f* model2->getScaledBoundingBox().size().Y;
-	float bMinY = pos2.Y - 0.5f* model2->getScaledBoundingBox().size().Y;
-	float cMinY = pos1.Y - 0.5f* model1->getScaledBoundingBox().size().Y;
-	float cMaxY = pos1.Y + 0.5f* model1->getScaledBoundingBox().size().Y;
-	
-	if(model1->getPallet() == NULL) {
-		
-		if(pos1.Y + DELTA > pos2.Y + bb2.Max.Y) {
+		// Von oben bzw. in der oberen Hälfte
+		if(pos2.Y + bb2.Max.Y + delta > pos1.Y + bb1.Min.Y && pos1.Y + bb1.Min.Y + delta > pos2.Y + bb2.Min.Y ) {
+			//if(pos1.Y + delta > pos2.Y + bb2.Max.Y) {
 			std::cout << "oben" << std::endl;
-			control->setJumpPower(0.0f);
+			model1->setJump(0.0f);
+			playerControl->setJumpPower(0.0f);
 			model1->setIsInAir(false);
-			model1->setHovering(true);
-			model1->setPallet(model2);
+			model1->setUnderground(model2);
+			
 		}
 		
 		// Von unten -> begrenze die Sprunghöhe
-		else if(model1->getIsInAir()){ //  && pos2.Y + bb2.Min.Y + DELTA > pos1.Y) {
+		//else if(model1->getIsInAir() && pos2.Y + bb2.Min.Y < pos1.Y + bb1.Max.Y + delta && pos1.Y + bb1.Max.Y < pos2.Y + delta) {
+		else if(model1->getIsInAir() && pos2.Y + bb2.Min.Y + delta > pos1.Y) {
 			std::cout << "von unten" << std::endl;
-			model2->movingUp();
-			control->setJumpPower(-6.0f);
+			playerControl->setJumpPower(-10.0f);
 		}
+		
 		// Auf der Erde
 		else {
 			if(pos1.X < pos2.X + bb2.Min.X) {
@@ -154,8 +92,8 @@ void CollisionHandler::handleCollisionWithPalette(Character* model1, MovingItem*
 			
 			float angle = (m.m00 > 0.2 || m.m00 < -0.2f) ? acos(m.m00) : asin(m.m02);
 			
-			control->setLeftRight(0.0f);
-			control->setForwardBackward(0.0f);
+			playerControl->setLeftRight(0.0f);
+			playerControl->setForwardBackward(0.0f);
 			t.translation(x, 0.0f, z);
 			Matrix r;
 			r.rotationY(angle);
@@ -163,9 +101,64 @@ void CollisionHandler::handleCollisionWithPalette(Character* model1, MovingItem*
 			
 			std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
 		}
-	}
-	else {
-		std::cout << "Flyyyy "<< model1->getLatestPosition().Y << std::endl;
+
+
+}
+
+void CollisionHandler::handleCollisionWithPalette(Character* model1, MovingItem* model2, float delta, Control* control) {
+	Matrix t;
+	Matrix m = model1->transform();
+	
+	Vector pos1 = model1->getLatestPosition();
+	Vector pos2 = model2->getLocalTransform().translation();
+	
+	AABB bb1 = model1->getScaledBoundingBox();
+	AABB bb2 = model2->getScaledBoundingBox();
+	
+	float x = m.translation().X;
+	float z = m.translation().Z;
+	float d = 0.8f;
+	
+	float angle = (m.m00 > 0.2 || m.m00 < -0.2f) ? acos(m.m00) : asin(m.m02);
+	Matrix r;
+	r.rotationY(angle);
+	
+	if(model1->getPallet() == NULL) {
+		if(pos1.Y + DELTA > pos2.Y + bb2.Max.Y) {
+			std::cout << "oben" << std::endl;
+			control->setJumpPower(0.0f);
+			model1->setIsInAir(false);
+			model1->setHovering(true);
+			model1->setPallet(model2);
+		}
+		// Von unten -> begrenze die Sprunghöhe
+		else if(pos2.Y + bb2.Min.Y + DELTA > pos1.Y) { //model1->getIsInAir()){ //  &&
+			std::cout << "von unten" << std::endl;
+			model2->movingUp();
+			control->setJumpPower(-10.0f);
+		}
+		// Auf der Erde
+		else {
+			if(pos1.X < pos2.X + bb2.Min.X) {
+				x = pos2.X + bb2.Min.X - bb2.Max.X - d;
+			}
+			if(pos1.X > pos2.X + bb2.Max.X) {
+				x = pos2.X + bb2.Max.X - bb2.Min.X + d;
+			}
+			if(pos1.Z < pos2.Z + bb2.Min.Z) {
+				z = pos2.Z + bb2.Min.Z - bb2.Max.Z - d;
+			}
+			if(pos1.Z > pos2.Z + bb2.Max.Z) {
+				z = pos2.Z + bb2.Max.Z - bb2.Min.Z + d;
+			}
+			
+			control->setLeftRight(0.0f);
+			control->setForwardBackward(0.0f);
+			t.translation(x, 0.0f, z);
+			model1->transform(t*r);
+			
+			std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
+		}
 	}
 }
 

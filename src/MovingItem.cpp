@@ -26,10 +26,11 @@ MovingItem::~MovingItem() {
 
 void MovingItem::movingUp() {
 	Vector t = this->getLocalTransform().translation();
+	t.debugOutput();
 	this->setMoveUp(true);
 	
 	Matrix trans;
-	trans.translation(t.X, t.Y + 0.05, t.Z);
+	trans.translation(t.X, t.Y + 0.3f, t.Z);
 	this->setLocalTransform(trans);
 }
 
@@ -49,6 +50,7 @@ void MovingItem::moving() {
 	Matrix trans;
 	trans.translation(t.X, heigth, t.Z);
 	this->setLocalTransform(trans);
+	setLatestPosition(this->getLocalTransform().translation());
 }
 
 const Vector& MovingItem::getLatestPosition() const

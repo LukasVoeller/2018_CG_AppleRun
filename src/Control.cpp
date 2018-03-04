@@ -63,7 +63,7 @@ float Control::readJump(Character* character) {
 }
 
 void Control::handleJump(Character* character) {
-	if(character->getLatestPosition().Y <= TERRAIN_HEIGHT || character->getPallet() != NULL) {
+	if(character->getLatestPosition().Y <= TERRAIN_HEIGHT || character->getPallet() != NULL || character->getUnderground() != NULL ) {
 		character->setIsInAir(false);
 		jumpPower = 0.0f;
 	} else {
