@@ -70,5 +70,8 @@ void MovingItem::setMoveUp(const bool up)
 	moveUp = up;
 }
 
+void MovingItem::update(float dt) {
+	this->moving();
+}
 
 

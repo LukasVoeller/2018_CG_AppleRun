@@ -81,6 +81,8 @@ private:
 	bool isHovering = false; 	// Für Palette
 	
 	MovingItem* pallet;
+public:
+	SceneNode* standOn;
 	
 };
 

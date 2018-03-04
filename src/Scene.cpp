@@ -59,7 +59,7 @@ bool Scene::addSceneFile(const char* Scenefile) {
 				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mDeathItems.push_back(sceneNode);
 			}
-			else if(strstr(ModelID, "woodcube") || strstr(ModelID, "factory")) {
+			else if(strstr(ModelID, "collisioncube") || strstr(ModelID, "factory")) {
 				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mBarriers.push_back(sceneNode);
 			}

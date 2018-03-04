@@ -188,10 +188,10 @@
 		7ABD816E1DA3C6050008D349 /* CGXcode */ = {
 			isa = PBXGroup;
 			children = (
-				809B2BE2202F1E43005C708C /* SceneManagement */,
+				80D317021FEBF31B0079DD72 /* Graphic */,
 				80D316FF1FEBF18A0079DD72 /* Buffer */,
 				80D317011FEBF21F0079DD72 /* Entity */,
-				80D317021FEBF31B0079DD72 /* Graphic */,
+				809B2BE2202F1E43005C708C /* SceneManagement */,
 				80D316FC1FEBF1120079DD72 /* Math */,
 				80D316FE1FEBF1460079DD72 /* Model */,
 				80D316FD1FEBF1330079DD72 /* Shader */,
@@ -199,14 +199,7 @@
 				80D316941FEBE2E30079DD72 /* main.cpp */,
 				80D3167A1FEBE2DF0079DD72 /* Application.h */,
 				80D316A21FEBE2E50079DD72 /* Application.cpp */,
-				807F0F3A2049BC76000ED407 /* CollisionHandler.h */,
-				807F0F382049BC58000ED407 /* CollisionHandler.cpp */,
-				80539B52203C46E9005D4F35 /* Control.h */,
-				80539B53203C4843005D4F35 /* Control.cpp */,
-				80539B4F203C3456005D4F35 /* Game.h */,
-				80539B50203C346A005D4F35 /* Game.cpp */,
-				80398D6720289B0900010C49 /* GUIEvents.h */,
-				80398D6820289B6300010C49 /* GUIEvents.cpp */,
+				80B0F95D204B18CF00767F62 /* GameSettings */,
 				80398D6A20289C1D00010C49 /* Constants.h */,
 			);
 			name = CGXcode;
@@ -221,6 +214,21 @@
 				809B2BE4202F1F4A005C708C /* SceneNode.cpp */,
 			);
 			name = SceneManagement;
+			sourceTree = "<group>";
+		};
+		80B0F95D204B18CF00767F62 /* GameSettings */ = {
+			isa = PBXGroup;
+			children = (
+				80398D6720289B0900010C49 /* GUIEvents.h */,
+				80398D6820289B6300010C49 /* GUIEvents.cpp */,
+				807F0F3A2049BC76000ED407 /* CollisionHandler.h */,
+				807F0F382049BC58000ED407 /* CollisionHandler.cpp */,
+				80539B53203C4843005D4F35 /* Control.cpp */,
+				80539B52203C46E9005D4F35 /* Control.h */,
+				80539B4F203C3456005D4F35 /* Game.h */,
+				80539B50203C346A005D4F35 /* Game.cpp */,
+			);
+			name = GameSettings;
 			sourceTree = "<group>";
 		};
 		80D316D91FEBE42E0079DD72 /* Frameworks */ = {

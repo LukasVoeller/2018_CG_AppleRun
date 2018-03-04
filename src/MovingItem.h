@@ -17,6 +17,7 @@ public:
 	MovingItem();
 	MovingItem(const std::string& Name, const Vector& Translation, const Vector& RotationAxis, const float RotationAngle, const Vector& Scale, SceneNode* pParent, Model* pModel);
 	~MovingItem();
+	void update(float dt);
 	
 	void moving();
 	void movingUp();

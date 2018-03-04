@@ -33,12 +33,12 @@ float Control::readForwardBackward() {
 	// Move forward
 	if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_W) == GLFW_PRESS) {
 		speed += RUNSPEED;
-		forwardBackward += speed;
+		forwardBackward -= speed;
 	}
 	// Move backward
 	if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_S) == GLFW_PRESS) {
 		speed += RUNSPEED;
-		forwardBackward -= speed;
+		forwardBackward += speed;
 	}
 	return forwardBackward;
 }

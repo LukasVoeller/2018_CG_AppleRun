@@ -17,7 +17,7 @@
 #include "PhongShader.h"
 #include "ConstantShader.h"
 
-Character::Character():pallet(NULL)
+Character::Character():pallet(NULL), standOn(NULL)
 {
 	position = Vector(0.0, 0.0, 0.0);
 }
@@ -53,12 +53,11 @@ void Character::update(float dtime)
 	Matrix CharacMat = this->transform();
 	Matrix forwardMat, steeringMat, hoverMat;
 	
-	//Panzerbewegung berechnen
+	//Bewegung berechnen
 	float fbFactor = this->forwardBackward * dtime;
 	float lrFactor = this->leftRight * dtime;
 	float jpFactor = this->jump * dtime;
 	float translatZ = this->posZ * dtime;
-	
 	
 	if(pallet != NULL) {
 		// Höhe abhängig von der Palette
@@ -79,9 +78,8 @@ void Character::update(float dtime)
 	float xmax = BORDER_MAX_X;
 	float zmin = BORDER_MIN_Z;
 	float zmax = BORDER_MAX_Z;
-	
-	position.debugOutput();
 
+	//TODO
 	if(position.X < xmax && position.X > xmin && position.Z < zmax && position.Z > zmin) {
 		//Aktuelle Position in Vektor speichern
 		this->position.X = CharacMat.m[12];

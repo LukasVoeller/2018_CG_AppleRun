@@ -71,10 +71,10 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	
 	// Camera
 	egocam.ViewMatrix().identity();
-	egocam.ProjMatrix().perspective((float)M_PI*65.0f/180.0f, 640/480, 0.045f, 1000.0f);
+	egocam.ProjMatrix().perspective((float)M_PI*65.0f/180.0f, WINDOW_WIDTH/WINDOW_HEIGHT, 0.045f, 1000.0f);
 	
 	//------------------------------ MODELS ------------------------------
-	Matrix m, r;
+	Matrix m;
 	
 	// Robot
 	pCharacter = new Character();
@@ -89,8 +89,6 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	//------------------------------ GAME LOGIC ------------------------------
 	//GameLogic
 	game = Game();
-	
-	//Character-Control
 	playerControl = Control(pWin);
 }
 
@@ -160,7 +158,6 @@ void Application::update(float dtime){
 	for(NodeList::iterator it = pDeathblocks.begin(); it != pDeathblocks.end(); ++it){
 		//Muss eigt woanders hin?
 		//(*it)->getModel()->transform((*it)->getLocalTransform());
-
 		if (coolDownTimer > 0) {
 			coolDownTimer--;
 			continue;
@@ -215,7 +212,7 @@ Matrix Application::calcCharacterViewMatrix(Character* character) {
 	Matrix characterMat = character->transform();
 	Matrix matRotHorizontal, matRotVertical, matTransView;
 	matTransView.translation(0, 5, 12);
-	matRotHorizontal.rotationY(toRadApp(-90));
+	matRotHorizontal.rotationY(toRadApp(90));
 	matRotVertical.rotationX(toRadApp(-20));
 	Matrix tankViewMatrix = characterMat * matRotHorizontal * matRotVertical * matTransView;
 	return tankViewMatrix.invert();
@@ -390,25 +387,57 @@ void Application::collisionHandling(Character* model1, SceneNode* model2) {
 	Matrix t;
 	Matrix m = model1->transform();
 	
-	Vector test = m.forward();
-	std::cout << test.X /3.14f*180 << " " << test.Z /3.14f*180 << std::endl;
-	
 	Vector pos1 = model1->getLatestPosition();
 	Vector pos2 = model2->getLocalTransform().translation();
 	
 	AABB bb1 = model1->getScaledBoundingBox();
 	AABB bb2 = model2->getScaledBoundingBox();
 	
-	Vector size2 = model2->getScaledBoundingBox().size();
-	float bMaxY = pos2.Y + bb2.Max.Y;
-	float bMinY = pos2.Y + bb2.Min.Y;
-	float cMinY = pos1.Y - 0.5f* model1->getScaledBoundingBox().size().Y;
-	float cMaxY = pos1.Y + 0.5f* model1->getScaledBoundingBox().size().Y;
-	
 	float x = m.translation().X;
 	float z = m.translation().Z;
-	float d = 0.5f;
-	if(pos1.Y <= TERRAIN_HEIGHT && !model1->getIsInAir()) {
+	float d = 0.8f;
+//	if(pos1.Y <= TERRAIN_HEIGHT && !model1->getIsInAir()) {
+//		if(pos1.X < pos2.X + bb2.Min.X) {
+//			x = pos2.X + bb2.Min.X - bb2.Max.X - d;
+//		}
+//		if(pos1.X > pos2.X + bb2.Max.X) {
+//			x = pos2.X + bb2.Max.X - bb2.Min.X + d;
+//		}
+//		if(pos1.Z < pos2.Z + bb2.Min.Z) {
+//			z = pos2.Z + bb2.Min.Z - bb2.Max.Z - d;
+//		}
+//		if(pos1.Z > pos2.Z + bb2.Max.Z) {
+//			z = pos2.Z + bb2.Max.Z - bb2.Min.Z + d;
+//		}
+//
+//		float angle = (m.m00 > 0.2 || m.m00 < -0.2f) ? acos(m.m00) : asin(m.m02);
+//
+//		playerControl.setLeftRight(0.0f);
+//		playerControl.setForwardBackward(0.0f);
+//		t.translation(x, 0.0f, z);
+//		Matrix r;
+//		r.rotationY(angle);
+//		model1->transform(t*r);
+//		return;
+//	}
+	
+	// Von oben bzw. in der oberen Hälfte
+	//if(model1->getIsInAir() && pos2.Y + bb2.Max.Y > pos1.Y + bb1.Min.Y && pos1.Y + bb1.Min.Y > pos2.Y ) {
+	if(model1->getIsInAir() && pos1.Y > pos2.Y + bb2.Max.Y) {
+		std::cout << "oben" << std::endl;
+		playerControl.setJumpPower(0.0f);
+		model1->setIsInAir(false);
+		model1->standOn = model2;
+	}
+	
+	// Von unten -> begrenze die Sprunghöhe
+	else if(!model1->getIsInAir() && pos2.Y + bb2.Min.Y < pos1.Y + bb1.Max.Y  && pos1.Y + bb1.Max.Y < pos2.Y) {
+		std::cout << "von unten" << std::endl;
+		playerControl.setJumpPower(-3.0f);
+	}
+	
+	// Auf der Erde
+	else {
 		if(pos1.X < pos2.X + bb2.Min.X) {
 			x = pos2.X + bb2.Min.X - bb2.Max.X - d;
 		}
@@ -422,47 +451,19 @@ void Application::collisionHandling(Character* model1, SceneNode* model2) {
 			z = pos2.Z + bb2.Max.Z - bb2.Min.Z + d;
 		}
 		
-		std::cout << "Winkel 1 " << m.m00 << std::endl;
-		std::cout << "Winkel 2 " << m.m02 << " " << asin(m.m02) << " " << (asin(m.m02)/3.14f*180) << std::endl;
 		float angle = (m.m00 > 0.2 || m.m00 < -0.2f) ? acos(m.m00) : asin(m.m02);
 		
-
-		
-//		float x = (pos1.X > pos2.X) ? pos2.X + bb2.Min.X : pos2.X + bb2.Max.X;
-//		float z = (pos1.Z > pos2.Z) ? pos2.Z + bb2.Min.Z : pos2.Z + bb2.Max.Z;
-		std::cout << "seite..." << x << " "<< z <<  " acos " << angle << " " << angle / 3.14 *180 << std::endl;
-		//t.translation(-6* playerControl.getForwardBackward() *deltaTime, 0, -6*playerControl.getLeftRight()*deltaTime);
 		playerControl.setLeftRight(0.0f);
 		playerControl.setForwardBackward(0.0f);
 		t.translation(x, 0.0f, z);
 		Matrix r;
 		r.rotationY(angle);
 		model1->transform(t*r);
-		return;
-	}
-	
-	// Von oben bzw. in der oberen Hälfte
-	else if(pos2.Y + bb2.Max.Y > pos1.Y + bb1.Min.Y && pos1.Y + bb1.Min.Y > pos2.Y ) {
-		std::cout << "oben" << std::endl;
-		playerControl.setJumpPower(0.0f);
-		model1->setIsInAir(false);
-		return;
-	}
-	
-	// Von unten -> begrenze die Sprunghöhe
-	else if(pos2.Y + bb2.Min.Y < pos1.Y + bb1.Max.Y  && pos1.Y + bb1.Max.Y < pos2.Y) {
-		std::cout << "von unten" << std::endl;
-		playerControl.setJumpPower(-3.0f);
-	}
-	
-	// Auf der Erde
-	else {
-		float x = (pos1.X > pos2.X) ? pos2.X + bb2.Min.X : pos2.X + bb2.Max.X;
-		float z = (pos1.Z > pos2.Z) ? pos2.Z + bb2.Min.Z : pos2.Z + bb2.Max.Z;
-		std::cout << "seite..." << x << " "<< z << std::endl;
-		
-		t.translation(-6*playerControl.getForwardBackward()*deltaTime, 0, -6*playerControl.getLeftRight()*deltaTime);
-		model1->transform(m*t);
+
+		std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
+//
+//		t.translation(-6*playerControl.getForwardBackward()*deltaTime, 0, -6*playerControl.getLeftRight()*deltaTime);
+//		model1->transform(m*t);
 	}
 }
 

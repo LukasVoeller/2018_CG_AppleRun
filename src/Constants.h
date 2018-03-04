@@ -64,17 +64,8 @@
 #define BORDER_MAX_Z 80.0f
 
 //View Controls
-//#define VIEW_DEADZONE 0.001f
-//#define VIEW_SENSITIVITYX 40
-//#define VIEW_SENSITIVITYY 30
-//#define CAMERA_OFFSET_X 0.0f
-//#define CAMERA_OFFSET_Y 0.1f
-//#define CAMERA_OFFSET_Z 0.0f
-
-//#define PHYSICS_PLAYERSPEED 1.0f
-//#define PHYSICS_PLAYERROTATIONTIME 2.0f
-//#define PHYSICS_SPRINTMULTIPLIER 2.0f
-//#define PHYSICS_ADDITIONAL_COLLISIONTEST_MINIMUM 0.2f
-//#define PHYSICS_RESET_HEIGHT -2.0f
+#define CAMERA_OFFSET_X 0.0f
+#define CAMERA_OFFSET_Y 0.1f
+#define CAMERA_OFFSET_Z 0.0f
 
 #endif /* Constants_h */
