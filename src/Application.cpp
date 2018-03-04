@@ -42,13 +42,12 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	PhongShader* pPhongShader = new PhongShader();
 	
 	// Create lineGrid model with constant color shader
-	pModel = new LinePlaneModel(10, 10, 10, 10);
-	pConstShader = new ConstantShader();
-	pConstShader->color( Color(1,1,1));
-	pModel->shader(pConstShader, true);
-
-	models.push_back( pModel );
-	lineGrid = pModel;
+//	pModel = new LinePlaneModel(10, 10, 10, 10);
+//	pConstShader = new ConstantShader();
+//	pConstShader->color(Color(1,1,1));
+//	pModel->shader(pConstShader, true);
+//	models.push_back( pModel );
+//	lineGrid = pModel;
 
 	pScene = new Scene();
 	pScene->shader(new PhongShader(), true);
@@ -213,7 +212,7 @@ Matrix Application::calcCharacterViewMatrix(Character* character) {
 	Matrix matRotHorizontal, matRotVertical, matTransView;
 	matTransView.translation(0, 5, 12);
 	matRotHorizontal.rotationY(toRadApp(90));
-	matRotVertical.rotationX(toRadApp(-20));
+	matRotVertical.rotationX(toRadApp(-20)); 		// Zum spielen auf -10 setzen
 	Matrix tankViewMatrix = characterMat * matRotHorizontal * matRotVertical * matTransView;
 	return tankViewMatrix.invert();
 }
