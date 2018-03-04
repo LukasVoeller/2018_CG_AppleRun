@@ -42,13 +42,12 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), time(0), egocam(pWin
 	PhongShader* pPhongShader = new PhongShader();
 	
 	// Create lineGrid model with constant color shader
-	pModel = new LinePlaneModel(10, 10, 10, 10);
-	pConstShader = new ConstantShader();
-	pConstShader->color( Color(1,1,1));
-	pModel->shader(pConstShader, true);
-
-	models.push_back( pModel );
-	lineGrid = pModel;
+//	pModel = new LinePlaneModel(10, 10, 10, 10);
+//	pConstShader = new ConstantShader();
+//	pConstShader->color(Color(1,1,1));
+//	pModel->shader(pConstShader, true);
+//	models.push_back( pModel );
+//	lineGrid = pModel;
 
 	pScene = new Scene();
 	pScene->shader(new PhongShader(), true);
@@ -142,7 +141,7 @@ Matrix Application::calcCharacterViewMatrix(Character* character) {
 	Matrix matRotHorizontal, matRotVertical, matTransView;
 	matTransView.translation(0, 5, 12);
 	matRotHorizontal.rotationY(toRadApp(90));
-	matRotVertical.rotationX(toRadApp(-20));
+	matRotVertical.rotationX(toRadApp(-20)); 		// Zum spielen auf -10 setzen
 	Matrix tankViewMatrix = characterMat * matRotHorizontal * matRotVertical * matTransView;
 	return tankViewMatrix.invert();
 }
@@ -214,41 +213,6 @@ void Application::createShadowTestScene(){
 	ShaderLightMapper::instance().addLight(sl);
 }
 
-// Berechnung eines 3D-Strahls aus 2D-Mauskoordinaten
-// Input: 	Fenster-Pixelkoordinaten des Mauszeigers, Ray Origin
-// Output:	Ray Direction
-/*
-Vector Application::calc3DRay( float x, float y, Vector& Pos){
-    // 1. Normalisieren zwischen (-1,1)
-    int windowWidth, windowHeight;
-    glfwGetWindowSize(this->pWindow, &windowWidth, &windowHeight);
-    
-    float xNormal = 2.0f * x / (float) windowWidth - 1.0f;
-    float yNormal = 1.0f - 2.0f * y / (float) windowHeight;
-    
-    // 2. Richtungsvektor in KAMERA-KOORDINATE erzeugen
-    // (Projektionsmatrix invers auf normalisierte Koordinaten anwenden)
-    Vector direction(xNormal, yNormal, 0);
-    Matrix projection = Cam.getProjectionMatrix();
-    direction = projection.invert() * direction;
-    direction.normalize();
-    
-    // 3. Umrechnung von Kamera- zu Weltkoordinaten (Richtung anpassen)
-    // Ursprung des Strahls ist Kameraposition (aus Cam.getViewMatrix())
-    Matrix view = Cam.getViewMatrix();
-    view.invert();
-    
-    Pos = view.translation(); //translation() gibt Vector(m03, m13, m23) zurück
-    direction = view.transformVec3x3(direction);
-    
-    // 4. Schnittpunkt mit der Ebene Y=0 berechnen (Raytracing-Verfahren)
-    Vector ny(0,1,0), y0(0,0,0);
-    float s = (ny.dot(y0) - ny.dot(Pos)) / ny.dot(direction);
-    
-    return Pos + (direction * s);
-}
-*/
-
 void Application::createScene() {
 	Matrix m;
 	
@@ -273,12 +237,6 @@ void Application::createScene() {
 //	 pl->attenuation(a);
 //	 ShaderLightMapper::instance().addLight(pl);
 //
-//	 pl = new PointLight();
-//	 pl->position(Vector(15.0f, 3, 10));
-//	 pl->color(c);
-//	 pl->attenuation(a);
-//	 ShaderLightMapper::instance().addLight(pl);
-//
 //
 	 // Spot lights
 //	 SpotLight* sl = new SpotLight();
@@ -288,14 +246,7 @@ void Application::createScene() {
 //	 sl->innerRadius(innerradius);
 //	 sl->outerRadius(outerradius);
 //	 ShaderLightMapper::instance().addLight(sl);
-//
-//	 sl = new SpotLight();
-//	 sl->position(Vector(5.0f, 3, 10));
-//	 sl->color(c);
-//	 sl->direction(Vector(-1, -4, 0));
-//	 sl->innerRadius(innerradius);
-//	 sl->outerRadius(outerradius);
-//	 ShaderLightMapper::instance().addLight(sl);
+
 }
 
 void Application::plattformsHover() {

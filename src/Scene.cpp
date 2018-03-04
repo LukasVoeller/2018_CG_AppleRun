@@ -48,8 +48,6 @@ bool Scene::addSceneFile(const char* Scenefile) {
 				parent = &m_Root;
 			}
 			
-			//SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
-			
 			//Jeden SceneNode auf einer eigenen Liste speichern (Coin, Barrier, DeathItem, ...)
 			if(strstr(ModelID, "apple")) {
 				Coin* sceneNode = new Coin(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
@@ -59,7 +57,7 @@ bool Scene::addSceneFile(const char* Scenefile) {
 				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mDeathItems.push_back(sceneNode);
 			}
-			else if(strstr(ModelID, "collisioncube") || strstr(ModelID, "factory")) {
+			else if(strstr(ModelID, "collisioncube") || strstr(ModelID, "factory") || strstr(ModelID, "woodcube") ) {
 				SceneNode* sceneNode = new SceneNode(ModelID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
 				mBarriers.push_back(sceneNode);
 			}
@@ -114,7 +112,6 @@ void Scene::draw(const BaseCamera& Cam) {
 }
 
 void Scene::draw(SceneNode* pNode) {
-//	std::cout << "transform node" << std::endl;
 //	Matrix globalTrans = pNode->getGlobalTransform();
 //	pNode->getModel()->transform(globalTrans);
 //
