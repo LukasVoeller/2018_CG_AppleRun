@@ -192,7 +192,6 @@ void Application::createScene() {
 	 dl->color(Color(0.75, 0.55, 0.55));
 	 dl->castShadows(true);
 	 ShaderLightMapper::instance().addLight(dl);
-	
 }
 
 void Application::plattformsHover() {

@@ -41,7 +41,7 @@
 #define RUNSPEED 30.0f 				// Normal speed
 #define ADDSPEED 10.0f 				// Additional speed for running
 #define ROTATIONSPEED 5.0f
-#define JUMPPOWER 30.0f				// 30 ist gut
+#define JUMPPOWER 40.0f	
 
 #define ALLCOINS 2;
 
@@ -54,7 +54,7 @@
 // Window
 #define WINDOW_HEIGHT 600
 #define WINDOW_WIDTH 800
-#define FULLSCREEN true
+#define FULLSCREEN false
 
 // Helper
 #define DELTA 0.001

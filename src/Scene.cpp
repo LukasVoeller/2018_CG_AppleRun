@@ -67,7 +67,7 @@ bool Scene::addSceneFile(const char* Scenefile) {
 			}
 			else if(strstr(ModelID, "streetlamp")) {
 				SceneNode* sceneNode = new SceneNode(NodeID, Pos, RotAxis, Angle, Scale, parent, m_Models[ModelID]);
-				
+
 				sl = new SpotLight();
 				sl->position(Vector(Pos.X - 5.0f, 5.0f, Pos.Z));
 				sl->color(Color(1.0, 0.7, 1.0f));
