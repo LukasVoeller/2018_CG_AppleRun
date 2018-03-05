@@ -31,7 +31,7 @@
 #define ADDSPEED 10.0f 				// Additional speed for running
 #define ROTATIONSPEED 5.0f
 
-#define JUMPPOWER 15.0f				// 20 ist gut -> wird die JumpPower größer, so kann die Figur in den Boden eindringen
+#define JUMPPOWER 25.0f				
 
 #define ALLCOINS 28; 
 

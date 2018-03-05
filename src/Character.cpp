@@ -61,24 +61,15 @@ void Character::update(float dtime)
 	float jpFactor = this->jump * dtime;
 	float translatZ = this->posZ * dtime;
 	
-	if(pallet != NULL) {
-		Matrix r;
-		float angle = (CharacMat.m00 > 0.2 || CharacMat.m00 < -0.2f) ? acos(CharacMat.m00) : asin(CharacMat.m02);
-		// Höhe abhängig von der Palette
-		int additionalJumpFactor = 5;
-		jpFactor *= additionalJumpFactor;
-		hoverMat = pallet->getLocalTransform();
-		steeringMat.rotationY(angle);
-		//r.rotationY(lrFactor);
-		forwardMat = forwardMat.translation(CharacMat.translation().X-fbFactor, hoverMat.translation().Y+jpFactor, CharacMat.translation().Z+translatZ);
-		CharacMat = forwardMat * steeringMat;
-	}
-	else {
-		forwardMat.translation(fbFactor, 5*jpFactor, translatZ);
-		steeringMat.rotationY(lrFactor);
-		CharacMat = CharacMat * forwardMat * steeringMat;
-	}
 	
+	if(pallet != NULL) {
+		CharacMat.m13 = pallet->getLocalTransform().translation().Y;
+	}
+
+	forwardMat.translation(fbFactor, jpFactor, translatZ);
+	steeringMat.rotationY(lrFactor);
+	CharacMat = CharacMat * forwardMat * steeringMat;
+
 	//Aktuelle Position in Vektor speichern
 	this->position.X = CharacMat.m[12];
 	this->position.Y = std::max(CharacMat.m[13], TERRAIN_HEIGHT);

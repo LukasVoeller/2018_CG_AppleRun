@@ -128,6 +128,11 @@ void CollisionHandler::handleCollisionWithPalette(Character* model1, MovingItem*
 	if(model1->getPallet() == NULL) {
 		if(pos1.Y + DELTA > pos2.Y + bb2.Max.Y) {
 			std::cout << "oben" << std::endl;
+//			if(model1->getPallet() != model2) {
+//				model1->setJump(0.0f);
+//				control->setJumpPower(0.0f);
+//				model1->setPallet(model2);
+//			}
 			control->setJumpPower(0.0f);
 			model1->setIsInAir(false);
 			model1->setHovering(true);
@@ -161,6 +166,9 @@ void CollisionHandler::handleCollisionWithPalette(Character* model1, MovingItem*
 			
 			std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
 		}
+	}
+	else {
+		std::cout << "jumppower" << control->getJumpPower() << std::endl;
 	}
 }
 
