@@ -33,7 +33,7 @@
 
 #define JUMPPOWER 20.0f				// 20 ist gut -> wird die JumpPower größer, so kann die Figur in den Boden eindringen
 
-#define ALLCOINS 2;
+#define ALLCOINS 28; 
 
 #define START_POS_X 0.0f
 #define START_POS_Y 0.0f

@@ -58,7 +58,6 @@ protected:
 	ShadowMapGenerator shadowGenerator;
 	
 	void createScene();
-	//void createShadowTestScene();
 	Matrix calcCharacterViewMatrix(Character* character);
 	double calcDeltaTime();
 	

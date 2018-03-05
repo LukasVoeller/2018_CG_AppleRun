@@ -81,7 +81,7 @@ void PrintOpenGLVersion() {
 	const GLubyte* renderer = glGetString (GL_RENDERER);
 	const GLubyte* version = glGetString (GL_VERSION);
 	printf ("Renderer: %s\n", renderer);
-	printf ("OpenGL version supported %s\n", version);
+	printf ("OpenGL version supported %s\n\n\n\n\n\n\n\n\n\n\n\n", version);
 }
 
 void getResolution(int* width, int* height) {

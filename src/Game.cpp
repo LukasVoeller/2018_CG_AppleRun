@@ -21,14 +21,13 @@ Game::~Game() {
 }
 
 bool Game::start(Character* character, CoinList coins) {
-	std::cout << "Init Game..." << std::endl;
+	std::cout << "Start new Game..." << std::endl;
 	CoinList::iterator it;
 	
 	// alle gesammelten Coins wieder positionieren
 	for(it = coins.begin(); it != coins.end(); ++it){
 		if((*it)->isCollected()) {
 			(*it)->setCollected(false);
-			std::cout << "reset" << std::endl;
 			Matrix t;
 			
 			(*it)->setLocalTransform(Vector((*it)->getLatestPosition().X, 0, (*it)->getLatestPosition().Z), Vector(0, 1, 0), 0);

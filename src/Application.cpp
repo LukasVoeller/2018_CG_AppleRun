@@ -101,7 +101,7 @@ Matrix Application::calcCharacterViewMatrix(Character* character) {
 	Matrix characterMat = character->transform();
 	Matrix matRotHorizontal, matRotVertical, matTransView;
 	matTransView.translation(0, 5, 12);
-	matRotHorizontal.rotationY(toRadApp(90));
+	matRotHorizontal.rotationY(toRadApp(-90));
 	matRotVertical.rotationX(toRadApp(-10)); 		// Zum spielen auf -10 setzen
 	Matrix tankViewMatrix = characterMat * matRotHorizontal * matRotVertical * matTransView;
 	return tankViewMatrix.invert();
@@ -256,7 +256,7 @@ void Application::collisionWithCoin() {
 			std::cout << "found coin " << game.getCollectedCoins() << std::endl;
 			game.getCollisionHandler()->handleCollisionWithCoin(*it);
 		}
-		if((*it)->isCollected() &&  pCoinMat->translation().Y > -20.0f) {
+		if((*it)->isCollected() &&  pCoinMat->translation().Y > -50.0f) {
 			game.getCollisionHandler()->handleCoinMoving(*it);
 		}
 	}

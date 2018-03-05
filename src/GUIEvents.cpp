@@ -53,21 +53,28 @@ void GUIEvents::update(GLFWwindow* pWindow, EgoCam* egocam) {
 	}
 }
 
-void GUIEvents::draw(EgoCam* egocam) {
+void GUIEvents::draw(EgoCam* cam) {
 	glClear(GL_DEPTH_BUFFER_BIT);
+	
 	
 	Matrix m;
 	SimpleCamera c;
+
+	Matrix r;
+	r.rotationY(M_PI);
 	
-	c.setProjectionMatrix(egocam->getProjectionMatrix());
-	m = egocam->getViewMatrix();
+	Matrix proj = cam->getProjectionMatrix();
+
+	c.setProjectionMatrix(proj*r);
+
+	m = cam->getViewMatrix();
 	
 	//Menu
 	c.setViewMatrix(m.orthographic(1.0f, 1.0f, 1.0f, 2.0f));
 	
 	// Startmenu
 	if (this->startIsActive == true) {
-		//this->startmenu->draw(c);
+		this->startmenu->draw(c);
 		return;
 	}
 	
