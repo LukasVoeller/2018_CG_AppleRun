@@ -102,7 +102,7 @@ Matrix Application::calcCharacterViewMatrix(Character* character) {
 	Matrix matRotHorizontal, matRotVertical, matTransView;
 	matTransView.translation(0, 5, 12);
 	matRotHorizontal.rotationY(toRadApp(90));
-	matRotVertical.rotationX(toRadApp(-20)); 		// Zum spielen auf -10 setzen
+	matRotVertical.rotationX(toRadApp(-10)); 		// Zum spielen auf -10 setzen
 	Matrix tankViewMatrix = characterMat * matRotHorizontal * matRotVertical * matTransView;
 	return tankViewMatrix.invert();
 }
