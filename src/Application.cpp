@@ -101,7 +101,7 @@ Matrix Application::calcCharacterViewMatrix(Character* character) {
 	Matrix characterMat = character->transform();
 	Matrix matRotHorizontal, matRotVertical, matTransView;
 	matTransView.translation(0, 5, 12);
-	matRotHorizontal.rotationY(toRadApp(-90));
+	matRotHorizontal.rotationY(toRadApp(90));
 	matRotVertical.rotationX(toRadApp(-10)); 		// Zum spielen auf -10 setzen
 	Matrix tankViewMatrix = characterMat * matRotHorizontal * matRotVertical * matTransView;
 	return tankViewMatrix.invert();
@@ -189,9 +189,16 @@ void Application::createScene() {
 	
 	 DirectionalLight* dl = new DirectionalLight();
 	 dl->direction(Vector(0.2f, -1, 1));
-	 dl->color(Color(0.75, 0.55, 0.55));
+	 dl->color(Color(0.5, 0.5, 0.5));
 	 dl->castShadows(true);
 	 ShaderLightMapper::instance().addLight(dl);
+	
+	dl = new DirectionalLight();
+	dl->direction(Vector(0.1, -1, -1));
+	dl->color(Color(0.9, 0.9, 0.9));
+	dl->castShadows(true);
+	ShaderLightMapper::instance().addLight(dl);
+	
 }
 
 void Application::plattformsHover() {

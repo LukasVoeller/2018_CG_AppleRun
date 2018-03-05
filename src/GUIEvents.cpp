@@ -14,15 +14,16 @@ GUIEvents::GUIEvents(){
 	this->helpIsActive = false;
 	
 	/* HelpMenu - Ein-/Ausblenden mit ESC */
-	this->helpmenu = new Model(ASSET_DIRECTORY "menus/helpmenu/menu.fbx", false, 0.0022);
+	this->helpmenu = new Model(ASSET_DIRECTORY "menus/helpmenu/menu.fbx", false, 0.002);
 	this->helpmenu->shader(new PhongShader(), true);
 	
 	/* Ausblenden mit ENTER */
-	this->startmenu = new Model(ASSET_DIRECTORY "menus/startmenu/menu.fbx", false, 0.0022);
+	this->startmenu = new Model(ASSET_DIRECTORY "menus/startmenu/menu.fbx", false, 0.002);
+	
 	this->startmenu->shader(new PhongShader(), true);
 	
 	/* Spielende */
-	this->winningmenu = new Model(ASSET_DIRECTORY "menus/winningmenu/menu.fbx", false, 0.0022);
+	this->winningmenu = new Model(ASSET_DIRECTORY "menus/winningmenu/menu.fbx", false, 0.002);
 	this->winningmenu->shader(new PhongShader(), true);
 }
 
@@ -59,13 +60,8 @@ void GUIEvents::draw(EgoCam* cam) {
 	
 	Matrix m;
 	SimpleCamera c;
-
-	Matrix r;
-	r.rotationY(M_PI);
-	
 	Matrix proj = cam->getProjectionMatrix();
-
-	c.setProjectionMatrix(proj*r);
+	c.setProjectionMatrix(proj);
 
 	m = cam->getViewMatrix();
 	
