@@ -49,7 +49,7 @@ void CollisionHandler::handleCollisionWithBarrier(Character* model1, SceneNode* 
 	Vector pos1 = model1->getLatestPosition();
 	Vector pos2 = model2->getLocalTransform().translation();
 	
-	AABB bb1 = model1->getScaledBoundingBox();
+	//AABB bb1 = model1->getScaledBoundingBox();
 	AABB bb2 = model2->getScaledBoundingBox();
 	
 	float x = m.translation().X;
@@ -58,9 +58,8 @@ void CollisionHandler::handleCollisionWithBarrier(Character* model1, SceneNode* 
 	
 
 		// Von oben bzw. in der oberen Hälfte
-		if(pos2.Y + bb2.Max.Y + delta > pos1.Y + bb1.Min.Y && pos1.Y + bb1.Min.Y + delta > pos2.Y + bb2.Min.Y ) {
-			//if(pos1.Y + delta > pos2.Y + bb2.Max.Y) {
-			std::cout << "oben" << std::endl;
+		if(pos1.Y + delta > pos2.Y + bb2.Max.Y) {
+//			std::cout << "oben" << std::endl;
 			if(model1->getUnderground() != model2) {
 				model1->setJump(0.0f);
 				playerControl->setJumpPower(0.0f);
@@ -73,7 +72,6 @@ void CollisionHandler::handleCollisionWithBarrier(Character* model1, SceneNode* 
 		// Von unten -> begrenze die Sprunghöhe
 		//else if(model1->getIsInAir() && pos2.Y + bb2.Min.Y < pos1.Y + bb1.Max.Y + delta && pos1.Y + bb1.Max.Y < pos2.Y + delta) {
 		else if(model1->getIsInAir() && pos2.Y + bb2.Min.Y + delta > pos1.Y) {
-			std::cout << "von unten" << std::endl;
 			playerControl->setJumpPower(-10.0f);
 		}
 		
@@ -101,7 +99,7 @@ void CollisionHandler::handleCollisionWithBarrier(Character* model1, SceneNode* 
 			r.rotationY(angle);
 			model1->transform(t*r);
 			
-			std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
+			std::cout << "Seitliche Kollision"  << std::endl;
 		}
 
 
@@ -114,7 +112,7 @@ void CollisionHandler::handleCollisionWithPalette(Character* model1, MovingItem*
 	Vector pos1 = model1->getLatestPosition();
 	Vector pos2 = model2->getLocalTransform().translation();
 	
-	AABB bb1 = model1->getScaledBoundingBox();
+	//AABB bb1 = model1->getScaledBoundingBox();
 	AABB bb2 = model2->getScaledBoundingBox();
 	
 	float x = m.translation().X;
@@ -127,20 +125,15 @@ void CollisionHandler::handleCollisionWithPalette(Character* model1, MovingItem*
 	
 	if(model1->getPallet() == NULL) {
 		if(pos1.Y + DELTA > pos2.Y + bb2.Max.Y) {
-			std::cout << "oben" << std::endl;
-//			if(model1->getPallet() != model2) {
-//				model1->setJump(0.0f);
-//				control->setJumpPower(0.0f);
-//				model1->setPallet(model2);
-//			}
+//			std::cout << "oben" << std::endl;
 			control->setJumpPower(0.0f);
 			model1->setIsInAir(false);
 			model1->setHovering(true);
 			model1->setPallet(model2);
 		}
 		// Von unten -> begrenze die Sprunghöhe
-		else if(pos2.Y + bb2.Min.Y + DELTA > pos1.Y) { //model1->getIsInAir()){ //  &&
-			std::cout << "von unten" << std::endl;
+		else if(pos2.Y + bb2.Min.Y + DELTA > pos1.Y) {
+//			std::cout << "von unten" << std::endl;
 			model2->movingUp();
 			control->setJumpPower(-10.0f);
 		}
@@ -163,12 +156,8 @@ void CollisionHandler::handleCollisionWithPalette(Character* model1, MovingItem*
 			control->setForwardBackward(0.0f);
 			t.translation(x, 0.0f, z);
 			model1->transform(t*r);
-			
-			std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
+//			std::cout << "seite..." << angle << " "<< asin(m.m02) << std::endl;
 		}
-	}
-	else {
-		std::cout << "jumppower" << control->getJumpPower() << std::endl;
 	}
 }
 

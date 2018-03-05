@@ -26,7 +26,6 @@ MovingItem::~MovingItem() {
 
 void MovingItem::movingUp() {
 	Vector t = this->getLocalTransform().translation();
-	t.debugOutput();
 	this->setMoveUp(true);
 	
 	Matrix trans;

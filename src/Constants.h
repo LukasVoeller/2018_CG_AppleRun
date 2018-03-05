@@ -25,26 +25,26 @@
 
 #define GRAVITY -10.0f
 #define DOWNFORCE 0.0f
-#define TERRAIN_HEIGHT 0.0f
+#define TERRAIN_HEIGHT -0.5f
 
 #define RUNSPEED 20.0f 				// Normal speed = 30
 #define ADDSPEED 10.0f 				// Additional speed for running
 #define ROTATIONSPEED 5.0f
 
-#define JUMPPOWER 25.0f				
+#define JUMPPOWER 25.0f
 
-#define ALLCOINS 28; 
+#define ALLCOINS 3     //28;
 
 #define START_POS_X 0.0f
-#define START_POS_Y 0.0f
+#define START_POS_Y -0.5f
 #define START_POS_Z 0.0f
 
-#define GAME_TITLE "CG-2018"
+#define GAME_TITLE "ANDRO IN BOXLAND"
 
 // Window
 #define WINDOW_HEIGHT 600
 #define WINDOW_WIDTH 800
-#define FULLSCREEN false
+#define FULLSCREEN true
 
 // Helper
 #define DELTA 0.001

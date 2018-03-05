@@ -65,7 +65,7 @@ void Character::update(float dtime)
 	if(pallet != NULL) {
 		CharacMat.m13 = pallet->getLocalTransform().translation().Y;
 	}
-
+	
 	forwardMat.translation(fbFactor, jpFactor, translatZ);
 	steeringMat.rotationY(lrFactor);
 	CharacMat = CharacMat * forwardMat * steeringMat;

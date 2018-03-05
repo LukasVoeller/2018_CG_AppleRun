@@ -66,11 +66,9 @@ void Control::handleJump(Character* character) {
 	if(character->getLatestPosition().Y <= TERRAIN_HEIGHT || character->getPallet() != NULL || character->getUnderground() != NULL ) {
 		character->setIsInAir(false);
 		jumpPower = std::max(0.0f, jumpPower);
-		character->getLatestPosition().debugOutput();
 	} else {
 		jumpPower += GRAVITY * 0.1f;
-		jumpPower = std::max(jumpPower, -25.0f);
-		std::cout << "DownForce " << jumpPower << std::endl;
+		jumpPower = std::max(jumpPower, -30.0f);
 	}
 }
 
