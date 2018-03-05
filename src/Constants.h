@@ -39,7 +39,7 @@
 #define START_POS_Y -0.5f
 #define START_POS_Z 0.0f
 
-#define GAME_TITLE "15 Apples"
+#define GAME_TITLE "Apple Run"
 
 // Window
 #define WINDOW_HEIGHT 600
