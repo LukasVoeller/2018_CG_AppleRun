@@ -182,9 +182,11 @@ void Application::createScene() {
 	game.setControl(new Control(pWindow));
 	
 	for(NodeList::iterator it = pBarriers.begin(); it != pBarriers.end(); ++it){
-		AABB bbNEU = (*it)->getScaledBoundingBox();
-		bbNEU.Max.Y = 0.7*bbNEU.Max.Y;
-		(*it)->setScaledBoundingBox(bbNEU);
+		if((*it)->getScaling().X < 0.033) {
+			AABB bbNEU = (*it)->getScaledBoundingBox();
+			bbNEU.Max.Y = 0.7*bbNEU.Max.Y;
+			(*it)->setScaledBoundingBox(bbNEU);
+		}
 	}
 	
 	 DirectionalLight* dl = new DirectionalLight();

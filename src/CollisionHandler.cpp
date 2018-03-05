@@ -61,10 +61,12 @@ void CollisionHandler::handleCollisionWithBarrier(Character* model1, SceneNode* 
 		if(pos2.Y + bb2.Max.Y + delta > pos1.Y + bb1.Min.Y && pos1.Y + bb1.Min.Y + delta > pos2.Y + bb2.Min.Y ) {
 			//if(pos1.Y + delta > pos2.Y + bb2.Max.Y) {
 			std::cout << "oben" << std::endl;
-			model1->setJump(0.0f);
-			playerControl->setJumpPower(0.0f);
+			if(model1->getUnderground() != model2) {
+				model1->setJump(0.0f);
+				playerControl->setJumpPower(0.0f);
+				model1->setUnderground(model2);
+			}
 			model1->setIsInAir(false);
-			model1->setUnderground(model2);
 			
 		}
 		

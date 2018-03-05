@@ -23,15 +23,15 @@
 #define SHADER_DIRECTORY "../shader/"
 #endif
 
-#define GRAVITY -8.0f
+#define GRAVITY -10.0f
 #define DOWNFORCE 0.0f
 #define TERRAIN_HEIGHT 0.0f
 
-#define RUNSPEED 30.0f 				// Normal speed
+#define RUNSPEED 20.0f 				// Normal speed = 30
 #define ADDSPEED 10.0f 				// Additional speed for running
 #define ROTATIONSPEED 5.0f
 
-#define JUMPPOWER 20.0f				// 20 ist gut -> wird die JumpPower größer, so kann die Figur in den Boden eindringen
+#define JUMPPOWER 15.0f				// 20 ist gut -> wird die JumpPower größer, so kann die Figur in den Boden eindringen
 
 #define ALLCOINS 28; 
 

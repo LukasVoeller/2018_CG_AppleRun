@@ -74,7 +74,7 @@ void Character::update(float dtime)
 		CharacMat = forwardMat * steeringMat;
 	}
 	else {
-		forwardMat.translation(fbFactor, jpFactor, translatZ);
+		forwardMat.translation(fbFactor, 5*jpFactor, translatZ);
 		steeringMat.rotationY(lrFactor);
 		CharacMat = CharacMat * forwardMat * steeringMat;
 	}
@@ -83,6 +83,8 @@ void Character::update(float dtime)
 	this->position.X = CharacMat.m[12];
 	this->position.Y = std::max(CharacMat.m[13], TERRAIN_HEIGHT);
 	this->position.Z = CharacMat.m[14];
+	
+	CharacMat.m13 = this->position.Y;
 	
 	this->character->transform(CharacMat);
 	this->transform(CharacMat);
